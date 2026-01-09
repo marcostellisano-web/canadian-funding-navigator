@@ -1,102 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Download, MessageSquare, Calendar, Loader2, X } from 'lucide-react';
-
-const fundingSources = [
-  {
-    id: 'cmf-anglophone-minority',
-    name: 'CMF Anglophone Minority Incentive',
-    organization: 'CMF',
-    description: 'The Official Language Minority Community Production Funding, ensures that Canadians have access to English-language content reflecting Anglophone culture in the province of Quebec',
-    eligibility: 'In order to qualify for the 25% maximum above, the production must use English as the original language of production for the majority of its development and production slate.',
-    fundingRange: 'The maximum contribution shall be the lesser of 25% of the Project\'s Eligible Costs or $900,000.',
-    deadlines: 'May and September intake periods',
-    website: 'https://cmf-fmc.ca/program/official-language-minority-communities-olmc-production-funding/',
-    tags: ['Documentary', 'English', 'Quebec'],
-    keyPoints: [
-      'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up.',
-      'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
-    ],
-    upcomingDeadlines: [
-      { date: '2026-05-22', description: 'Spring Intake Period' },
-      { date: '2026-09-23', description: 'Fall Intake Period' }
-    ]
-  },
-  {
-    id: 'cmf-broadcaster-envelope',
-    name: 'CMF Broadcaster Envelope Program',
-    organization: 'CMF',
-    description: 'The CMF will contribute to Eligible Projects through English and French Broadcaster Envelope Allocations, which are allotments of CMF Program funds made to Canadian Broadcasters with a track record of supporting Canadian programming.',
-    eligibility: 'Canadian Broadcasters may decide what proportion of their Broadcaster Envelope Allocation to allot to an Eligible Project up to the limit of the funds allocated to them.',
-    fundingRange: 'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up, up to a maximum of 20% of the Project\'s Eligible Costs.',
-    deadlines: 'May and October intake periods',
-    website: 'https://cmf-fmc.ca/program/broadcaster-envelope-program-english-and-french/',
-    tags: ['TV Series', 'Broadcaster'],
-    keyPoints: [
-      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount.',
-      'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
-    ],
-    upcomingDeadlines: [
-      { date: '2026-05-01', description: 'Spring Intake Period' },
-      { date: '2026-10-17', description: 'Fall Intake Period' }
-    ]
-  },
-  {
-    id: 'cmf-distributor',
-    name: 'CMF Distributor Program',
-    organization: 'CMF',
-    description: 'The Distributor Program is a pilot initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to trigger Eligible Projects without the requirement of a Canadian Broadcaster.',
-    eligibility: '',
-    fundingRange: 'The CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
-    deadlines: 'August intake period',
-    website: 'https://cmf-fmc.ca/program/distributor-program/',
-    tags: ['Pilot Program', 'Distributor'],
-    keyPoints: [
-      'CMF contribution amounts in excess of the above will be in the form of an Equity Investment up to the maximum amount of 49%.',
-      'Triggering Commitment Threshold: 15% of Eligible Costs'
-    ],
-    upcomingDeadlines: [
-      { date: '2026-08-19', description: 'Annual Intake Period' }
-    ]
-  },
-  {
-    id: 'cmf-pov',
-    name: 'CMF POV Program',
-    organization: 'CMF',
-    description: 'The CMF contributes to Eligible Projects in this Program under a selective process where the CMF evaluates applications according to an Evaluation Grid.',
-    eligibility: 'Eligible Projects in this Program must be English- or French-language one-off Auteur Point of View/Creative Documentaries.',
-    fundingRange: 'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up, up to a maximum of 20% of the Project\'s Eligible Costs.',
-    deadlines: 'May intake period',
-    website: 'https://cmf-fmc.ca/program/pov-program/',
-    tags: ['Documentary', 'Auteur', 'POV'],
-    keyPoints: [
-      'The CMF\'s Maximum Contribution in this Program is the lesser of 49% of the Project\'s Eligible Costs or $400,000.',
-      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount.',
-      'Triggering Commitment Threshold: 15% of Eligible Costs'
-    ],
-    upcomingDeadlines: [
-      { date: '2026-05-01', description: 'Annual Intake Period' }
-    ]
-  },
-  {
-    id: 'cmf-regional-bonus',
-    name: 'CMF Regional Bonus Program',
-    organization: 'CMF',
-    description: 'Regional Production Funding supports the CMF\'s mandate in encouraging linear content funding to the production of Projects across all of Canada.',
-    eligibility: '',
-    fundingRange: 'The maximum contribution shall be the lesser of 15% of the Project\'s Eligible Costs or $1,00,000.',
-    deadlines: 'May and September intake periods',
-    website: 'https://cmf-fmc.ca/program/regional-production-funding/',
-    tags: ['Regional', 'Bonus'],
-    keyPoints: [
-      'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up.',
-      'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
-    ],
-    upcomingDeadlines: [
-      { date: '2026-05-13', description: 'Spring Intake Period' },
-      { date: '2026-09-23', description: 'Fall Intake Period' }
-    ]
-  }
-];
+import fundingSources from '../data/fundingSources';
 
 export default function Home() {
   const [selectedFunding, setSelectedFunding] = useState(null);
@@ -423,7 +327,7 @@ export default function Home() {
 
                   <div>
                     <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Website</h3>
-                    <a
+                    
                       href={selectedFunding.website}
                       target="_blank"
                       rel="noopener noreferrer"
