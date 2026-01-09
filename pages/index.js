@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 import { Search, Download, MessageSquare, Calendar, Loader2 } from 'lucide-react';
 
 const fundingSources = [
@@ -100,7 +101,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('browse');
 
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
 
   const handleFundingSelect = (e) => {
     const selected = fundingSources.find(f => f.id === e.target.value);
@@ -109,8 +111,48 @@ export default function Home() {
 
   const generatePDF = () => {
     if (!selectedFunding) return;
+    
     const printWindow = window.open('', '_blank');
-    printWindow.document.write(`<html><head><title>${selectedFunding.name}</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:60px;line-height:1.8;max-width:800px;margin:0 auto;color:#1f2937}h1{color:#dc2626;font-size:32px;margin-bottom:8px;font-weight:700}.org{color:#6b7280;font-size:18px;margin-bottom:40px}h2{color:#111827;font-size:20px;margin-top:40px;margin-bottom:16px;font-weight:600;border-bottom:2px solid #e5e7eb;padding-bottom:8px}p{margin-bottom:16px;color:#374151}.key-points{margin:0;padding-left:24px}.key-points li{margin-bottom:12px;color:#374151}.website{color:#dc2626;text-decoration:none}</style></head><body><h1>${selectedFunding.name}</h1><div class="org">${selectedFunding.organization}</div><h2>Description</h2><p>${selectedFunding.description}</p>${selectedFunding.eligibility?`<h2>Requirements</h2><p>${selectedFunding.eligibility}</p>`:''}<h2>Funding</h2><p>${selectedFunding.fundingRange}</p><h2>Deadlines</h2><p>${selectedFunding.deadlines}</p>${selectedFunding.keyPoints.length>0?`<h2>Key Points</h2><ul class="key-points">${selectedFunding.keyPoints.map(point=>`<li>${point}</li>`).join('')}</ul>`:''}<h2>Website</h2><p><a href="${selectedFunding.website}" class="website">${selectedFunding.name}</a></p></body></html>`);
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${selectedFunding.name}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 60px; line-height: 1.8; max-width: 800px; margin: 0 auto; }
+            h1 { font-size: 24px; margin-bottom: 4px; font-weight: 600; }
+            .org { color: #666; font-size: 14px; margin-bottom: 40px; }
+            h2 { font-size: 14px; margin-top: 40px; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #999; }
+            p { margin-bottom: 16px; line-height: 1.6; }
+          </style>
+        </head>
+        <body>
+          <h1>${selectedFunding.name}</h1>
+          <div class="org">${selectedFunding.organization}</div>
+          
+          <h2>Description</h2>
+          <p>${selectedFunding.description}</p>
+          
+          ${selectedFunding.eligibility ? `
+            <h2>Requirements</h2>
+            <p>${selectedFunding.eligibility}</p>
+          ` : ''}
+          
+          <h2>Funding</h2>
+          <p>${selectedFunding.fundingRange}</p>
+          
+          <h2>Deadlines</h2>
+          <p>${selectedFunding.deadlines}</p>
+          
+          ${selectedFunding.keyPoints.length > 0 ? `
+            <h2>Key Points</h2>
+            ${selectedFunding.keyPoints.map(point => `<p>• ${point}</p>`).join('')}
+          ` : ''}
+          
+          <h2>Website</h2>
+          <p><a href="${selectedFunding.website}">${selectedFunding.name}</a></p>
+        </body>
+      </html>
+    `);
     printWindow.document.close();
     printWindow.print();
   };
@@ -118,42 +160,314 @@ export default function Home() {
   const handleChatSubmit = async (e) => {
     e.preventDefault();
     if (!userInput.trim()) return;
-    const userMessage = {role:'user',content:userInput};
-    setChatMessages(prev=>[...prev,userMessage]);
+
+    const userMessage = { role: 'user', content: userInput };
+    setChatMessages(prev => [...prev, userMessage]);
     setUserInput('');
     setIsLoading(true);
+
     try {
-      const fundingContext = fundingSources.map(f=>`${f.name} (${f.organization}): ${f.description} Requirements: ${f.eligibility} Funding: ${f.fundingRange} Deadlines: ${f.deadlines}`).join('\n\n');
-      const response = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY||'','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[...chatMessages,userMessage].map(msg=>({role:msg.role,content:msg.content})),system:`You are a helpful assistant specializing in Canadian film and television funding programs. You have access to the following funding sources:\n\n${fundingContext}\n\nHelp users find the right funding programs for their projects. Be specific, helpful, and provide clear recommendations. If asked about requirements, deadlines, or funding amounts, refer to the specific programs above.`})});
+      const fundingContext = fundingSources.map(f => 
+        `${f.name} (${f.organization}): ${f.description} Requirements: ${f.eligibility} Funding: ${f.fundingRange} Deadlines: ${f.deadlines}`
+      ).join('\n\n');
+
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || '',
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [
+            ...chatMessages,
+            userMessage
+          ].map(msg => ({
+            role: msg.role,
+            content: msg.content
+          })),
+          system: `You are a helpful assistant specializing in Canadian film and television funding programs. You have access to the following funding sources:\n\n${fundingContext}\n\nHelp users find the right funding programs for their projects. Be specific, helpful, and provide clear recommendations. If asked about requirements, deadlines, or funding amounts, refer to the specific programs above.`
+        })
+      });
+
       const data = await response.json();
-      const assistantMessage = {role:'assistant',content:data.content[0].text};
-      setChatMessages(prev=>[...prev,assistantMessage]);
-    } catch(error) {
-      console.error('Error:',error);
-      setChatMessages(prev=>[...prev,{role:'assistant',content:'Sorry, I encountered an error. Please try again.'}]);
+      const assistantMessage = {
+        role: 'assistant',
+        content: data.content[0].text
+      };
+
+      setChatMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Error:', error);
+      setChatMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.'
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 py-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Canadian Film & TV Funding Navigator</h1>
-          <p className="text-gray-600">Explore funding opportunities and get AI-powered guidance for your project</p>
+    <>
+      <Head>
+        <title>Canadian Film & TV Funding Guide</title>
+        <meta name="description" content="Explore Canadian film and television funding opportunities with AI-powered guidance" />
+      </Head>
+      
+      <div className="min-h-screen bg-white">
+        <div className="border-b border-gray-200">
+          <div className="max-w-3xl mx-auto px-6 py-12">
+            <h1 className="text-2xl font-semibold mb-2">
+              Canadian Film & TV Funding Guide
+            </h1>
+            <p className="text-gray-500 text-sm">
+              Explore funding opportunities and get AI-powered guidance for your project
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto px-6 py-12">
+          <div className="flex gap-8 mb-12 border-b border-gray-200">
+            <button
+              onClick={() => setActiveTab('browse')}
+              className={`pb-3 text-sm font-medium transition-colors ${
+                activeTab === 'browse'
+                  ? 'border-b-2 border-black text-black'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              Programs
+            </button>
+            <button
+              onClick={() => setActiveTab('calendar')}
+              className={`pb-3 text-sm font-medium transition-colors ${
+                activeTab === 'calendar'
+                  ? 'border-b-2 border-black text-black'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              Deadlines
+            </button>
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`pb-3 text-sm font-medium transition-colors ${
+                activeTab === 'chat'
+                  ? 'border-b-2 border-black text-black'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              Ask AI
+            </button>
+          </div>
+
+          {activeTab === 'browse' && (
+            <div>
+              <div className="mb-12">
+                <select
+                  onChange={handleFundingSelect}
+                  className="w-full p-4 border border-gray-200 rounded text-base focus:outline-none focus:border-gray-400 bg-white"
+                  defaultValue=""
+                >
+                  <option value="" disabled>Select a program</option>
+                  {fundingSources.map(source => (
+                    <option key={source.id} value={source.id}>
+                      {source.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedFunding && (
+                <div className="space-y-12">
+                  <div className="flex justify-between items-start pb-8 border-b border-gray-200">
+                    <div>
+                      <h2 className="text-xl font-semibold mb-1">
+                        {selectedFunding.name}
+                      </h2>
+                      <p className="text-sm text-gray-500">
+                        {selectedFunding.organization}
+                      </p>
+                    </div>
+                    <button
+                      onClick={generatePDF}
+                      className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition-colors"
+                    >
+                      <Download size={16} />
+                      PDF
+                    </button>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Description</h3>
+                    <p className="text-gray-700 leading-relaxed">{selectedFunding.description}</p>
+                  </div>
+
+                  {selectedFunding.eligibility && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Requirements</h3>
+                      <p className="text-gray-700 leading-relaxed">{selectedFunding.eligibility}</p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Funding</h3>
+                      <p className="text-gray-700 leading-relaxed">{selectedFunding.fundingRange}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Deadlines</h3>
+                      <p className="text-gray-700 leading-relaxed">{selectedFunding.deadlines}</p>
+                    </div>
+                  </div>
+
+                  {selectedFunding.keyPoints.length > 0 && (
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Key Points</h3>
+                      <div className="space-y-3">
+                        {selectedFunding.keyPoints.map((point, idx) => (
+                          <p key={idx} className="text-gray-700 leading-relaxed">
+                            • {point}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div>
+                    <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Website</h3>
+                    
+                      href={selectedFunding.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-700 hover:text-black underline"
+                    >
+                      {selectedFunding.name}
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {!selectedFunding && (
+                <div className="text-center py-20 text-gray-300">
+                  <p>Select a program to view details</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'calendar' && (
+            <div>
+              <div className="space-y-4">
+                {fundingSources.flatMap(source => 
+                  (source.upcomingDeadlines || []).map(deadline => ({
+                    ...deadline,
+                    program: source.name,
+                    organization: source.organization,
+                    id: source.id
+                  }))
+                )
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map((deadline, idx) => {
+                  const deadlineDate = new Date(deadline.date);
+                  const today = new Date();
+                  const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                  const isPast = daysUntil < 0;
+                  
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`flex items-center justify-between py-4 border-b border-gray-100 ${isPast ? 'opacity-40' : ''}`}
+                    >
+                      <div className="flex items-center gap-6">
+                        <div className="text-center w-16">
+                          <div className="text-2xl font-semibold">
+                            {deadlineDate.getDate()}
+                          </div>
+                          <div className="text-xs text-gray-400 uppercase">
+                            {monthNames[deadlineDate.getMonth()].substring(0, 3)}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-medium mb-1">{deadline.program}</div>
+                          <div className="text-sm text-gray-500">{deadline.description}</div>
+                        </div>
+                      </div>
+                      {!isPast && (
+                        <div className="text-sm text-gray-400">
+                          {daysUntil === 0 ? 'Today' : 
+                           daysUntil === 1 ? 'Tomorrow' : 
+                           `${daysUntil} days`}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {fundingSources.flatMap(s => s.upcomingDeadlines || []).length === 0 && (
+                <div className="text-center py-20 text-gray-300">
+                  <p>No upcoming deadlines</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'chat' && (
+            <div>
+              <div className="border border-gray-200 rounded h-96 overflow-y-auto p-6 mb-4">
+                {chatMessages.length === 0 ? (
+                  <div className="h-full flex items-center justify-center text-gray-300">
+                    <p>Ask a question about funding programs</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {chatMessages.map((msg, idx) => (
+                      <div key={idx} className="space-y-1">
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">
+                          {msg.role === 'user' ? 'You' : 'Assistant'}
+                        </div>
+                        <p className="text-gray-700 leading-relaxed">{msg.content}</p>
+                      </div>
+                    ))}
+                    {isLoading && (
+                      <div className="flex items-center gap-2 text-gray-400">
+                        <Loader2 className="animate-spin" size={16} />
+                        <span className="text-sm">Thinking...</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !isLoading) {
+                      handleChatSubmit(e);
+                    }
+                  }}
+                  placeholder="Ask about funding programs..."
+                  className="flex-1 p-4 border border-gray-200 rounded focus:outline-none focus:border-gray-400"
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={handleChatSubmit}
+                  disabled={isLoading}
+                  className="px-8 py-4 bg-black text-white rounded hover:bg-gray-800 transition-colors disabled:opacity-40 text-sm font-medium"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="flex gap-2 mb-8 bg-white rounded-lg p-1 shadow-sm border border-gray-200">
-          <button onClick={()=>setActiveTab('browse')} className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-md font-medium transition-all ${activeTab==='browse'?'bg-red-600 text-white shadow-sm':'text-gray-700 hover:bg-gray-50'}`}><Search size={18}/>Browse Programs</button>
-          <button onClick={()=>setActiveTab('calendar')} className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-md font-medium transition-all ${activeTab==='calendar'?'bg-red-600 text-white shadow-sm':'text-gray-700 hover:bg-gray-50'}`}><Calendar size={18}/>Intake Dates</button>
-          <button onClick={()=>setActiveTab('chat')} className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-md font-medium transition-all ${activeTab==='chat'?'bg-red-600 text-white shadow-sm':'text-gray-700 hover:bg-gray-50'}`}><MessageSquare size={18}/>AI Assistant</button>
-        </div>
-        {activeTab==='browse'&&(<div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8"><div className="mb-8"><label className="block text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Select a Funding Program</label><select onChange={handleFundingSelect} className="w-full p-4 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white" defaultValue=""><option value="" disabled>Choose a program...</option>{fundingSources.map(source=>(<option key={source.id} value={source.id}>{source.name}</option>))}</select></div>{selectedFunding&&(<div className="space-y-8"><div className="flex justify-between items-start border-b border-gray-200 pb-6"><div><h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedFunding.name}</h2><p className="text-base text-gray-600">{selectedFunding.organization}</p></div><button onClick={generatePDF} className="flex items-center gap-2 bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"><Download size={18}/>Export PDF</button></div><div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Description</h3><p className="text-gray-700 leading-relaxed">{selectedFunding.description}</p></div>{selectedFunding.eligibility&&(<div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Requirements</h3><p className="text-gray-700 leading-relaxed">{selectedFunding.eligibility}</p></div>)}<div className="grid md:grid-cols-2 gap-8"><div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Funding</h3><p className="text-gray-700 leading-relaxed">{selectedFunding.fundingRange}</p></div><div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Deadlines</h3><p className="text-gray-700 leading-relaxed">{selectedFunding.deadlines}</p></div></div>{selectedFunding.keyPoints.length>0&&(<div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Key Points</h3><div className="space-y-2">{selectedFunding.keyPoints.map((point,idx)=>(<div key={idx} className="flex items-start gap-3 text-gray-700"><div className="w-1.5 h-1.5 rounded-full bg-red-600 mt-2 flex-shrink-0"></div><span className="leading-relaxed">{point}</span></div>))}</div></div>)}<div><h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Website</h3><a href={selectedFunding.website} target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 hover:underline inline-flex items-center gap-2">{selectedFunding.name}<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div></div>)}{!selectedFunding&&(<div className="text-center py-16 text-gray-400"><Search size={48} className="mx-auto mb-4 opacity-30"/><p className="text-lg">Select a program to view details</p></div>)}</div>)}
-        {activeTab==='calendar'&&(<div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8"><div className="mb-8"><h2 className="text-2xl font-bold text-gray-900 mb-2">Intake Dates & Deadlines</h2><p className="text-gray-600">All upcoming application deadlines sorted by date</p></div><div className="space-y-3">{fundingSources.flatMap(source=>(source.upcomingDeadlines||[]).map(deadline=>({...deadline,program:source.name,organization:source.organization,id:source.id}))).sort((a,b)=>new Date(a.date)-new Date(b.date)).map((deadline,idx)=>{const deadlineDate=new Date(deadline.date);const today=new Date();const daysUntil=Math.ceil((deadlineDate-today)/(1000*60*60*24));const isPast=daysUntil<0;const isUpcoming=daysUntil>=0&&daysUntil<=30;return(<div key={idx} className={`flex items-center gap-6 p-5 rounded-lg transition-all ${isPast?'bg-gray-50 opacity-50':isUpcoming?'bg-red-50 border border-red-200':'bg-gray-50 hover:bg-gray-100'}`}><div className="flex-shrink-0 text-center w-20"><div className={`text-3xl font-bold ${isPast?'text-gray-400':'text-red-600'}`}>{deadlineDate.getDate()}</div><div className="text-xs text-gray-600 uppercase font-medium mt-1">{monthNames[deadlineDate.getMonth()].substring(0,3)}</div><div className="text-xs text-gray-500">{deadlineDate.getFullYear()}</div></div><div className="flex-1 min-w-0"><div className="font-semibold text-gray-900 mb-1">{deadline.program}</div><div className="text-sm text-gray-600">{deadline.description}</div><div className="text-xs text-gray-500 mt-1">{deadline.organization}</div></div>{!isPast&&(<div className="flex-shrink-0 text-right"><div className={`text-sm font-semibold ${isUpcoming?'text-red-600':'text-gray-600'}`}>{daysUntil===0?'Today':daysUntil===1?'Tomorrow':`${daysUntil} days`}</div></div>)}</div>);})}</div>{fundingSources.flatMap(s=>s.upcomingDeadlines||[]).length===0&&(<div className="text-center py-16 text-gray-400"><Calendar size={48} className="mx-auto mb-4 opacity-30"/><p className="text-lg">No upcoming deadlines found</p></div>)}</div>)}
-        {activeTab==='chat'&&(<div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8"><div className="mb-6"><h2 className="text-2xl font-bold text-gray-900 mb-2">AI Funding Assistant</h2><p className="text-gray-600">Ask questions about Canadian film and TV funding programs</p></div><div className="border border-gray-200 rounded-lg h-96 overflow-y-auto p-6 mb-4 bg-gray-50">{chatMessages.length===0?(<div className="h-full flex items-center justify-center text-gray-400"><div className="text-center"><MessageSquare size={48} className="mx-auto mb-4 opacity-30"/><p className="text-lg mb-2">Ask me anything about funding programs</p><p className="text-sm text-gray-500">Try: "What programs are best for documentaries?"</p></div></div>):(<div className="space-y-4">{chatMessages.map((msg,idx)=>(<div key={idx} className={`flex ${msg.role==='user'?'justify-end':'justify-start'}`}><div className={`max-w-[80%] p-4 rounded-lg ${msg.role==='user'?'bg-red-600 text-white':'bg-white border border-gray-200 text-gray-900'}`}><p className="text-sm whitespace-pre-wrap">{msg.content}</p></div></div>))}{isLoading&&(<div className="flex justify-start"><div className="bg-white border border-gray-200 p-4 rounded-lg flex items-center gap-2 text-gray-500"><Loader2 className="animate-spin" size={16}/><span className="text-sm">Thinking...</span></div></div>)}</div>)}</div><div className="flex gap-3"><input type="text" value={userInput} onChange={(e)=>setUserInput(e.target.value)} onKeyPress={(e)=>{if(e.key==='Enter'&&!isLoading){handleChatSubmit(e);}}} placeholder="Ask about funding programs..." className="flex-1 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" disabled={isLoading}/><button onClick={handleChatSubmit} disabled={isLoading} className="bg-red-600 text-white px-8 py-4 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium">Send</button></div></div>)}
-      </div>
-    </div>
+    </>
   );
 }
