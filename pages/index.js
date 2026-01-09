@@ -423,7 +423,7 @@ export default function Home() {
 
                   <div>
                     <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Website</h3>
-                    
+                    <a
                       href={selectedFunding.website}
                       target="_blank"
                       rel="noopener noreferrer"
