@@ -336,8 +336,7 @@ export default function Home() {
                       {selectedFunding.name} →
                     </a>
                   </div>
-                        </div>
-                        </div>
+                </div>      
               </div>
             )}
           </div>
