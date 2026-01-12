@@ -808,12 +808,21 @@ export default function Home() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Upcoming Deadlines (JSON format)
                   </label>
+                  <p className="text-xs text-gray-500 mb-2">
+                    Format: Array of objects with "date" (YYYY-MM-DD) and "description" fields
+                  </p>
                   <textarea
-                    rows={4}
+                    rows={6}
                     value={formData.upcomingDeadlines}
                     onChange={(e) => setFormData({ ...formData, upcomingDeadlines: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 font-mono text-sm"
-                    placeholder='[{"date": "2025-05-22", "description": "Spring Intake"}]'
+                    placeholder={`Example:
+[
+  { "date": "2025-05-22", "description": "Spring Intake Period" },
+  { "date": "2025-09-15", "description": "Fall Intake Period" }
+]
+
+For no deadlines, use: []`}
                   />
                 </div>
 
