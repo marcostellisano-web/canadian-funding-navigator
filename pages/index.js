@@ -225,10 +225,14 @@ export default function Home() {
         await fetchPrograms();
         handleCancelEdit();
         alert(editingProgram ? 'Program updated successfully' : 'Program created successfully');
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error || `Failed to save program (Status: ${response.status})`;
+        alert(errorMessage);
       }
     } catch (error) {
       console.error('Error saving program:', error);
-      alert('Failed to save program');
+      alert('Failed to save program: ' + error.message);
     }
   };
 
