@@ -9,6 +9,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('browse');
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [editingProgram, setEditingProgram] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -51,11 +52,15 @@ export default function Home() {
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
-  const filteredSources = programs.filter(source =>
-    source.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    source.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    source.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredSources = programs.filter(source => {
+    const matchesSearch = source.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      source.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      source.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesCategory = categoryFilter === 'all' || source.category === categoryFilter;
+
+    return matchesSearch && matchesCategory;
+  });
 
   // Group programs by category
   const groupedSources = filteredSources.reduce((acc, source) => {
@@ -386,7 +391,7 @@ export default function Home() {
 
         {activeTab === 'browse' && (
           <div>
-            <div className="mb-8">
+            <div className="mb-8 space-y-4">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
@@ -404,6 +409,39 @@ export default function Home() {
                     <X size={18} />
                   </button>
                 )}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setCategoryFilter('all')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    categoryFilter === 'all'
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  All Programs
+                </button>
+                <button
+                  onClick={() => setCategoryFilter('CMF')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    categoryFilter === 'CMF'
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  CMF
+                </button>
+                <button
+                  onClick={() => setCategoryFilter('Canadian Tax Credits')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    categoryFilter === 'Canadian Tax Credits'
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Canadian Tax Credits
+                </button>
               </div>
             </div>
 
