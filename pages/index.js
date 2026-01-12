@@ -192,6 +192,21 @@ export default function Home() {
     e.preventDefault();
 
     try {
+      // Validate and parse upcomingDeadlines JSON
+      let upcomingDeadlines = [];
+      if (formData.upcomingDeadlines && formData.upcomingDeadlines.trim()) {
+        try {
+          upcomingDeadlines = JSON.parse(formData.upcomingDeadlines);
+          if (!Array.isArray(upcomingDeadlines)) {
+            alert('Upcoming Deadlines must be an array. Example: [{"date": "2025-05-22", "description": "Spring Intake"}]');
+            return;
+          }
+        } catch (jsonError) {
+          alert('Invalid JSON format for Upcoming Deadlines.\n\nError: ' + jsonError.message + '\n\nPlease use the format shown in the example below the field.');
+          return;
+        }
+      }
+
       const programData = {
         name: formData.name,
         category: formData.category,
@@ -203,7 +218,7 @@ export default function Home() {
         website: formData.website,
         tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
         keyPoints: formData.keyPoints.split('\n').map(t => t.trim()).filter(t => t),
-        upcomingDeadlines: JSON.parse(formData.upcomingDeadlines || '[]')
+        upcomingDeadlines: upcomingDeadlines
       };
 
       let response;
@@ -227,7 +242,13 @@ export default function Home() {
         alert(editingProgram ? 'Program updated successfully' : 'Program created successfully');
       } else {
         const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.error || `Failed to save program (Status: ${response.status})`;
+        let errorMessage = errorData.error || `Failed to save program (Status: ${response.status})`;
+        if (errorData.details) {
+          errorMessage += `\nDetails: ${errorData.details}`;
+        }
+        if (errorData.code) {
+          errorMessage += `\nError code: ${errorData.code}`;
+        }
         alert(errorMessage);
       }
     } catch (error) {

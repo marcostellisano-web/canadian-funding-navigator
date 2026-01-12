@@ -26,8 +26,16 @@ export default function handler(req, res) {
   } else if (req.method === 'POST') {
     // Create a new program
     try {
-      const programs = readPrograms();
+      // Validate required fields
       const newProgram = req.body;
+      if (!newProgram.name || !newProgram.name.trim()) {
+        return res.status(400).json({ error: 'Program name is required' });
+      }
+      if (!newProgram.category) {
+        return res.status(400).json({ error: 'Program category is required' });
+      }
+
+      const programs = readPrograms();
 
       // Generate a unique ID if not provided
       if (!newProgram.id) {
@@ -45,7 +53,12 @@ export default function handler(req, res) {
       writePrograms(programs);
       res.status(201).json(newProgram);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to create program' });
+      console.error('Error creating program:', error);
+      res.status(500).json({
+        error: 'Failed to create program',
+        details: error.message,
+        code: error.code
+      });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });
