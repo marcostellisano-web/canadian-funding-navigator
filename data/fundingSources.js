@@ -1,6 +1,7 @@
 const fundingSources = [
   {
     id: 'cmf-anglophone-minority',
+    category: 'CMF',
     name: 'CMF Anglophone Minority Incentive',
     organization: 'CMF',
     description: 'The Official Language Minority Community Production Funding, ensures that Canadians have access to English-language content reflecting Anglophone culture in the province of Quebec',
@@ -20,6 +21,7 @@ const fundingSources = [
   },
   {
     id: 'cmf-broadcaster-envelope',
+    category: 'CMF',
     name: 'CMF Broadcaster Envelope Program',
     organization: 'CMF',
     description: 'The CMF will contribute to Eligible Projects through English and French Broadcaster Envelope Allocations, which are allotments of CMF Program funds made to Canadian Broadcasters with a track record of supporting Canadian programming.',
@@ -39,6 +41,7 @@ const fundingSources = [
   },
   {
     id: 'cmf-distributor',
+    category: 'CMF',
     name: 'CMF Distributor Program',
     organization: 'CMF',
     description: 'The Distributor Program is a pilot initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to trigger Eligible Projects without the requirement of a Canadian Broadcaster.',
@@ -57,6 +60,7 @@ const fundingSources = [
   },
   {
     id: 'cmf-pov',
+    category: 'CMF',
     name: 'CMF POV Program',
     organization: 'CMF',
     description: 'The CMF contributes to Eligible Projects in this Program under a selective process where the CMF evaluates applications according to an Evaluation Grid.',
@@ -76,6 +80,7 @@ const fundingSources = [
   },
   {
     id: 'cmf-regional-bonus',
+    category: 'CMF',
     name: 'CMF Regional Bonus Program',
     organization: 'CMF',
     description: 'Regional Production Funding supports the CMF\'s mandate in encouraging linear content funding to the production of Projects across all of Canada.',
