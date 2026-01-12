@@ -11,6 +11,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingProgram, setEditingProgram] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     category: 'CMF',
@@ -28,6 +29,13 @@ export default function Home() {
   useEffect(() => {
     document.title = 'Canadian Film & TV Funding Guide';
     fetchPrograms();
+
+    // Check for admin URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const adminParam = urlParams.get('admin');
+    if (adminParam === 'cfn2026') {
+      setShowAdmin(true);
+    }
   }, []);
 
   const fetchPrograms = async () => {
@@ -334,19 +342,21 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
             )}
           </button>
-          <button
-            onClick={() => setActiveTab('admin')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
-              activeTab === 'admin'
-                ? 'text-gray-900'
-                : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            Admin
-            {activeTab === 'admin' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
-            )}
-          </button>
+          {showAdmin && (
+            <button
+              onClick={() => setActiveTab('admin')}
+              className={`pb-3 text-sm font-medium transition-all relative ${
+                activeTab === 'admin'
+                  ? 'text-gray-900'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              Admin
+              {activeTab === 'admin' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+              )}
+            </button>
+          )}
         </div>
 
         {activeTab === 'browse' && (
@@ -639,7 +649,7 @@ export default function Home() {
           </div>
         )}
 
-        {activeTab === 'admin' && (
+        {activeTab === 'admin' && showAdmin && (
           <div>
             <div className="mb-6 flex justify-between items-center">
               <h2 className="text-xl font-semibold text-gray-900">Manage Programs</h2>
