@@ -333,8 +333,8 @@ export default function Home() {
       {/* Hero Section */}
       <div className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-6 py-12">
-          <p className="text-gray-500 text-sm max-w-2xl">
-            Navigate Canadian film & TV funding with AI-powered guidance for your project.
+          <p className="text-sm max-w-2xl font-['Radnika_Next',sans-serif]">
+            <span className="text-[#ff5757] font-semibold">Navigate Canadian film & TV funding</span> with AI-powered guidance for your project.
           </p>
         </div>
       </div>
