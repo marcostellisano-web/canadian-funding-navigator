@@ -327,17 +327,13 @@ export default function Home() {
               className="h-60"
             />
           </div>
+          <div className="hidden lg:block">
+            <p className="text-base font-['Inter',sans-serif] text-right">
+              <span className="text-[#ff5757] font-semibold">Navigate Canadian film & TV funding</span> with AI-powered guidance for your project.
+            </p>
+          </div>
         </div>
       </header>
-
-      {/* Hero Section */}
-      <div className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <p className="text-lg max-w-2xl font-['Inter',sans-serif]">
-            <span className="text-[#ff5757] font-semibold">Navigate Canadian film & TV funding</span> with AI-powered guidance for your project.
-          </p>
-        </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
