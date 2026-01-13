@@ -324,7 +324,7 @@ export default function Home() {
             <img
               src="/logo.png"
               alt="Canadian Funding Guide"
-              className="h-12"
+              className="h-24"
             />
           </div>
         </div>
