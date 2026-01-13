@@ -7,9 +7,8 @@ export default function Home() {
   const [chatMessages, setChatMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('browse');
+  const [activeTab, setActiveTab] = useState('tax-credits');
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
   const [editingProgram, setEditingProgram] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -57,7 +56,14 @@ export default function Home() {
       source.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       source.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const matchesCategory = categoryFilter === 'all' || source.category === categoryFilter;
+    // Filter based on active tab
+    let matchesCategory = true;
+    if (activeTab === 'tax-credits') {
+      matchesCategory = source.category === 'Canadian Tax Credits';
+    } else if (activeTab === 'cmf') {
+      matchesCategory = source.category === 'CMF';
+    }
+    // For 'calendar' tab, we don't filter by category
 
     return matchesSearch && matchesCategory;
   });
@@ -341,15 +347,28 @@ export default function Home() {
           <div className="lg:col-span-2">
             <div className="flex gap-8 mb-8 border-b border-gray-100">
               <button
-                onClick={() => setActiveTab('browse')}
+                onClick={() => setActiveTab('tax-credits')}
                 className={`pb-3 text-sm font-medium transition-all relative ${
-                  activeTab === 'browse'
+                  activeTab === 'tax-credits'
                     ? 'text-gray-900'
                     : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
-                Programs
-                {activeTab === 'browse' && (
+                Canadian Tax Credits
+                {activeTab === 'tax-credits' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                )}
+              </button>
+              <button
+                onClick={() => setActiveTab('cmf')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'cmf'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                CMF Programs
+                {activeTab === 'cmf' && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
                 )}
               </button>
@@ -383,7 +402,7 @@ export default function Home() {
               )}
             </div>
 
-        {activeTab === 'browse' && (
+        {(activeTab === 'tax-credits' || activeTab === 'cmf') && (
           <div>
             <div className="mb-8 space-y-4">
               <div className="relative">
@@ -403,39 +422,6 @@ export default function Home() {
                     <X size={18} />
                   </button>
                 )}
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setCategoryFilter('all')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'all'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  All Programs
-                </button>
-                <button
-                  onClick={() => setCategoryFilter('CMF')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'CMF'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  CMF
-                </button>
-                <button
-                  onClick={() => setCategoryFilter('Canadian Tax Credits')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'Canadian Tax Credits'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  Canadian Tax Credits
-                </button>
               </div>
             </div>
 
