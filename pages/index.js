@@ -331,63 +331,53 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="flex gap-8 mb-8 border-b border-gray-100">
-          <button
-            onClick={() => setActiveTab('browse')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
-              activeTab === 'browse'
-                ? 'text-gray-900'
-                : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            Programs
-            {activeTab === 'browse' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab('calendar')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
-              activeTab === 'calendar'
-                ? 'text-gray-900'
-                : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            Intake Dates
-            {activeTab === 'calendar' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab('chat')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
-              activeTab === 'chat'
-                ? 'text-gray-900'
-                : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            Ask AI
-            {activeTab === 'chat' && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
-            )}
-          </button>
-          {showAdmin && (
-            <button
-              onClick={() => setActiveTab('admin')}
-              className={`pb-3 text-sm font-medium transition-all relative ${
-                activeTab === 'admin'
-                  ? 'text-gray-900'
-                  : 'text-gray-400 hover:text-gray-600'
-              }`}
-            >
-              Admin
-              {activeTab === 'admin' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2">
+            <div className="flex gap-8 mb-8 border-b border-gray-100">
+              <button
+                onClick={() => setActiveTab('browse')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'browse'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                Programs
+                {activeTab === 'browse' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                )}
+              </button>
+              <button
+                onClick={() => setActiveTab('calendar')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'calendar'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                Intake Dates
+                {activeTab === 'calendar' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                )}
+              </button>
+              {showAdmin && (
+                <button
+                  onClick={() => setActiveTab('admin')}
+                  className={`pb-3 text-sm font-medium transition-all relative ${
+                    activeTab === 'admin'
+                      ? 'text-gray-900'
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Admin
+                  {activeTab === 'admin' && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                  )}
+                </button>
               )}
-            </button>
-          )}
-        </div>
+            </div>
 
         {activeTab === 'browse' && (
           <div>
@@ -656,62 +646,6 @@ export default function Home() {
           </div>
         )}
 
-        {activeTab === 'chat' && (
-          <div>
-            <div className="border border-gray-200 rounded-lg h-96 overflow-y-auto p-6 mb-4 bg-gray-50">
-              {chatMessages.length === 0 ? (
-                <div className="h-full flex items-center justify-center text-gray-400">
-                  <div className="text-center">
-                    <MessageSquare size={48} className="mx-auto mb-4 opacity-30" />
-                    <p className="mb-2">Ask a question about funding programs</p>
-                    <p className="text-sm text-gray-400">Try: Which programs are best for documentaries?</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {chatMessages.map((msg, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <div className="text-xs text-gray-400 uppercase tracking-wider">
-                        {msg.role === 'user' ? 'You' : 'Assistant'}
-                      </div>
-                      <p className="text-gray-700 leading-relaxed">{msg.content}</p>
-                    </div>
-                  ))}
-                  {isLoading && (
-                    <div className="flex items-center gap-2 text-gray-400">
-                      <Loader2 className="animate-spin" size={16} />
-                      <span className="text-sm">Thinking...</span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter' && !isLoading) {
-                    handleChatSubmit(e);
-                  }
-                }}
-                placeholder="Ask about funding programs..."
-                className="flex-1 p-4 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
-                disabled={isLoading}
-              />
-              <button
-                onClick={handleChatSubmit}
-                disabled={isLoading}
-                className="px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-40 text-sm font-medium"
-              >
-                Send
-              </button>
-            </div>
-          </div>
-        )}
-
         {activeTab === 'admin' && showAdmin && (
           <div>
             <div className="mb-6 flex justify-between items-center">
@@ -955,6 +889,77 @@ For no deadlines, use: []`}
             )}
           </div>
         )}
+          </div>
+
+          {/* Ask AI Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8">
+              <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden flex flex-col" style={{ height: 'calc(100vh - 200px)' }}>
+                <div className="p-4 border-b border-gray-200 bg-white">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare size={18} className="text-red-600" />
+                    <h3 className="font-semibold text-gray-900">Ask AI</h3>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Get AI-powered guidance</p>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-4">
+                  {chatMessages.length === 0 ? (
+                    <div className="h-full flex items-center justify-center text-gray-400">
+                      <div className="text-center">
+                        <MessageSquare size={40} className="mx-auto mb-3 opacity-30" />
+                        <p className="text-sm mb-2">Ask about funding programs</p>
+                        <p className="text-xs text-gray-400">Try: Which programs are best for documentaries?</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {chatMessages.map((msg, idx) => (
+                        <div key={idx} className="space-y-1">
+                          <div className="text-xs text-gray-400 uppercase tracking-wider">
+                            {msg.role === 'user' ? 'You' : 'Assistant'}
+                          </div>
+                          <p className="text-sm text-gray-700 leading-relaxed">{msg.content}</p>
+                        </div>
+                      ))}
+                      {isLoading && (
+                        <div className="flex items-center gap-2 text-gray-400">
+                          <Loader2 className="animate-spin" size={14} />
+                          <span className="text-xs">Thinking...</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-4 border-t border-gray-200 bg-white">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={userInput}
+                      onChange={(e) => setUserInput(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && !isLoading) {
+                          handleChatSubmit(e);
+                        }
+                      }}
+                      placeholder="Ask a question..."
+                      className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                      disabled={isLoading}
+                    />
+                    <button
+                      onClick={handleChatSubmit}
+                      disabled={isLoading}
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-40 text-sm font-medium"
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
