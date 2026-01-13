@@ -322,7 +322,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center">
             <img
-              src="/logo.png"
+              src="/logo.svg"
               alt="Canadian Funding Guide"
               className="h-24"
             />
