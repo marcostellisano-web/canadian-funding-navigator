@@ -340,7 +340,7 @@ export default function Home() {
             Film & TV Funding Guide
           </h1>
           <p className="text-gray-500 text-sm max-w-2xl">
-            Explore funding opportunities and get AI-powered guidance for your project
+            Navigate Canadian film & TV funding with AI-powered guidance for your project.
           </p>
         </div>
       </div>
