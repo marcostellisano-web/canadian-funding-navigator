@@ -317,15 +317,29 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Wealthsimple-style Top Bar */}
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <img
+              src="/logo.svg"
+              alt="Canadian Funding Guide"
+              className="h-12"
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
       <div className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-4xl mx-auto px-6 py-16">
-          <div className="inline-block px-3 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-full mb-4">
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <div className="inline-block px-3 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-full mb-3">
             🇨🇦 Canadian Funding
           </div>
-          <h1 className="text-3xl font-semibold mb-3 text-gray-900">
+          <h1 className="text-2xl font-semibold mb-2 text-gray-900">
             Film & TV Funding Guide
           </h1>
-          <p className="text-gray-500 text-base max-w-2xl">
+          <p className="text-gray-500 text-sm max-w-2xl">
             Explore funding opportunities and get AI-powered guidance for your project
           </p>
         </div>
