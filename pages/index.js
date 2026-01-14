@@ -385,6 +385,19 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
                 )}
               </button>
+              <button
+                onClick={() => setActiveTab('estimator')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'estimator'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                Funding Estimator
+                {activeTab === 'estimator' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                )}
+              </button>
               {showAdmin && (
                 <button
                   onClick={() => setActiveTab('admin')}
@@ -633,6 +646,15 @@ export default function Home() {
                 <p>No upcoming deadlines</p>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === 'estimator' && (
+          <div>
+            <div className="text-center py-12">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Funding Estimator</h2>
+              <p className="text-gray-500">Coming soon - estimate your funding eligibility</p>
+            </div>
           </div>
         )}
 
