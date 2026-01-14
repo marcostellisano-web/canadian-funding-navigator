@@ -7,9 +7,8 @@ export default function Home() {
   const [chatMessages, setChatMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('browse');
+  const [activeTab, setActiveTab] = useState('tax-credits');
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
   const [editingProgram, setEditingProgram] = useState(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -57,7 +56,14 @@ export default function Home() {
       source.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       source.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const matchesCategory = categoryFilter === 'all' || source.category === categoryFilter;
+    // Filter based on active tab
+    let matchesCategory = true;
+    if (activeTab === 'tax-credits') {
+      matchesCategory = source.category === 'Canadian Tax Credits';
+    } else if (activeTab === 'cmf') {
+      matchesCategory = source.category === 'CMF';
+    }
+    // For 'calendar' tab, we don't filter by category
 
     return matchesSearch && matchesCategory;
   });
@@ -316,20 +322,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-4xl mx-auto px-6 py-16">
-          <div className="inline-block px-3 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-full mb-4">
-            🇨🇦 Canadian Funding
+    <div className="min-h-screen bg-[#FAFAFA]">
+      {/* Wealthsimple-style Top Bar */}
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-8 flex items-center justify-between">
+          <div className="flex items-center">
+            <img
+              src="/logo.svg"
+              alt="Canadian Funding Guide"
+              className="h-60"
+            />
           </div>
-          <h1 className="text-3xl font-semibold mb-3 text-gray-900">
-            Film & TV Funding Guide
-          </h1>
-          <p className="text-gray-500 text-base max-w-2xl">
-            Explore funding opportunities and get AI-powered guidance for your project
-          </p>
+          <div className="hidden lg:block">
+            <p className="text-base font-['Inter',sans-serif] text-right">
+              <span className="text-[#ff5757] font-semibold">Navigate Canadian film & TV funding</span> with AI-powered guidance for your project.
+            </p>
+          </div>
         </div>
-      </div>
+      </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -337,15 +347,28 @@ export default function Home() {
           <div className="lg:col-span-2">
             <div className="flex gap-8 mb-8 border-b border-gray-100">
               <button
-                onClick={() => setActiveTab('browse')}
+                onClick={() => setActiveTab('tax-credits')}
                 className={`pb-3 text-sm font-medium transition-all relative ${
-                  activeTab === 'browse'
+                  activeTab === 'tax-credits'
                     ? 'text-gray-900'
                     : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
-                Programs
-                {activeTab === 'browse' && (
+                Canadian Tax Credits
+                {activeTab === 'tax-credits' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
+                )}
+              </button>
+              <button
+                onClick={() => setActiveTab('cmf')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'cmf'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                CMF Programs
+                {activeTab === 'cmf' && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
                 )}
               </button>
@@ -379,7 +402,7 @@ export default function Home() {
               )}
             </div>
 
-        {activeTab === 'browse' && (
+        {(activeTab === 'tax-credits' || activeTab === 'cmf') && (
           <div>
             <div className="mb-8 space-y-4">
               <div className="relative">
@@ -399,39 +422,6 @@ export default function Home() {
                     <X size={18} />
                   </button>
                 )}
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setCategoryFilter('all')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'all'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  All Programs
-                </button>
-                <button
-                  onClick={() => setCategoryFilter('CMF')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'CMF'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  CMF
-                </button>
-                <button
-                  onClick={() => setCategoryFilter('Canadian Tax Credits')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    categoryFilter === 'Canadian Tax Credits'
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  Canadian Tax Credits
-                </button>
               </div>
             </div>
 
