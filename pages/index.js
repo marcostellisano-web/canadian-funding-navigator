@@ -1,6 +1,409 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Download, MessageSquare, Calendar, Loader2, X, Settings, Edit, Trash2, Plus, Save } from 'lucide-react';
 
+// Funding Estimator Component
+function FundingEstimator() {
+  const [selectedProvince, setSelectedProvince] = useState('ON');
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareProvince, setCompareProvince] = useState('BC');
+
+  // Ontario state
+  const [onCreditType, setOnCreditType] = useState('service');
+  const [onTotalBudget, setOnTotalBudget] = useState('');
+  const [onProvincialLabour, setOnProvincialLabour] = useState('');
+  const [onProductionExpenses, setOnProductionExpenses] = useState('');
+  const [onRegionalBonus, setOnRegionalBonus] = useState(false);
+
+  // BC state
+  const [bcTotalBudget, setBcTotalBudget] = useState('');
+  const [bcEligibleLabour, setBcEligibleLabour] = useState('');
+  const [bcTotalDays, setBcTotalDays] = useState('');
+  const [bcOutsideVancouver, setBcOutsideVancouver] = useState('');
+  const [bcDistantLocation, setBcDistantLocation] = useState('');
+
+  // Calculate Ontario tax credit
+  const calculateOntario = () => {
+    const labour = parseFloat(onProvincialLabour) || 0;
+    const totalBudget = parseFloat(onTotalBudget) || 0;
+    const productionExpenses = parseFloat(onProductionExpenses) || 0;
+
+    let credit = 0;
+    let breakdown = '';
+
+    if (onCreditType === 'service') {
+      const rate = 0.215;
+      const labourCredit = labour * rate;
+      const expensesCredit = productionExpenses * rate;
+      credit = labourCredit + expensesCredit;
+      breakdown = `Labour Credit: $${labourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${labour.toLocaleString()})\nProduction Expenses Credit: $${expensesCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${productionExpenses.toLocaleString()})`;
+    } else {
+      const rate = onRegionalBonus ? 0.45 : 0.35;
+      credit = labour * rate;
+      breakdown = `Labour Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${(rate * 100)}% of $${labour.toLocaleString()})`;
+    }
+
+    const budgetPercent = totalBudget > 0 ? (credit / totalBudget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
+  // Calculate BC tax credit
+  const calculateBC = () => {
+    const eligibleLabour = parseFloat(bcEligibleLabour) || 0;
+    const totalBudget = parseFloat(bcTotalBudget) || 0;
+    const totalDays = parseInt(bcTotalDays) || 0;
+    const outsideVancouverDays = parseInt(bcOutsideVancouver) || 0;
+    const distantDays = parseInt(bcDistantLocation) || 0;
+
+    const outsideVancouverPercent = totalDays ? (outsideVancouverDays / totalDays) : 0;
+    const distantPercent = totalDays ? (distantDays / totalDays) : 0;
+
+    const baseCredit = eligibleLabour * 0.35;
+    const regionalCredit = eligibleLabour * 0.125 * outsideVancouverPercent;
+    const distantCredit = eligibleLabour * 0.06 * distantPercent;
+    const totalCredit = baseCredit + regionalCredit + distantCredit;
+
+    const budgetPercent = totalBudget > 0 ? (totalCredit / totalBudget) * 100 : 0;
+
+    const breakdown = `Base Credit (35%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (12.5% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / eligibleLabour) * 100).toFixed(1)}% of eligible labour`;
+
+    return { credit: totalCredit, budgetPercent, breakdown };
+  };
+
+  const result1 = selectedProvince === 'ON' ? calculateOntario() : calculateBC();
+  const result2 = compareMode ? (compareProvince === 'ON' ? calculateOntario() : calculateBC()) : null;
+
+  return (
+    <div className="space-y-6">
+      {/* Compare Toggle */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-900">Tax Credit Estimator</h2>
+        <button
+          onClick={() => setCompareMode(!compareMode)}
+          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+        >
+          {compareMode ? 'Single View' : 'Compare Provinces'}
+        </button>
+      </div>
+
+      {/* Calculators */}
+      <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
+        {/* Calculator 1 */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Province
+            </label>
+            <select
+              value={selectedProvince}
+              onChange={(e) => setSelectedProvince(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            >
+              <option value="ON">Ontario</option>
+              <option value="BC">British Columbia</option>
+            </select>
+          </div>
+
+          {selectedProvince === 'ON' && (
+            <OntarioCalculator
+              creditType={onCreditType}
+              setCreditType={setOnCreditType}
+              totalBudget={onTotalBudget}
+              setTotalBudget={setOnTotalBudget}
+              provincialLabour={onProvincialLabour}
+              setProvincialLabour={setOnProvincialLabour}
+              productionExpenses={onProductionExpenses}
+              setProductionExpenses={setOnProductionExpenses}
+              regionalBonus={onRegionalBonus}
+              setRegionalBonus={setOnRegionalBonus}
+              result={result1}
+            />
+          )}
+
+          {selectedProvince === 'BC' && (
+            <BCCalculator
+              totalBudget={bcTotalBudget}
+              setTotalBudget={setBcTotalBudget}
+              eligibleLabour={bcEligibleLabour}
+              setEligibleLabour={setBcEligibleLabour}
+              totalDays={bcTotalDays}
+              setTotalDays={setBcTotalDays}
+              outsideVancouver={bcOutsideVancouver}
+              setOutsideVancouver={setBcOutsideVancouver}
+              distantLocation={bcDistantLocation}
+              setDistantLocation={setBcDistantLocation}
+              result={result1}
+            />
+          )}
+        </div>
+
+        {/* Calculator 2 (Compare Mode) */}
+        {compareMode && (
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Compare with
+              </label>
+              <select
+                value={compareProvince}
+                onChange={(e) => setCompareProvince(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+              >
+                <option value="BC">British Columbia</option>
+                <option value="ON">Ontario</option>
+              </select>
+            </div>
+
+            {compareProvince === 'ON' && (
+              <OntarioCalculator
+                creditType={onCreditType}
+                setCreditType={setOnCreditType}
+                totalBudget={onTotalBudget}
+                setTotalBudget={setOnTotalBudget}
+                provincialLabour={onProvincialLabour}
+                setProvincialLabour={setOnProvincialLabour}
+                productionExpenses={onProductionExpenses}
+                setProductionExpenses={setOnProductionExpenses}
+                regionalBonus={onRegionalBonus}
+                setRegionalBonus={setOnRegionalBonus}
+                result={result2}
+              />
+            )}
+
+            {compareProvince === 'BC' && (
+              <BCCalculator
+                totalBudget={bcTotalBudget}
+                setTotalBudget={setBcTotalBudget}
+                eligibleLabour={bcEligibleLabour}
+                setEligibleLabour={setBcEligibleLabour}
+                totalDays={bcTotalDays}
+                setTotalDays={setBcTotalDays}
+                outsideVancouver={bcOutsideVancouver}
+                setOutsideVancouver={setBcOutsideVancouver}
+                distantLocation={bcDistantLocation}
+                setDistantLocation={setBcDistantLocation}
+                result={result2}
+              />
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Comparison Summary */}
+      {compareMode && result2 && (
+        <div className="bg-white border-2 border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Comparison Summary</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="font-medium">{selectedProvince === 'ON' ? 'Ontario' : 'British Columbia'}:</span>
+              <span className="text-lg">${result1.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result1.budgetPercent.toFixed(1)}% of budget)</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="font-medium">{compareProvince === 'ON' ? 'Ontario' : 'British Columbia'}:</span>
+              <span className="text-lg">${result2.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result2.budgetPercent.toFixed(1)}% of budget)</span>
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-200 bg-blue-50 p-4 rounded-lg">
+              <div className="text-center">
+                <span className="text-blue-700 font-semibold">Difference: </span>
+                <span className="text-xl font-bold text-blue-700">
+                  ${Math.abs(result2.credit - result1.credit).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </span>
+                <span className="text-blue-700 font-semibold"> in favor of {result2.credit > result1.credit ? (compareProvince === 'ON' ? 'Ontario' : 'British Columbia') : (selectedProvince === 'ON' ? 'Ontario' : 'British Columbia')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Ontario Calculator Component
+function OntarioCalculator({ creditType, setCreditType, totalBudget, setTotalBudget, provincialLabour, setProvincialLabour, productionExpenses, setProductionExpenses, regionalBonus, setRegionalBonus, result }) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Tax Credit Type</label>
+        <select
+          value={creditType}
+          onChange={(e) => setCreditType(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+        >
+          <option value="service">Service Tax Credit</option>
+          <option value="production">Production Tax Credit</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Total Budget</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <input
+            type="number"
+            value={totalBudget}
+            onChange={(e) => setTotalBudget(e.target.value)}
+            placeholder="Enter total budget"
+            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Provincial Labour</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <input
+            type="number"
+            value={provincialLabour}
+            onChange={(e) => setProvincialLabour(e.target.value)}
+            placeholder="Enter provincial labour cost"
+            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+          />
+        </div>
+      </div>
+
+      {creditType === 'service' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Provincial Production Expenditures</label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+            <input
+              type="number"
+              value={productionExpenses}
+              onChange={(e) => setProductionExpenses(e.target.value)}
+              placeholder="Enter production expenditures"
+              className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            />
+          </div>
+        </div>
+      )}
+
+      {creditType === 'production' && (
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={regionalBonus}
+              onChange={(e) => setRegionalBonus(e.target.checked)}
+              className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
+            />
+            <span className="text-sm text-gray-700">Regional Bonus (Increases credit from 35% to 45%)</span>
+          </label>
+        </div>
+      )}
+
+      {/* Results */}
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="text-sm font-medium text-gray-700 mb-2">Estimated Ontario Tax Credit:</div>
+        <div className="text-2xl font-bold text-green-600 mb-1">
+          ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+        </div>
+        <div className="text-sm text-gray-500 mb-4">
+          ({result.budgetPercent.toFixed(1)}% of total budget)
+        </div>
+        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded whitespace-pre-line">
+          {result.breakdown}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// BC Calculator Component
+function BCCalculator({ totalBudget, setTotalBudget, eligibleLabour, setEligibleLabour, totalDays, setTotalDays, outsideVancouver, setOutsideVancouver, distantLocation, setDistantLocation, result }) {
+  const outsideVancouverPercent = totalDays ? ((outsideVancouver / totalDays) * 100).toFixed(1) : 0;
+  const distantPercent = totalDays ? ((distantLocation / totalDays) * 100).toFixed(1) : 0;
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Total Budget</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <input
+            type="number"
+            value={totalBudget}
+            onChange={(e) => setTotalBudget(e.target.value)}
+            placeholder="Enter total budget"
+            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Eligible BC Labour Expenditures</label>
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <input
+            type="number"
+            value={eligibleLabour}
+            onChange={(e) => setEligibleLabour(e.target.value)}
+            placeholder="Enter eligible BC labour"
+            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+          />
+        </div>
+      </div>
+
+      <div className="bg-gray-50 p-4 rounded-lg space-y-4">
+        <h3 className="text-sm font-medium text-gray-700">Shooting Days</h3>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Total Shooting Days</label>
+            <input
+              type="number"
+              value={totalDays}
+              onChange={(e) => setTotalDays(e.target.value)}
+              placeholder="Total days"
+              min="0"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Days Outside Vancouver</label>
+            <input
+              type="number"
+              value={outsideVancouver}
+              onChange={(e) => setOutsideVancouver(e.target.value)}
+              placeholder="Outside Vancouver"
+              min="0"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            />
+            <div className="text-xs text-gray-500 mt-1">{outsideVancouverPercent}% of total days</div>
+          </div>
+
+          <div className="col-span-2">
+            <label className="block text-xs font-medium text-gray-600 mb-1">Days in Distant Location</label>
+            <input
+              type="number"
+              value={distantLocation}
+              onChange={(e) => setDistantLocation(e.target.value)}
+              placeholder="Distant location"
+              min="0"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            />
+            <div className="text-xs text-gray-500 mt-1">{distantPercent}% of total days</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="text-sm font-medium text-gray-700 mb-2">Estimated BC Tax Credit:</div>
+        <div className="text-2xl font-bold text-green-600 mb-1">
+          ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+        </div>
+        <div className="text-sm text-gray-500 mb-4">
+          ({result.budgetPercent.toFixed(1)}% of total budget)
+        </div>
+        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded whitespace-pre-line">
+          {result.breakdown}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [programs, setPrograms] = useState([]);
   const [selectedFunding, setSelectedFunding] = useState(null);
@@ -650,12 +1053,7 @@ export default function Home() {
         )}
 
         {activeTab === 'estimator' && (
-          <div>
-            <div className="text-center py-12">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Funding Estimator</h2>
-              <p className="text-gray-500">Coming soon - estimate your funding eligibility</p>
-            </div>
-          </div>
+          <FundingEstimator />
         )}
 
         {activeTab === 'admin' && showAdmin && (
