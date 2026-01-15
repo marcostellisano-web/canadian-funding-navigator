@@ -405,7 +405,7 @@ function BCCalculator({ totalBudget, setTotalBudget, eligibleLabour, setEligible
 }
 
 // Tax Credit Info Card Component (for informational displays)
-function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, episodeMinimums, website, regionalBonusLink }) {
+function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, bonuses, episodeMinimums, website, regionalBonusLink }) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6 h-full">
       <h3 className="text-xl font-semibold text-gray-900 mb-4">{title}</h3>
@@ -432,7 +432,7 @@ function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, episodeMi
           </div>
         )}
 
-        {/* Regional Bonus */}
+        {/* Regional Bonus (single) */}
         {regionalBonus && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">Regional Bonus</h4>
@@ -451,6 +451,22 @@ function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, episodeMi
                 View regional bonus locations →
               </a>
             )}
+          </div>
+        )}
+
+        {/* Multiple Bonuses */}
+        {bonuses && bonuses.length > 0 && (
+          <div className="space-y-3">
+            {bonuses.map((bonus, idx) => (
+              <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">{bonus.title}</h4>
+                <p className="text-sm text-gray-700 leading-relaxed mb-2">{bonus.description}</p>
+                <p className="text-lg font-bold text-blue-700">{bonus.bonus}</p>
+                {bonus.detail && (
+                  <p className="text-xs text-gray-600 mt-1">{bonus.detail}</p>
+                )}
+              </div>
+            ))}
           </div>
         )}
 
@@ -576,12 +592,124 @@ function OntarioTaxCreditsView() {
   );
 }
 
+// British Columbia Tax Credits View Component
+function BCTaxCreditsView() {
+  const [viewMode, setViewMode] = useState('both'); // 'both', 'fibc', 'pstc'
+
+  const fibcData = {
+    title: 'Film Incentive B.C. (FIBC)',
+    rate: '40% of B.C. labour expenditures',
+    requirements: [
+      'At least 75% of principal photography days must be done in British Columbia',
+      'Minimum 75% of goods and services must be spent on B.C. expenditures',
+      'Post-production work (excluding stock footage) must be carried out in British Columbia'
+    ],
+    bonuses: [
+      {
+        title: 'Regional Bonus',
+        bonus: '+12.5%',
+        description: 'Additional 12.5% applied to B.C. labour expenditures pro-rated based on the number of days filmed outside of the designated Vancouver area. Over 50% of the B.C. principal photography days must be outside the designated Vancouver area.',
+        detail: '(applied pro-rata based on days outside DVA)'
+      },
+      {
+        title: 'Distant Location Bonus',
+        bonus: '+6%',
+        description: 'Additional 6% applied to B.C. labour expenditures pro-rated based on the number of days filmed in a distant location. To be eligible, the production must qualify for the Regional bonus and have at least 1 principal photography day in a distant location.',
+        detail: '(applied pro-rata based on days in distant location)'
+      }
+    ],
+    website: 'https://creativebc.com/motion-picture-tax-credits/film-incentive-bc/'
+  };
+
+  const pstcData = {
+    title: 'B.C. Production Services Tax Credit (PSTC)',
+    rate: '36% of B.C. labour expenditures',
+    requirements: [
+      'Available if a project does not qualify for the FIBC'
+    ],
+    bonuses: [
+      {
+        title: 'Regional Bonus',
+        bonus: '+12.5%',
+        description: 'Additional 12.5% applied to B.C. labour expenditures pro-rated based on the number of days filmed outside of the designated Vancouver area. Over 50% of the B.C. principal photography days must be outside the designated Vancouver area.',
+        detail: '(applied pro-rata based on days outside DVA)'
+      },
+      {
+        title: 'Distant Location Bonus',
+        bonus: '+6%',
+        description: 'Additional 6% applied to B.C. labour expenditures pro-rated based on the number of days filmed in a distant location. To be eligible, the production must qualify for the Regional bonus and have at least 1 principal photography day in a distant location.',
+        detail: '(applied pro-rata based on days in distant location)'
+      }
+    ],
+    episodeMinimums: [
+      'Episodes with running time less than 30 minutes: minimum $100,000 per episode',
+      'Episodes with running time of 30 minutes or more: minimum $200,000 per episode'
+    ],
+    website: 'https://creativebc.com/motion-picture-tax-credits/production-services-tax-credit/'
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header with View Toggle */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">British Columbia Tax Credits</h2>
+          <p className="text-sm text-gray-500 mt-1">Two distinct tax credit programs available</p>
+        </div>
+        <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
+          <button
+            onClick={() => setViewMode('both')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'both'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Both
+          </button>
+          <button
+            onClick={() => setViewMode('fibc')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'fibc'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            FIBC
+          </button>
+          <button
+            onClick={() => setViewMode('pstc')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'pstc'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            PSTC
+          </button>
+        </div>
+      </div>
+
+      {/* Tax Credits Display */}
+      <div className={`grid ${viewMode === 'both' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
+        {(viewMode === 'both' || viewMode === 'fibc') && (
+          <TaxCreditInfoCard {...fibcData} />
+        )}
+        {(viewMode === 'both' || viewMode === 'pstc') && (
+          <TaxCreditInfoCard {...pstcData} />
+        )}
+      </div>
+    </div>
+  );
+}
+
 // Main Tax Credits View Component (with province selection)
 function TaxCreditsView() {
   const [selectedProvince, setSelectedProvince] = useState(null);
 
   const provinces = [
-    { id: 'ontario', name: 'Ontario', available: true }
+    { id: 'ontario', name: 'Ontario', available: true },
+    { id: 'bc', name: 'British Columbia', available: true }
     // More provinces can be added here in the future
   ];
 
@@ -595,6 +723,7 @@ function TaxCreditsView() {
           ← Back to provinces
         </button>
         {selectedProvince === 'ontario' && <OntarioTaxCreditsView />}
+        {selectedProvince === 'bc' && <BCTaxCreditsView />}
       </div>
     );
   }
