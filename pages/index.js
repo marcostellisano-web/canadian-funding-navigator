@@ -58,13 +58,13 @@ function FundingEstimator() {
     const distantPercent = totalDays ? (distantDays / totalDays) : 0;
 
     const baseCredit = eligibleLabour * 0.35;
-    const regionalCredit = eligibleLabour * 0.125 * outsideVancouverPercent;
+    const regionalCredit = eligibleLabour * 0.06 * outsideVancouverPercent;
     const distantCredit = eligibleLabour * 0.06 * distantPercent;
     const totalCredit = baseCredit + regionalCredit + distantCredit;
 
     const budgetPercent = totalBudget > 0 ? (totalCredit / totalBudget) * 100 : 0;
 
-    const breakdown = `Base Credit (35%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (12.5% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / eligibleLabour) * 100).toFixed(1)}% of eligible labour`;
+    const breakdown = `Base Credit (35%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (6% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / eligibleLabour) * 100).toFixed(1)}% of eligible labour`;
 
     return { credit: totalCredit, budgetPercent, breakdown };
   };
