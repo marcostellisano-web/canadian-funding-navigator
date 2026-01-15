@@ -526,7 +526,7 @@ function OntarioTaxCreditsView() {
       'Minimum 95% of post-production costs must be incurred in Ontario'
     ],
     regionalBonus: {
-      description: 'Productions shot entirely outside the Greater Toronto Area, or with at least 85% of Ontario location days outside the GTA can qualify for this bonus',
+      description: '• Productions shot entirely outside the Greater Toronto Area, or with at least 85% of Ontario location days outside the GTA can qualify for this bonus',
       bonus: '+10% bonus',
       detail: '(total 45% on all eligible Ontario labour expenditures)'
     },
@@ -650,7 +650,7 @@ function BCTaxCreditsView() {
     bonuses: [
       {
         title: 'Regional Bonus',
-        bonus: '+12.5%',
+        bonus: '6%',
         description: [
           'Applied to B.C. labour expenditures pro-rated based on days filmed outside the designated Vancouver area',
           'Over 50% of the B.C. principal photography days must be outside the designated Vancouver area'
