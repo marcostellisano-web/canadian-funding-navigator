@@ -614,8 +614,8 @@ function TaxCreditsView() {
             disabled={!province.available}
             className={`p-6 border-2 rounded-lg text-left transition-all ${
               province.available
-                ? 'border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group'
-                : 'border-gray-100 opacity-50 cursor-not-allowed'
+                ? 'bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group'
+                : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
             }`}
           >
             <h3 className={`text-lg font-semibold mb-2 ${
@@ -1090,7 +1090,7 @@ export default function Home() {
                           <div
                             key={source.id}
                             onClick={() => handleFundingSelect(source)}
-                            className="p-6 border border-gray-100 rounded-lg hover:border-red-200 hover:shadow-sm transition-all cursor-pointer group"
+                            className="bg-white p-6 border border-gray-100 rounded-lg hover:border-red-200 hover:shadow-sm transition-all cursor-pointer group"
                           >
                             <div className="flex justify-between items-start mb-3">
                               <div>
