@@ -404,6 +404,231 @@ function BCCalculator({ totalBudget, setTotalBudget, eligibleLabour, setEligible
   );
 }
 
+// Tax Credit Info Card Component (for informational displays)
+function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, episodeMinimums, website, regionalBonusLink }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6 h-full">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">{title}</h3>
+
+      <div className="space-y-6">
+        {/* Credit Rate */}
+        <div>
+          <h4 className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Credit Rate</h4>
+          <p className="text-2xl font-bold text-green-600">{rate}</p>
+        </div>
+
+        {/* Requirements */}
+        {requirements && requirements.length > 0 && (
+          <div>
+            <h4 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Requirements</h4>
+            <div className="space-y-2">
+              {requirements.map((req, idx) => (
+                <p key={idx} className="text-sm text-gray-700 leading-relaxed flex items-start gap-2">
+                  <span className="text-red-600 mt-0.5">•</span>
+                  <span>{req}</span>
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Regional Bonus */}
+        {regionalBonus && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">Regional Bonus</h4>
+            <p className="text-sm text-gray-700 leading-relaxed mb-2">{regionalBonus.description}</p>
+            <p className="text-lg font-bold text-blue-700">{regionalBonus.bonus}</p>
+            {regionalBonusLink && (
+              <a
+                href={regionalBonusLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-blue-600 hover:text-blue-800 underline mt-2 inline-block"
+              >
+                View regional bonus locations →
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* Episode Minimums */}
+        {episodeMinimums && (
+          <div>
+            <h4 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Episode Minimums (Series)</h4>
+            <div className="space-y-2">
+              {episodeMinimums.map((min, idx) => (
+                <p key={idx} className="text-sm text-gray-700 leading-relaxed flex items-start gap-2">
+                  <span className="text-red-600 mt-0.5">•</span>
+                  <span>{min}</span>
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Website Link */}
+        {website && (
+          <div className="pt-4 border-t border-gray-200">
+            <a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-red-600 hover:text-red-700 underline font-medium"
+            >
+              Learn more →
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Ontario Tax Credits View Component
+function OntarioTaxCreditsView() {
+  const [viewMode, setViewMode] = useState('both'); // 'both', 'ofttc', 'opstc'
+
+  const ofttcData = {
+    title: 'Ontario Film & Television Tax Credit (OFTTC)',
+    rate: '35% of Ontario labour expenditures',
+    requirements: [
+      'Minimum 75% of goods and services must be spent on Ontario expenditures',
+      'Minimum 95% of post-production costs must be incurred in Ontario'
+    ],
+    regionalBonus: {
+      description: 'Productions shot entirely outside of the Greater Toronto Area, or with at least 85% of location days in Ontario shot outside of the Greater Toronto Area.',
+      bonus: '+10% bonus (total 45% on all eligible Ontario labour expenditures)'
+    },
+    website: 'https://www.ontariocreates.ca/tax-incentives/ofttc',
+    regionalBonusLink: 'https://www.ontariocreates.ca/regional-bonus-locations'
+  };
+
+  const opstcData = {
+    title: 'Ontario Production Services Tax Credit (OPSTC)',
+    rate: '21.5% of all qualifying production expenditures',
+    requirements: [
+      'Available if a project does not qualify for the OFTTC',
+      'Regional bonus does not apply to this credit'
+    ],
+    episodeMinimums: [
+      'Episodes with running time less than 30 minutes: minimum $100,000 per episode',
+      'Episodes with running time of 30 minutes or more: minimum $200,000 per episode'
+    ],
+    website: 'https://www.ontariocreates.ca/our-sectors/film-tv/business-initiatives/ontario-production-services-tax-credit-opstc'
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header with View Toggle */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">Ontario Tax Credits</h2>
+          <p className="text-sm text-gray-500 mt-1">Two distinct tax credit programs available</p>
+        </div>
+        <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
+          <button
+            onClick={() => setViewMode('both')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'both'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Both
+          </button>
+          <button
+            onClick={() => setViewMode('ofttc')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'ofttc'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            OFTTC
+          </button>
+          <button
+            onClick={() => setViewMode('opstc')}
+            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+              viewMode === 'opstc'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            OPSTC
+          </button>
+        </div>
+      </div>
+
+      {/* Tax Credits Display */}
+      <div className={`grid ${viewMode === 'both' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
+        {(viewMode === 'both' || viewMode === 'ofttc') && (
+          <TaxCreditInfoCard {...ofttcData} />
+        )}
+        {(viewMode === 'both' || viewMode === 'opstc') && (
+          <TaxCreditInfoCard {...opstcData} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Main Tax Credits View Component (with province selection)
+function TaxCreditsView() {
+  const [selectedProvince, setSelectedProvince] = useState(null);
+
+  const provinces = [
+    { id: 'ontario', name: 'Ontario', available: true }
+    // More provinces can be added here in the future
+  ];
+
+  if (selectedProvince) {
+    return (
+      <div>
+        <button
+          onClick={() => setSelectedProvince(null)}
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        >
+          ← Back to provinces
+        </button>
+        {selectedProvince === 'ontario' && <OntarioTaxCreditsView />}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">Select a Province</h2>
+        <p className="text-sm text-gray-500">Choose a province to view available tax credit programs</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {provinces.map((province) => (
+          <button
+            key={province.id}
+            onClick={() => province.available && setSelectedProvince(province.id)}
+            disabled={!province.available}
+            className={`p-6 border-2 rounded-lg text-left transition-all ${
+              province.available
+                ? 'border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group'
+                : 'border-gray-100 opacity-50 cursor-not-allowed'
+            }`}
+          >
+            <h3 className={`text-lg font-semibold mb-2 ${
+              province.available ? 'text-gray-900 group-hover:text-red-600' : 'text-gray-400'
+            }`}>
+              {province.name}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {province.available ? 'View tax credits →' : 'Coming soon'}
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [programs, setPrograms] = useState([]);
   const [selectedFunding, setSelectedFunding] = useState(null);
@@ -818,7 +1043,11 @@ export default function Home() {
               )}
             </div>
 
-        {(activeTab === 'tax-credits' || activeTab === 'cmf') && (
+        {activeTab === 'tax-credits' && (
+          <TaxCreditsView />
+        )}
+
+        {activeTab === 'cmf' && (
           <div>
             <div className="mb-8 space-y-4">
               <div className="relative">
