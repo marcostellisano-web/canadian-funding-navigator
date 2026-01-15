@@ -286,7 +286,7 @@ function OntarioCalculator({ creditType, setCreditType, totalBudget, setTotalBud
               onChange={(e) => setRegionalBonus(e.target.checked)}
               className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
             />
-            <span className="text-sm text-gray-700">Regional Bonus (Increases credit from 35% to 45%)</span>
+            <span className="text-sm text-gray-700">• Regional Bonus (Increases credit from 35% to 45%)</span>
           </label>
         </div>
       )}
