@@ -438,6 +438,9 @@ function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, episodeMi
             <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">Regional Bonus</h4>
             <p className="text-sm text-gray-700 leading-relaxed mb-2">{regionalBonus.description}</p>
             <p className="text-lg font-bold text-blue-700">{regionalBonus.bonus}</p>
+            {regionalBonus.detail && (
+              <p className="text-xs text-gray-600 mt-1">{regionalBonus.detail}</p>
+            )}
             {regionalBonusLink && (
               <a
                 href={regionalBonusLink}
@@ -496,8 +499,9 @@ function OntarioTaxCreditsView() {
       'Minimum 95% of post-production costs must be incurred in Ontario'
     ],
     regionalBonus: {
-      description: 'Productions shot entirely outside of the Greater Toronto Area, or with at least 85% of location days in Ontario shot outside of the Greater Toronto Area.',
-      bonus: '+10% bonus (total 45% on all eligible Ontario labour expenditures)'
+      description: 'Productions shot entirely outside the Greater Toronto Area, or with at least 85% of Ontario location days outside the GTA can qualify for this bonus',
+      bonus: '+10% bonus',
+      detail: '(total 45% on all eligible Ontario labour expenditures)'
     },
     website: 'https://www.ontariocreates.ca/tax-incentives/ofttc',
     regionalBonusLink: 'https://www.ontariocreates.ca/regional-bonus-locations'
