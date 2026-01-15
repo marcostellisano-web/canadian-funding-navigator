@@ -47,7 +47,7 @@ export default function BCTaxCreditsView() {
     bonuses: [
       {
         title: 'Regional Bonus',
-        bonus: '6%',
+        bonus: '+6%',
         description: [
           'Applied to B.C. labour expenditures pro-rated based on days filmed outside the designated Vancouver area',
           'Over 50% of the B.C. principal photography days must be outside the designated Vancouver area'
