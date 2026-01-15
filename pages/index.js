@@ -454,22 +454,6 @@ function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, bonuses, 
           </div>
         )}
 
-        {/* Multiple Bonuses */}
-        {bonuses && bonuses.length > 0 && (
-          <div className="space-y-3">
-            {bonuses.map((bonus, idx) => (
-              <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">{bonus.title}</h4>
-                <p className="text-sm text-gray-700 leading-relaxed mb-2">{bonus.description}</p>
-                <p className="text-lg font-bold text-blue-700">{bonus.bonus}</p>
-                {bonus.detail && (
-                  <p className="text-xs text-gray-600 mt-1">{bonus.detail}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* Episode Minimums */}
         {episodeMinimums && (
           <div>
@@ -482,6 +466,33 @@ function TaxCreditInfoCard({ title, rate, requirements, regionalBonus, bonuses, 
                 </p>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Multiple Bonuses */}
+        {bonuses && bonuses.length > 0 && (
+          <div className="space-y-3">
+            {bonuses.map((bonus, idx) => (
+              <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">{bonus.title}</h4>
+                <p className="text-lg font-bold text-blue-700 mb-2">{bonus.bonus}</p>
+                {Array.isArray(bonus.description) ? (
+                  <div className="space-y-2 mb-2">
+                    {bonus.description.map((point, pointIdx) => (
+                      <p key={pointIdx} className="text-sm text-gray-700 leading-relaxed flex items-start gap-2">
+                        <span className="text-blue-600 mt-0.5">•</span>
+                        <span>{point}</span>
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-700 leading-relaxed mb-2">{bonus.description}</p>
+                )}
+                {bonus.detail && (
+                  <p className="text-xs text-gray-600 mt-1">{bonus.detail}</p>
+                )}
+              </div>
+            ))}
           </div>
         )}
 
@@ -608,14 +619,19 @@ function BCTaxCreditsView() {
       {
         title: 'Regional Bonus',
         bonus: '+12.5%',
-        description: 'Additional 12.5% applied to B.C. labour expenditures pro-rated based on the number of days filmed outside of the designated Vancouver area. Over 50% of the B.C. principal photography days must be outside the designated Vancouver area.',
-        detail: '(applied pro-rata based on days outside DVA)'
+        description: [
+          'Applied to B.C. labour expenditures pro-rated based on days filmed outside the designated Vancouver area',
+          'Over 50% of the B.C. principal photography days must be outside the designated Vancouver area'
+        ]
       },
       {
         title: 'Distant Location Bonus',
         bonus: '+6%',
-        description: 'Additional 6% applied to B.C. labour expenditures pro-rated based on the number of days filmed in a distant location. To be eligible, the production must qualify for the Regional bonus and have at least 1 principal photography day in a distant location.',
-        detail: '(applied pro-rata based on days in distant location)'
+        description: [
+          'Applied to B.C. labour expenditures pro-rated based on days filmed in a distant location',
+          'Production must qualify for the Regional bonus',
+          'Must have at least 1 principal photography day in a distant location'
+        ]
       }
     ],
     website: 'https://creativebc.com/motion-picture-tax-credits/film-incentive-bc/'
@@ -627,23 +643,28 @@ function BCTaxCreditsView() {
     requirements: [
       'Available if a project does not qualify for the FIBC'
     ],
+    episodeMinimums: [
+      'Episodes with running time less than 30 minutes: minimum $100,000 per episode',
+      'Episodes with running time of 30 minutes or more: minimum $200,000 per episode'
+    ],
     bonuses: [
       {
         title: 'Regional Bonus',
         bonus: '+12.5%',
-        description: 'Additional 12.5% applied to B.C. labour expenditures pro-rated based on the number of days filmed outside of the designated Vancouver area. Over 50% of the B.C. principal photography days must be outside the designated Vancouver area.',
-        detail: '(applied pro-rata based on days outside DVA)'
+        description: [
+          'Applied to B.C. labour expenditures pro-rated based on days filmed outside the designated Vancouver area',
+          'Over 50% of the B.C. principal photography days must be outside the designated Vancouver area'
+        ]
       },
       {
         title: 'Distant Location Bonus',
         bonus: '+6%',
-        description: 'Additional 6% applied to B.C. labour expenditures pro-rated based on the number of days filmed in a distant location. To be eligible, the production must qualify for the Regional bonus and have at least 1 principal photography day in a distant location.',
-        detail: '(applied pro-rata based on days in distant location)'
+        description: [
+          'Applied to B.C. labour expenditures pro-rated based on days filmed in a distant location',
+          'Production must qualify for the Regional bonus',
+          'Must have at least 1 principal photography day in a distant location'
+        ]
       }
-    ],
-    episodeMinimums: [
-      'Episodes with running time less than 30 minutes: minimum $100,000 per episode',
-      'Episodes with running time of 30 minutes or more: minimum $200,000 per episode'
     ],
     website: 'https://creativebc.com/motion-picture-tax-credits/production-services-tax-credit/'
   };
