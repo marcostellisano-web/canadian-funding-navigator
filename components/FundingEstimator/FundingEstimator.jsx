@@ -51,9 +51,15 @@ export default function FundingEstimator() {
       credit = labourCredit + expensesCredit;
       breakdown = `Labour Credit: $${labourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${labour.toLocaleString()})\nProduction Expenses Credit: $${expensesCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${productionExpenses.toLocaleString()})`;
     } else {
-      const rate = onRegionalBonus ? 0.45 : 0.35;
-      credit = labour * rate;
-      breakdown = `Labour Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${(rate * 100)}% of $${labour.toLocaleString()})`;
+      const baseLabourCredit = labour * 0.35;
+      const regionalBonusCredit = onRegionalBonus ? labour * 0.10 : 0;
+      credit = baseLabourCredit + regionalBonusCredit;
+
+      if (onRegionalBonus) {
+        breakdown = `Base Labour Credit: $${baseLabourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (35% of $${labour.toLocaleString()})\nRegional Bonus: $${regionalBonusCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (10% of $${labour.toLocaleString()})`;
+      } else {
+        breakdown = `Base Labour Credit: $${baseLabourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (35% of $${labour.toLocaleString()})`;
+      }
     }
 
     const budgetPercent = totalBudget > 0 ? (credit / totalBudget) * 100 : 0;
