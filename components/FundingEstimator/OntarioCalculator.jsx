@@ -70,8 +70,8 @@ export default function OntarioCalculator({
             paddingRight: '2.5rem'
           }}
         >
-          <option value="production">Production Tax Credit</option>
-          <option value="service">Service Tax Credit</option>
+          <option value="production">Production Tax Credit - (OFTTC)</option>
+          <option value="service">Service Tax Credit - (OPSTC)</option>
         </select>
       </div>
 
@@ -142,8 +142,8 @@ export default function OntarioCalculator({
               className="w-4 h-4 mt-0.5 text-gray-900 rounded border-gray-300 focus:ring-0 focus:ring-offset-0 cursor-pointer"
             />
             <div className="flex-1">
-              <span className="text-xs font-medium text-gray-900 block">Regional bonus</span>
-              <span className="text-xs text-gray-600 block mt-0.5">Increases credit from 35% to 45%</span>
+              <span className="text-xs font-medium text-gray-900 block">Regional Bonus</span>
+              <span className="text-xs text-gray-600 block mt-0.5">Projects with at least 85% of Ontario location days outside the GTA can qualify for this 10% bonus</span>
             </div>
           </label>
         </div>
