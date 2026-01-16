@@ -30,6 +30,22 @@ export default function BCCalculator({
   const outsideVancouverPercent = totalDays ? ((outsideVancouver / totalDays) * 100).toFixed(1) : 0;
   const distantPercent = totalDays ? ((distantLocation / totalDays) * 100).toFixed(1) : 0;
 
+  // Format number with commas
+  const formatNumber = (value) => {
+    if (!value) return '';
+    // Remove non-digits
+    const number = value.toString().replace(/\D/g, '');
+    // Add commas
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // Handle input change with comma formatting
+  const handleNumberInput = (value, setter) => {
+    // Remove commas for storage
+    const rawValue = value.replace(/,/g, '');
+    setter(rawValue);
+  };
+
   return (
     <div className="space-y-3">
       {/* Total Budget Input */}
@@ -41,9 +57,9 @@ export default function BCCalculator({
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
           <input
-            type="number"
-            value={totalBudget}
-            onChange={(e) => setTotalBudget(e.target.value)}
+            type="text"
+            value={formatNumber(totalBudget)}
+            onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
             placeholder="0"
             className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
@@ -59,9 +75,9 @@ export default function BCCalculator({
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
           <input
-            type="number"
-            value={eligibleLabour}
-            onChange={(e) => setEligibleLabour(e.target.value)}
+            type="text"
+            value={formatNumber(eligibleLabour)}
+            onChange={(e) => handleNumberInput(e.target.value, setEligibleLabour)}
             placeholder="0"
             className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />

@@ -27,6 +27,22 @@ export default function OntarioCalculator({
   setRegionalBonus,
   result
 }) {
+  // Format number with commas
+  const formatNumber = (value) => {
+    if (!value) return '';
+    // Remove non-digits
+    const number = value.toString().replace(/\D/g, '');
+    // Add commas
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // Handle input change with comma formatting
+  const handleNumberInput = (value, setter) => {
+    // Remove commas for storage
+    const rawValue = value.replace(/,/g, '');
+    setter(rawValue);
+  };
+
   return (
     <div className="space-y-3">
       {/* Tax Credit Type Selector */}
@@ -61,9 +77,9 @@ export default function OntarioCalculator({
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
           <input
-            type="number"
-            value={totalBudget}
-            onChange={(e) => setTotalBudget(e.target.value)}
+            type="text"
+            value={formatNumber(totalBudget)}
+            onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
             placeholder="0"
             className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
@@ -79,9 +95,9 @@ export default function OntarioCalculator({
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
           <input
-            type="number"
-            value={provincialLabour}
-            onChange={(e) => setProvincialLabour(e.target.value)}
+            type="text"
+            value={formatNumber(provincialLabour)}
+            onChange={(e) => handleNumberInput(e.target.value, setProvincialLabour)}
             placeholder="0"
             className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
@@ -98,9 +114,9 @@ export default function OntarioCalculator({
           <div className="relative">
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
             <input
-              type="number"
-              value={productionExpenses}
-              onChange={(e) => setProductionExpenses(e.target.value)}
+              type="text"
+              value={formatNumber(productionExpenses)}
+              onChange={(e) => handleNumberInput(e.target.value, setProductionExpenses)}
               placeholder="0"
               className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
             />
