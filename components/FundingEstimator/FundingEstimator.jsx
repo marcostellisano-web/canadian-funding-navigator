@@ -17,81 +17,99 @@ const InfoIcon = () => (
 );
 
 export default function FundingEstimator() {
-  const [selectedProvince, setSelectedProvince] = useState('ON');
   const [compareMode, setCompareMode] = useState(false);
-  const [compareProvince, setCompareProvince] = useState('BC');
 
-  // Ontario state
-  const [onCreditType, setOnCreditType] = useState('production');
-  const [onTotalBudget, setOnTotalBudget] = useState('');
-  const [onProvincialLabour, setOnProvincialLabour] = useState('');
-  const [onProductionExpenses, setOnProductionExpenses] = useState('');
-  const [onRegionalBonus, setOnRegionalBonus] = useState(false);
+  // Scenario 1 state
+  const [scenario1Province, setScenario1Province] = useState('ON');
+  const [scenario1OnCreditType, setScenario1OnCreditType] = useState('production');
+  const [scenario1OnTotalBudget, setScenario1OnTotalBudget] = useState('');
+  const [scenario1OnProvincialLabour, setScenario1OnProvincialLabour] = useState('');
+  const [scenario1OnProductionExpenses, setScenario1OnProductionExpenses] = useState('');
+  const [scenario1OnRegionalBonus, setScenario1OnRegionalBonus] = useState(false);
+  const [scenario1BcCreditType, setScenario1BcCreditType] = useState('fibc');
+  const [scenario1BcTotalBudget, setScenario1BcTotalBudget] = useState('');
+  const [scenario1BcEligibleLabour, setScenario1BcEligibleLabour] = useState('');
+  const [scenario1BcTotalDays, setScenario1BcTotalDays] = useState('');
+  const [scenario1BcOutsideVancouver, setScenario1BcOutsideVancouver] = useState('');
+  const [scenario1BcDistantLocation, setScenario1BcDistantLocation] = useState('');
 
-  // BC state
-  const [bcCreditType, setBcCreditType] = useState('fibc');
-  const [bcTotalBudget, setBcTotalBudget] = useState('');
-  const [bcEligibleLabour, setBcEligibleLabour] = useState('');
-  const [bcTotalDays, setBcTotalDays] = useState('');
-  const [bcOutsideVancouver, setBcOutsideVancouver] = useState('');
-  const [bcDistantLocation, setBcDistantLocation] = useState('');
+  // Scenario 2 state
+  const [scenario2Province, setScenario2Province] = useState('BC');
+  const [scenario2OnCreditType, setScenario2OnCreditType] = useState('production');
+  const [scenario2OnTotalBudget, setScenario2OnTotalBudget] = useState('');
+  const [scenario2OnProvincialLabour, setScenario2OnProvincialLabour] = useState('');
+  const [scenario2OnProductionExpenses, setScenario2OnProductionExpenses] = useState('');
+  const [scenario2OnRegionalBonus, setScenario2OnRegionalBonus] = useState(false);
+  const [scenario2BcCreditType, setScenario2BcCreditType] = useState('fibc');
+  const [scenario2BcTotalBudget, setScenario2BcTotalBudget] = useState('');
+  const [scenario2BcEligibleLabour, setScenario2BcEligibleLabour] = useState('');
+  const [scenario2BcTotalDays, setScenario2BcTotalDays] = useState('');
+  const [scenario2BcOutsideVancouver, setScenario2BcOutsideVancouver] = useState('');
+  const [scenario2BcDistantLocation, setScenario2BcDistantLocation] = useState('');
 
   // Calculate Ontario tax credit
-  const calculateOntario = () => {
-    const labour = parseFloat(onProvincialLabour) || 0;
-    const totalBudget = parseFloat(onTotalBudget) || 0;
-    const productionExpenses = parseFloat(onProductionExpenses) || 0;
+  const calculateOntario = (creditType, totalBudget, provincialLabour, productionExpenses, regionalBonus) => {
+    const labour = parseFloat(provincialLabour) || 0;
+    const budget = parseFloat(totalBudget) || 0;
+    const expenses = parseFloat(productionExpenses) || 0;
 
     let credit = 0;
     let breakdown = '';
 
-    if (onCreditType === 'service') {
+    if (creditType === 'service') {
       const rate = 0.215;
       const labourCredit = labour * rate;
-      const expensesCredit = productionExpenses * rate;
+      const expensesCredit = expenses * rate;
       credit = labourCredit + expensesCredit;
-      breakdown = `Labour Credit: $${labourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${labour.toLocaleString()})\nProduction Expenses Credit: $${expensesCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${productionExpenses.toLocaleString()})`;
+      breakdown = `Labour Credit: $${labourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${labour.toLocaleString()})\nProduction Expenses Credit: $${expensesCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (21.5% of $${expenses.toLocaleString()})`;
     } else {
       const baseLabourCredit = labour * 0.35;
-      const regionalBonusCredit = onRegionalBonus ? labour * 0.10 : 0;
+      const regionalBonusCredit = regionalBonus ? labour * 0.10 : 0;
       credit = baseLabourCredit + regionalBonusCredit;
 
-      if (onRegionalBonus) {
+      if (regionalBonus) {
         breakdown = `Base Labour Credit: $${baseLabourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (35% of $${labour.toLocaleString()})\nRegional Bonus: $${regionalBonusCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (10% of $${labour.toLocaleString()})`;
       } else {
         breakdown = `Base Labour Credit: $${baseLabourCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (35% of $${labour.toLocaleString()})`;
       }
     }
 
-    const budgetPercent = totalBudget > 0 ? (credit / totalBudget) * 100 : 0;
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
     return { credit, budgetPercent, breakdown };
   };
 
   // Calculate BC tax credit
-  const calculateBC = () => {
-    const eligibleLabour = parseFloat(bcEligibleLabour) || 0;
-    const totalBudget = parseFloat(bcTotalBudget) || 0;
-    const totalDays = parseInt(bcTotalDays) || 0;
-    const outsideVancouverDays = parseInt(bcOutsideVancouver) || 0;
-    const distantDays = parseInt(bcDistantLocation) || 0;
+  const calculateBC = (creditType, totalBudget, eligibleLabour, totalDays, outsideVancouver, distantLocation) => {
+    const labour = parseFloat(eligibleLabour) || 0;
+    const budget = parseFloat(totalBudget) || 0;
+    const days = parseInt(totalDays) || 0;
+    const outsideVancouverDays = parseInt(outsideVancouver) || 0;
+    const distantDays = parseInt(distantLocation) || 0;
 
-    const outsideVancouverPercent = totalDays ? (outsideVancouverDays / totalDays) : 0;
-    const distantPercent = totalDays ? (distantDays / totalDays) : 0;
+    const outsideVancouverPercent = days ? (outsideVancouverDays / days) : 0;
+    const distantPercent = days ? (distantDays / days) : 0;
 
-    const baseCredit = eligibleLabour * 0.35;
-    const regionalCredit = eligibleLabour * 0.06 * outsideVancouverPercent;
-    const distantCredit = eligibleLabour * 0.06 * distantPercent;
+    const baseCredit = labour * 0.35;
+    const regionalCredit = labour * 0.06 * outsideVancouverPercent;
+    const distantCredit = labour * 0.06 * distantPercent;
     const totalCredit = baseCredit + regionalCredit + distantCredit;
 
-    const budgetPercent = totalBudget > 0 ? (totalCredit / totalBudget) * 100 : 0;
+    const budgetPercent = budget > 0 ? (totalCredit / budget) * 100 : 0;
 
-    const breakdown = `Base Credit (35%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (6% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / eligibleLabour) * 100).toFixed(1)}% of eligible labour`;
+    const breakdown = `Base Credit (35%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (6% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / labour) * 100).toFixed(1)}% of eligible labour`;
 
     return { credit: totalCredit, budgetPercent, breakdown };
   };
 
-  const result1 = selectedProvince === 'ON' ? calculateOntario() : calculateBC();
-  const result2 = compareMode ? (compareProvince === 'ON' ? calculateOntario() : calculateBC()) : null;
+  const result1 = scenario1Province === 'ON'
+    ? calculateOntario(scenario1OnCreditType, scenario1OnTotalBudget, scenario1OnProvincialLabour, scenario1OnProductionExpenses, scenario1OnRegionalBonus)
+    : calculateBC(scenario1BcCreditType, scenario1BcTotalBudget, scenario1BcEligibleLabour, scenario1BcTotalDays, scenario1BcOutsideVancouver, scenario1BcDistantLocation);
+
+  const result2 = compareMode
+    ? (scenario2Province === 'ON'
+        ? calculateOntario(scenario2OnCreditType, scenario2OnTotalBudget, scenario2OnProvincialLabour, scenario2OnProductionExpenses, scenario2OnRegionalBonus)
+        : calculateBC(scenario2BcCreditType, scenario2BcTotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation))
+    : null;
 
   return (
     <div className="space-y-6">
@@ -116,8 +134,8 @@ export default function FundingEstimator() {
               <InfoIcon />
             </label>
             <select
-              value={selectedProvince}
-              onChange={(e) => setSelectedProvince(e.target.value)}
+              value={scenario1Province}
+              onChange={(e) => setScenario1Province(e.target.value)}
               className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
@@ -132,36 +150,36 @@ export default function FundingEstimator() {
             </select>
           </div>
 
-          {selectedProvince === 'ON' && (
+          {scenario1Province === 'ON' && (
             <OntarioCalculator
-              creditType={onCreditType}
-              setCreditType={setOnCreditType}
-              totalBudget={onTotalBudget}
-              setTotalBudget={setOnTotalBudget}
-              provincialLabour={onProvincialLabour}
-              setProvincialLabour={setOnProvincialLabour}
-              productionExpenses={onProductionExpenses}
-              setProductionExpenses={setOnProductionExpenses}
-              regionalBonus={onRegionalBonus}
-              setRegionalBonus={setOnRegionalBonus}
+              creditType={scenario1OnCreditType}
+              setCreditType={setScenario1OnCreditType}
+              totalBudget={scenario1OnTotalBudget}
+              setTotalBudget={setScenario1OnTotalBudget}
+              provincialLabour={scenario1OnProvincialLabour}
+              setProvincialLabour={setScenario1OnProvincialLabour}
+              productionExpenses={scenario1OnProductionExpenses}
+              setProductionExpenses={setScenario1OnProductionExpenses}
+              regionalBonus={scenario1OnRegionalBonus}
+              setRegionalBonus={setScenario1OnRegionalBonus}
               result={result1}
             />
           )}
 
-          {selectedProvince === 'BC' && (
+          {scenario1Province === 'BC' && (
             <BCCalculator
-              creditType={bcCreditType}
-              setCreditType={setBcCreditType}
-              totalBudget={bcTotalBudget}
-              setTotalBudget={setBcTotalBudget}
-              eligibleLabour={bcEligibleLabour}
-              setEligibleLabour={setBcEligibleLabour}
-              totalDays={bcTotalDays}
-              setTotalDays={setBcTotalDays}
-              outsideVancouver={bcOutsideVancouver}
-              setOutsideVancouver={setBcOutsideVancouver}
-              distantLocation={bcDistantLocation}
-              setDistantLocation={setBcDistantLocation}
+              creditType={scenario1BcCreditType}
+              setCreditType={setScenario1BcCreditType}
+              totalBudget={scenario1BcTotalBudget}
+              setTotalBudget={setScenario1BcTotalBudget}
+              eligibleLabour={scenario1BcEligibleLabour}
+              setEligibleLabour={setScenario1BcEligibleLabour}
+              totalDays={scenario1BcTotalDays}
+              setTotalDays={setScenario1BcTotalDays}
+              outsideVancouver={scenario1BcOutsideVancouver}
+              setOutsideVancouver={setScenario1BcOutsideVancouver}
+              distantLocation={scenario1BcDistantLocation}
+              setDistantLocation={setScenario1BcDistantLocation}
               result={result1}
             />
           )}
@@ -176,8 +194,8 @@ export default function FundingEstimator() {
                 <InfoIcon />
               </label>
               <select
-                value={compareProvince}
-                onChange={(e) => setCompareProvince(e.target.value)}
+                value={scenario2Province}
+                onChange={(e) => setScenario2Province(e.target.value)}
                 className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
@@ -192,36 +210,36 @@ export default function FundingEstimator() {
               </select>
             </div>
 
-            {compareProvince === 'ON' && (
+            {scenario2Province === 'ON' && (
               <OntarioCalculator
-                creditType={onCreditType}
-                setCreditType={setOnCreditType}
-                totalBudget={onTotalBudget}
-                setTotalBudget={setOnTotalBudget}
-                provincialLabour={onProvincialLabour}
-                setProvincialLabour={setOnProvincialLabour}
-                productionExpenses={onProductionExpenses}
-                setProductionExpenses={setOnProductionExpenses}
-                regionalBonus={onRegionalBonus}
-                setRegionalBonus={setOnRegionalBonus}
+                creditType={scenario2OnCreditType}
+                setCreditType={setScenario2OnCreditType}
+                totalBudget={scenario2OnTotalBudget}
+                setTotalBudget={setScenario2OnTotalBudget}
+                provincialLabour={scenario2OnProvincialLabour}
+                setProvincialLabour={setScenario2OnProvincialLabour}
+                productionExpenses={scenario2OnProductionExpenses}
+                setProductionExpenses={setScenario2OnProductionExpenses}
+                regionalBonus={scenario2OnRegionalBonus}
+                setRegionalBonus={setScenario2OnRegionalBonus}
                 result={result2}
               />
             )}
 
-            {compareProvince === 'BC' && (
+            {scenario2Province === 'BC' && (
               <BCCalculator
-                creditType={bcCreditType}
-                setCreditType={setBcCreditType}
-                totalBudget={bcTotalBudget}
-                setTotalBudget={setBcTotalBudget}
-                eligibleLabour={bcEligibleLabour}
-                setEligibleLabour={setBcEligibleLabour}
-                totalDays={bcTotalDays}
-                setTotalDays={setBcTotalDays}
-                outsideVancouver={bcOutsideVancouver}
-                setOutsideVancouver={setBcOutsideVancouver}
-                distantLocation={bcDistantLocation}
-                setDistantLocation={setBcDistantLocation}
+                creditType={scenario2BcCreditType}
+                setCreditType={setScenario2BcCreditType}
+                totalBudget={scenario2BcTotalBudget}
+                setTotalBudget={setScenario2BcTotalBudget}
+                eligibleLabour={scenario2BcEligibleLabour}
+                setEligibleLabour={setScenario2BcEligibleLabour}
+                totalDays={scenario2BcTotalDays}
+                setTotalDays={setScenario2BcTotalDays}
+                outsideVancouver={scenario2BcOutsideVancouver}
+                setOutsideVancouver={setScenario2BcOutsideVancouver}
+                distantLocation={scenario2BcDistantLocation}
+                setDistantLocation={setScenario2BcDistantLocation}
                 result={result2}
               />
             )}
@@ -235,11 +253,23 @@ export default function FundingEstimator() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Comparison Summary</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="font-medium">{selectedProvince === 'ON' ? 'Ontario' : 'British Columbia'}:</span>
+              <span className="font-medium">
+                {scenario1Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
+                  scenario1Province === 'ON'
+                    ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
+                    : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
+                }:
+              </span>
               <span className="text-lg">${result1.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result1.budgetPercent.toFixed(1)}% of budget)</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="font-medium">{compareProvince === 'ON' ? 'Ontario' : 'British Columbia'}:</span>
+              <span className="font-medium">
+                {scenario2Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
+                  scenario2Province === 'ON'
+                    ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
+                    : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
+                }:
+              </span>
               <span className="text-lg">${result2.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result2.budgetPercent.toFixed(1)}% of budget)</span>
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200 bg-blue-50 p-4 rounded-lg">
@@ -248,7 +278,11 @@ export default function FundingEstimator() {
                 <span className="text-xl font-bold text-blue-700">
                   ${Math.abs(result2.credit - result1.credit).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                 </span>
-                <span className="text-blue-700 font-semibold"> in favor of {result2.credit > result1.credit ? (compareProvince === 'ON' ? 'Ontario' : 'British Columbia') : (selectedProvince === 'ON' ? 'Ontario' : 'British Columbia')}</span>
+                <span className="text-blue-700 font-semibold"> in favor of {
+                  result2.credit > result1.credit
+                    ? `${scenario2Province === 'ON' ? 'Ontario' : 'British Columbia'} ${scenario2Province === 'ON' ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                    : `${scenario1Province === 'ON' ? 'Ontario' : 'British Columbia'} ${scenario1Province === 'ON' ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                }</span>
               </div>
             </div>
           </div>
