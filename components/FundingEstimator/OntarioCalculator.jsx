@@ -56,7 +56,6 @@ export default function OntarioCalculator({
       <div>
         <label className="block text-sm font-normal text-gray-900 mb-1.5">
           Tax credit type
-          <InfoIcon />
         </label>
         <select
           value={creditType}
@@ -79,7 +78,6 @@ export default function OntarioCalculator({
       <div>
         <label className="block text-sm font-normal text-gray-900 mb-1.5">
           Total budget
-          <InfoIcon />
         </label>
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
@@ -97,7 +95,6 @@ export default function OntarioCalculator({
       <div>
         <label className="block text-sm font-normal text-gray-900 mb-1.5">
           Provincial labour
-          <InfoIcon />
         </label>
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
@@ -166,7 +163,6 @@ export default function OntarioCalculator({
           <div className="flex justify-between items-center py-2">
             <span className="text-xs text-gray-600">
               Percentage of budget
-              <InfoIcon />
             </span>
             <span className="text-sm font-medium text-gray-900">
               {result.budgetPercent.toFixed(2)}%
