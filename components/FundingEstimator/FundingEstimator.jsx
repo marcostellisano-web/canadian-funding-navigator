@@ -22,7 +22,7 @@ export default function FundingEstimator() {
   const [compareProvince, setCompareProvince] = useState('BC');
 
   // Ontario state
-  const [onCreditType, setOnCreditType] = useState('service');
+  const [onCreditType, setOnCreditType] = useState('production');
   const [onTotalBudget, setOnTotalBudget] = useState('');
   const [onProvincialLabour, setOnProvincialLabour] = useState('');
   const [onProductionExpenses, setOnProductionExpenses] = useState('');
