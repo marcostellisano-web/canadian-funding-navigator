@@ -1,5 +1,19 @@
 import React from 'react';
 
+const InfoIcon = () => (
+  <svg
+    className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+  >
+    <path
+      fillRule="evenodd"
+      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
 export default function BCCalculator({
   totalBudget,
   setTotalBudget,
@@ -17,90 +31,140 @@ export default function BCCalculator({
   const distantPercent = totalDays ? ((distantLocation / totalDays) * 100).toFixed(1) : 0;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {/* Total Budget Input */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Total Budget</label>
+        <label className="block text-sm font-normal text-gray-900 mb-2">
+          Total budget
+          <InfoIcon />
+        </label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <span className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-900 text-base">$</span>
           <input
             type="number"
             value={totalBudget}
             onChange={(e) => setTotalBudget(e.target.value)}
-            placeholder="Enter total budget"
-            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            placeholder="0"
+            className="w-full pl-9 pr-5 py-4 text-base bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
         </div>
       </div>
 
+      {/* Eligible BC Labour Input */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Eligible BC Labour Expenditures</label>
+        <label className="block text-sm font-normal text-gray-900 mb-2">
+          Eligible BC labour expenditures
+          <InfoIcon />
+        </label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+          <span className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-900 text-base">$</span>
           <input
             type="number"
             value={eligibleLabour}
             onChange={(e) => setEligibleLabour(e.target.value)}
-            placeholder="Enter eligible BC labour"
-            className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+            placeholder="0"
+            className="w-full pl-9 pr-5 py-4 text-base bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
         </div>
       </div>
 
-      <div className="bg-gray-50 p-4 rounded-lg space-y-4">
-        <h3 className="text-sm font-medium text-gray-700">Shooting Days</h3>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Total Shooting Days</label>
-            <input
-              type="number"
-              value={totalDays}
-              onChange={(e) => setTotalDays(e.target.value)}
-              placeholder="Total days"
-              min="0"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Days Outside Vancouver</label>
-            <input
-              type="number"
-              value={outsideVancouver}
-              onChange={(e) => setOutsideVancouver(e.target.value)}
-              placeholder="Outside Vancouver"
-              min="0"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
-            />
-            <div className="text-xs text-gray-500 mt-1">{outsideVancouverPercent}% of total days</div>
-          </div>
-
-          <div className="col-span-2">
-            <label className="block text-xs font-medium text-gray-600 mb-1">Days in Distant Location</label>
-            <input
-              type="number"
-              value={distantLocation}
-              onChange={(e) => setDistantLocation(e.target.value)}
-              placeholder="Distant location"
-              min="0"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
-            />
-            <div className="text-xs text-gray-500 mt-1">{distantPercent}% of total days</div>
-          </div>
-        </div>
+      {/* Shooting Days Section */}
+      <div>
+        <label className="block text-sm font-normal text-gray-900 mb-2">
+          Total shooting days
+          <InfoIcon />
+        </label>
+        <input
+          type="number"
+          value={totalDays}
+          onChange={(e) => setTotalDays(e.target.value)}
+          placeholder="0"
+          min="0"
+          className="w-full px-5 py-4 text-base bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+        />
       </div>
 
-      {/* Results */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <div className="text-sm font-medium text-gray-700 mb-2">Estimated BC Tax Credit:</div>
-        <div className="text-2xl font-bold text-green-600 mb-1">
-          ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-        </div>
-        <div className="text-sm text-gray-500 mb-4">
-          ({result.budgetPercent.toFixed(1)}% of total budget)
-        </div>
-        <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded whitespace-pre-line">
-          {result.breakdown}
+      <div>
+        <label className="block text-sm font-normal text-gray-900 mb-2">
+          Days outside Vancouver
+          <InfoIcon />
+        </label>
+        <input
+          type="number"
+          value={outsideVancouver}
+          onChange={(e) => setOutsideVancouver(e.target.value)}
+          placeholder="0"
+          min="0"
+          className="w-full px-5 py-4 text-base bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+        />
+        {totalDays > 0 && (
+          <div className="text-xs text-gray-500 mt-2 ml-5">{outsideVancouverPercent}% of total days</div>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-normal text-gray-900 mb-2">
+          Days in distant location
+          <InfoIcon />
+        </label>
+        <input
+          type="number"
+          value={distantLocation}
+          onChange={(e) => setDistantLocation(e.target.value)}
+          placeholder="0"
+          min="0"
+          className="w-full px-5 py-4 text-base bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+        />
+        {totalDays > 0 && (
+          <div className="text-xs text-gray-500 mt-2 ml-5">{distantPercent}% of total days</div>
+        )}
+      </div>
+
+      {/* Results Section */}
+      <div className="mt-8 pt-8 border-t border-gray-200 bg-white rounded-2xl p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">Your Results</h3>
+
+        <div className="space-y-4">
+          {/* Total Credit */}
+          <div className="flex justify-between items-center py-3 border-b border-gray-100">
+            <span className="text-base font-semibold text-gray-900">Total tax credit</span>
+            <span className="text-2xl font-bold text-gray-900">
+              ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+            </span>
+          </div>
+
+          {/* Percentage of Budget */}
+          <div className="flex justify-between items-center py-3">
+            <span className="text-sm text-gray-600">
+              Percentage of budget
+              <InfoIcon />
+            </span>
+            <span className="text-base font-medium text-gray-900">
+              {result.budgetPercent.toFixed(2)}%
+            </span>
+          </div>
+
+          {/* Breakdown */}
+          {result.breakdown && (
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <details className="group">
+                <summary className="text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900 list-none flex items-center justify-between">
+                  <span>Credit breakdown</span>
+                  <svg
+                    className="w-5 h-5 transform transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="mt-4 text-sm text-gray-600 whitespace-pre-line leading-relaxed">
+                  {result.breakdown}
+                </div>
+              </details>
+            </div>
+          )}
         </div>
       </div>
     </div>
