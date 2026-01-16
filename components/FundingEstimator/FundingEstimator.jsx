@@ -29,6 +29,7 @@ export default function FundingEstimator() {
   const [onRegionalBonus, setOnRegionalBonus] = useState(false);
 
   // BC state
+  const [bcCreditType, setBcCreditType] = useState('fibc');
   const [bcTotalBudget, setBcTotalBudget] = useState('');
   const [bcEligibleLabour, setBcEligibleLabour] = useState('');
   const [bcTotalDays, setBcTotalDays] = useState('');
@@ -149,6 +150,8 @@ export default function FundingEstimator() {
 
           {selectedProvince === 'BC' && (
             <BCCalculator
+              creditType={bcCreditType}
+              setCreditType={setBcCreditType}
               totalBudget={bcTotalBudget}
               setTotalBudget={setBcTotalBudget}
               eligibleLabour={bcEligibleLabour}
@@ -207,6 +210,8 @@ export default function FundingEstimator() {
 
             {compareProvince === 'BC' && (
               <BCCalculator
+                creditType={bcCreditType}
+                setCreditType={setBcCreditType}
                 totalBudget={bcTotalBudget}
                 setTotalBudget={setBcTotalBudget}
                 eligibleLabour={bcEligibleLabour}

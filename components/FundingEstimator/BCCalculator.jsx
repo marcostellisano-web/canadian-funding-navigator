@@ -15,6 +15,8 @@ const InfoIcon = () => (
 );
 
 export default function BCCalculator({
+  creditType,
+  setCreditType,
   totalBudget,
   setTotalBudget,
   eligibleLabour,
@@ -48,6 +50,28 @@ export default function BCCalculator({
 
   return (
     <div className="space-y-3">
+      {/* Tax Credit Type Selector */}
+      <div>
+        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+          Tax credit type
+        </label>
+        <select
+          value={creditType}
+          onChange={(e) => setCreditType(e.target.value)}
+          className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right 1rem center',
+            backgroundSize: '1rem',
+            paddingRight: '2.5rem'
+          }}
+        >
+          <option value="fibc">Film Incentive B.C. (FIBC)</option>
+          <option value="pstc">Production Services Tax Credit (PSTC)</option>
+        </select>
+      </div>
+
       {/* Total Budget Input */}
       <div>
         <label className="block text-sm font-normal text-gray-900 mb-1.5">
