@@ -249,40 +249,65 @@ export default function FundingEstimator() {
 
       {/* Comparison Summary */}
       {compareMode && result2 && (
-        <div className="bg-white border-2 border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Comparison Summary</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="font-medium">
-                {scenario1Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
-                  scenario1Province === 'ON'
-                    ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
-                    : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
-                }:
-              </span>
-              <span className="text-lg">${result1.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result1.budgetPercent.toFixed(1)}% of budget)</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="font-medium">
-                {scenario2Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
-                  scenario2Province === 'ON'
-                    ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
-                    : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
-                }:
-              </span>
-              <span className="text-lg">${result2.credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} ({result2.budgetPercent.toFixed(1)}% of budget)</span>
-            </div>
-            <div className="mt-4 pt-4 border-t border-gray-200 bg-blue-50 p-4 rounded-lg">
-              <div className="text-center">
-                <span className="text-blue-700 font-semibold">Difference: </span>
-                <span className="text-xl font-bold text-blue-700">
-                  ${Math.abs(result2.credit - result1.credit).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Comparison Summary</h3>
+          <div className="space-y-2">
+            {/* Scenario 1 */}
+            <div>
+              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-sm font-semibold text-gray-900">
+                  {scenario1Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
+                    scenario1Province === 'ON'
+                      ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
+                      : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
+                  }
                 </span>
-                <span className="text-blue-700 font-semibold"> in favor of {
-                  result2.credit > result1.credit
-                    ? `${scenario2Province === 'ON' ? 'Ontario' : 'British Columbia'} ${scenario2Province === 'ON' ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
-                    : `${scenario1Province === 'ON' ? 'Ontario' : 'British Columbia'} ${scenario1Province === 'ON' ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
-                }</span>
+                <span className="text-xl font-bold text-gray-900">
+                  ${result1.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="text-xs text-gray-600">Percentage of budget</span>
+                <span className="text-sm font-medium text-gray-900">{result1.budgetPercent.toFixed(2)}%</span>
+              </div>
+            </div>
+
+            {/* Scenario 2 */}
+            <div className="mt-3">
+              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <span className="text-sm font-semibold text-gray-900">
+                  {scenario2Province === 'ON' ? 'Ontario' : 'British Columbia'} - {
+                    scenario2Province === 'ON'
+                      ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC')
+                      : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')
+                  }
+                </span>
+                <span className="text-xl font-bold text-gray-900">
+                  ${result2.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="text-xs text-gray-600">Percentage of budget</span>
+                <span className="text-sm font-medium text-gray-900">{result2.budgetPercent.toFixed(2)}%</span>
+              </div>
+            </div>
+
+            {/* Difference */}
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex justify-between items-center py-2">
+                <span className="text-sm font-semibold text-gray-900">Difference</span>
+                <span className="text-xl font-bold text-gray-900">
+                  ${Math.abs(result2.credit - result1.credit).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="text-xs text-gray-600">In favor of</span>
+                <span className="text-sm font-medium text-gray-900">
+                  {result2.credit > result1.credit
+                    ? `${scenario2Province === 'ON' ? 'Ontario' : 'BC'} ${scenario2Province === 'ON' ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                    : `${scenario1Province === 'ON' ? 'Ontario' : 'BC'} ${scenario1Province === 'ON' ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                  }
+                </span>
               </div>
             </div>
           </div>
