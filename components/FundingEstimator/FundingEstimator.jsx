@@ -2,6 +2,20 @@ import React, { useState } from 'react';
 import OntarioCalculator from './OntarioCalculator';
 import BCCalculator from './BCCalculator';
 
+const InfoIcon = () => (
+  <svg
+    className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+  >
+    <path
+      fillRule="evenodd"
+      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
 export default function FundingEstimator() {
   const [selectedProvince, setSelectedProvince] = useState('ON');
   const [compareMode, setCompareMode] = useState(false);
@@ -89,14 +103,22 @@ export default function FundingEstimator() {
       <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
         {/* Calculator 1 */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="mb-4">
+            <label className="block text-sm font-normal text-gray-900 mb-1.5">
               Province
+              <InfoIcon />
             </label>
             <select
               value={selectedProvince}
               onChange={(e) => setSelectedProvince(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+              className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 1rem center',
+                backgroundSize: '1rem',
+                paddingRight: '2.5rem'
+              }}
             >
               <option value="ON">Ontario</option>
               <option value="BC">British Columbia</option>
@@ -139,14 +161,22 @@ export default function FundingEstimator() {
         {/* Calculator 2 (Compare Mode) */}
         {compareMode && (
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="mb-4">
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
                 Compare with
+                <InfoIcon />
               </label>
               <select
                 value={compareProvince}
                 onChange={(e) => setCompareProvince(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100"
+                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '1rem',
+                  paddingRight: '2.5rem'
+                }}
               >
                 <option value="BC">British Columbia</option>
                 <option value="ON">Ontario</option>
