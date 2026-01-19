@@ -32,6 +32,11 @@ export default function FundingEstimator() {
   const [scenario1BcTotalDays, setScenario1BcTotalDays] = useState('');
   const [scenario1BcOutsideVancouver, setScenario1BcOutsideVancouver] = useState('');
   const [scenario1BcDistantLocation, setScenario1BcDistantLocation] = useState('');
+  // Scenario 1 stackable funding state
+  const [scenario1ShowStackable, setScenario1ShowStackable] = useState(false);
+  const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
+  const [scenario1CanadianLabour, setScenario1CanadianLabour] = useState('');
+  const [scenario1CmfFunding, setScenario1CmfFunding] = useState('');
 
   // Scenario 2 state
   const [scenario2Province, setScenario2Province] = useState('BC');
@@ -46,6 +51,11 @@ export default function FundingEstimator() {
   const [scenario2BcTotalDays, setScenario2BcTotalDays] = useState('');
   const [scenario2BcOutsideVancouver, setScenario2BcOutsideVancouver] = useState('');
   const [scenario2BcDistantLocation, setScenario2BcDistantLocation] = useState('');
+  // Scenario 2 stackable funding state
+  const [scenario2ShowStackable, setScenario2ShowStackable] = useState(false);
+  const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
+  const [scenario2CanadianLabour, setScenario2CanadianLabour] = useState('');
+  const [scenario2CmfFunding, setScenario2CmfFunding] = useState('');
 
   // Calculate Ontario tax credit
   const calculateOntario = (creditType, totalBudget, provincialLabour, productionExpenses, regionalBonus) => {
@@ -119,6 +129,31 @@ export default function FundingEstimator() {
     return { credit: totalCredit, budgetPercent, breakdown };
   };
 
+  // Calculate federal tax credit
+  const calculateFederal = (federalCreditType, canadianLabour) => {
+    const labour = parseFloat(canadianLabour) || 0;
+    let credit = 0;
+    let rate = 0;
+
+    if (federalCreditType === 'cptc') {
+      rate = 0.25;
+      credit = labour * rate;
+    } else if (federalCreditType === 'pstc') {
+      rate = 0.16;
+      credit = labour * rate;
+    }
+
+    return { credit, rate };
+  };
+
+  // Calculate total stackable funding
+  const calculateStackable = (provincialCredit, federalCreditType, canadianLabour, cmfFunding) => {
+    const federal = calculateFederal(federalCreditType, canadianLabour);
+    const cmf = parseFloat(cmfFunding) || 0;
+    const total = provincialCredit + federal.credit + cmf;
+    return { federalCredit: federal.credit, federalRate: federal.rate, cmfFunding: cmf, total };
+  };
+
   const result1 = scenario1Province === 'ON'
     ? calculateOntario(scenario1OnCreditType, scenario1OnTotalBudget, scenario1OnProvincialLabour, scenario1OnProductionExpenses, scenario1OnRegionalBonus)
     : calculateBC(scenario1BcCreditType, scenario1BcTotalBudget, scenario1BcEligibleLabour, scenario1BcTotalDays, scenario1BcOutsideVancouver, scenario1BcDistantLocation);
@@ -127,6 +162,15 @@ export default function FundingEstimator() {
     ? (scenario2Province === 'ON'
         ? calculateOntario(scenario2OnCreditType, scenario2OnTotalBudget, scenario2OnProvincialLabour, scenario2OnProductionExpenses, scenario2OnRegionalBonus)
         : calculateBC(scenario2BcCreditType, scenario2BcTotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation))
+    : null;
+
+  // Calculate stackable funding for both scenarios
+  const stackable1 = scenario1ShowStackable
+    ? calculateStackable(result1.credit, scenario1FederalCreditType, scenario1CanadianLabour, scenario1CmfFunding)
+    : null;
+
+  const stackable2 = compareMode && scenario2ShowStackable
+    ? calculateStackable(result2.credit, scenario2FederalCreditType, scenario2CanadianLabour, scenario2CmfFunding)
     : null;
 
   return (
@@ -181,6 +225,15 @@ export default function FundingEstimator() {
               regionalBonus={scenario1OnRegionalBonus}
               setRegionalBonus={setScenario1OnRegionalBonus}
               result={result1}
+              showStackable={scenario1ShowStackable}
+              setShowStackable={setScenario1ShowStackable}
+              federalCreditType={scenario1FederalCreditType}
+              setFederalCreditType={setScenario1FederalCreditType}
+              canadianLabour={scenario1CanadianLabour}
+              setCanadianLabour={setScenario1CanadianLabour}
+              cmfFunding={scenario1CmfFunding}
+              setCmfFunding={setScenario1CmfFunding}
+              stackableResult={stackable1}
             />
           )}
 
@@ -199,6 +252,15 @@ export default function FundingEstimator() {
               distantLocation={scenario1BcDistantLocation}
               setDistantLocation={setScenario1BcDistantLocation}
               result={result1}
+              showStackable={scenario1ShowStackable}
+              setShowStackable={setScenario1ShowStackable}
+              federalCreditType={scenario1FederalCreditType}
+              setFederalCreditType={setScenario1FederalCreditType}
+              canadianLabour={scenario1CanadianLabour}
+              setCanadianLabour={setScenario1CanadianLabour}
+              cmfFunding={scenario1CmfFunding}
+              setCmfFunding={setScenario1CmfFunding}
+              stackableResult={stackable1}
             />
           )}
         </div>
@@ -241,6 +303,15 @@ export default function FundingEstimator() {
                 regionalBonus={scenario2OnRegionalBonus}
                 setRegionalBonus={setScenario2OnRegionalBonus}
                 result={result2}
+                showStackable={scenario2ShowStackable}
+                setShowStackable={setScenario2ShowStackable}
+                federalCreditType={scenario2FederalCreditType}
+                setFederalCreditType={setScenario2FederalCreditType}
+                canadianLabour={scenario2CanadianLabour}
+                setCanadianLabour={setScenario2CanadianLabour}
+                cmfFunding={scenario2CmfFunding}
+                setCmfFunding={setScenario2CmfFunding}
+                stackableResult={stackable2}
               />
             )}
 
@@ -259,6 +330,15 @@ export default function FundingEstimator() {
                 distantLocation={scenario2BcDistantLocation}
                 setDistantLocation={setScenario2BcDistantLocation}
                 result={result2}
+                showStackable={scenario2ShowStackable}
+                setShowStackable={setScenario2ShowStackable}
+                federalCreditType={scenario2FederalCreditType}
+                setFederalCreditType={setScenario2FederalCreditType}
+                canadianLabour={scenario2CanadianLabour}
+                setCanadianLabour={setScenario2CanadianLabour}
+                cmfFunding={scenario2CmfFunding}
+                setCmfFunding={setScenario2CmfFunding}
+                stackableResult={stackable2}
               />
             )}
           </div>
@@ -288,6 +368,12 @@ export default function FundingEstimator() {
                 <span className="text-xs text-gray-600">Percentage of budget</span>
                 <span className="text-sm font-medium text-gray-900">{result1.budgetPercent.toFixed(2)}%</span>
               </div>
+              {stackable1 && (
+                <div className="flex justify-between items-center py-2 bg-blue-50 px-2 rounded">
+                  <span className="text-xs text-gray-600 font-medium">With stackable funding</span>
+                  <span className="text-sm font-bold text-gray-900">${stackable1.total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                </div>
+              )}
             </div>
 
             {/* Scenario 2 */}
@@ -308,12 +394,20 @@ export default function FundingEstimator() {
                 <span className="text-xs text-gray-600">Percentage of budget</span>
                 <span className="text-sm font-medium text-gray-900">{result2.budgetPercent.toFixed(2)}%</span>
               </div>
+              {stackable2 && (
+                <div className="flex justify-between items-center py-2 bg-blue-50 px-2 rounded">
+                  <span className="text-xs text-gray-600 font-medium">With stackable funding</span>
+                  <span className="text-sm font-bold text-gray-900">${stackable2.total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                </div>
+              )}
             </div>
 
             {/* Difference */}
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="flex justify-between items-center py-2">
-                <span className="text-sm font-semibold text-gray-900">Difference</span>
+                <span className="text-sm font-semibold text-gray-900">
+                  {stackable1 || stackable2 ? 'Provincial credit difference' : 'Difference'}
+                </span>
                 <span className="text-xl font-bold text-gray-900">
                   ${Math.abs(result2.credit - result1.credit).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
                 </span>
@@ -327,6 +421,26 @@ export default function FundingEstimator() {
                   }
                 </span>
               </div>
+              {/* Stackable funding difference */}
+              {stackable1 && stackable2 && (
+                <>
+                  <div className="flex justify-between items-center py-2 mt-3 pt-3 border-t border-gray-200">
+                    <span className="text-sm font-semibold text-gray-900">Total stackable difference</span>
+                    <span className="text-xl font-bold text-gray-900">
+                      ${Math.abs(stackable2.total - stackable1.total).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-xs text-gray-600">In favor of</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {stackable2.total > stackable1.total
+                        ? `${scenario2Province === 'ON' ? 'Ontario' : 'BC'} ${scenario2Province === 'ON' ? (scenario2OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario2BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                        : `${scenario1Province === 'ON' ? 'Ontario' : 'BC'} ${scenario1Province === 'ON' ? (scenario1OnCreditType === 'production' ? 'OFTTC' : 'OPSTC') : (scenario1BcCreditType === 'fibc' ? 'FIBC' : 'PSTC')}`
+                      }
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
