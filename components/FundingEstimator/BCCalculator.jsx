@@ -34,7 +34,16 @@ export default function BCCalculator({
   setOutsideVancouver,
   distantLocation,
   setDistantLocation,
-  result
+  result,
+  showStackable,
+  setShowStackable,
+  federalCreditType,
+  setFederalCreditType,
+  canadianLabour,
+  setCanadianLabour,
+  cmfFunding,
+  setCmfFunding,
+  stackableResult
 }) {
   const outsideVancouverPercent = totalDays ? ((outsideVancouver / totalDays) * 100).toFixed(1) : 0;
   const distantPercent = totalDays ? ((distantLocation / totalDays) * 100).toFixed(1) : 0;
@@ -209,6 +218,114 @@ export default function BCCalculator({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Stackable Funding Section */}
+      <div className="mt-4 pt-4 border-t border-gray-200">
+        <button
+          onClick={() => setShowStackable(!showStackable)}
+          className="w-full flex items-center justify-between text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+        >
+          <span>Add stackable funding (Federal + CMF)</span>
+          <svg
+            className={`w-5 h-5 transform transition-transform ${showStackable ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {showStackable && (
+          <div className="mt-4 space-y-3">
+            {/* Federal Credit Type */}
+            <div>
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                Federal tax credit
+                <InfoIcon tooltip="CPTC (25%) for Canadian content, PSTC (16%) for service productions" />
+              </label>
+              <select
+                value={federalCreditType}
+                onChange={(e) => setFederalCreditType(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '1rem',
+                  paddingRight: '2.5rem'
+                }}
+              >
+                <option value="cptc">CPTC - Canadian Content (25%)</option>
+                <option value="pstc">PSTC - Service Production (16%)</option>
+              </select>
+            </div>
+
+            {/* Canadian Labour */}
+            <div>
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                Eligible Canadian labour
+                <InfoIcon tooltip="Total Canadian labour expenditures eligible for federal tax credit" />
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+                <input
+                  type="text"
+                  value={formatNumber(canadianLabour)}
+                  onChange={(e) => handleNumberInput(e.target.value, setCanadianLabour)}
+                  placeholder="0"
+                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* CMF Funding */}
+            <div>
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                CMF funding (optional)
+                <InfoIcon tooltip="Canada Media Fund financing amount, if applicable" />
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+                <input
+                  type="text"
+                  value={formatNumber(cmfFunding)}
+                  onChange={(e) => handleNumberInput(e.target.value, setCmfFunding)}
+                  placeholder="0"
+                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Stackable Results */}
+            {stackableResult && (
+              <div className="mt-4 pt-4 border-t border-gray-200 bg-blue-50 rounded-2xl p-4">
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Total Stackable Funding</h4>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Provincial credit</span>
+                    <span className="font-medium text-gray-900">${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Federal credit ({(stackableResult.federalRate * 100).toFixed(0)}%)</span>
+                    <span className="font-medium text-gray-900">${stackableResult.federalCredit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                  </div>
+                  {stackableResult.cmfFunding > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">CMF funding</span>
+                      <span className="font-medium text-gray-900">${stackableResult.cmfFunding.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between pt-2 border-t border-blue-200">
+                    <span className="font-semibold text-gray-900">Total funding</span>
+                    <span className="text-lg font-bold text-gray-900">${stackableResult.total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
