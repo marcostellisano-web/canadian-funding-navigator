@@ -90,8 +90,8 @@ export default function FundingEstimator() {
     const distantPercent = days ? (distantDays / days) : 0;
 
     const baseCredit = labour * 0.40;
-    // Regional bonus: 12.5% only if 50% or more days are outside Vancouver
-    const regionalCredit = outsideVancouverPercent >= 0.5 ? labour * 0.125 : 0;
+    // Regional bonus: 12.5% prorated by days outside Vancouver
+    const regionalCredit = labour * 0.125 * outsideVancouverPercent;
     // Distant location bonus: 6% only if 50% or more days are outside Vancouver
     const distantCredit = outsideVancouverPercent >= 0.5 ? labour * 0.06 * distantPercent : 0;
     const totalCredit = baseCredit + regionalCredit + distantCredit;
@@ -100,11 +100,17 @@ export default function FundingEstimator() {
 
     let breakdown = `Base Credit (40%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
+    // Regional bonus is always shown with proration
+    if (outsideVancouverPercent > 0) {
+      breakdown += `\nRegional Bonus (12.5% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    } else {
+      breakdown += `\nRegional Bonus: $0.00 (no days outside Vancouver)`;
+    }
+
+    // Distant location bonus requires 50% threshold
     if (outsideVancouverPercent >= 0.5) {
-      breakdown += `\nRegional Bonus (12.5%): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
       breakdown += `\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else {
-      breakdown += `\nRegional Bonus: Not applicable (less than 50% of days outside Vancouver)`;
       breakdown += `\nDistant Location Bonus: Not applicable (less than 50% of days outside Vancouver)`;
     }
 

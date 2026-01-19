@@ -134,7 +134,7 @@ export default function BCCalculator({
       <div>
         <label className="block text-sm font-normal text-gray-900 mb-1.5">
           Days outside Vancouver
-          <InfoIcon tooltip="If over 50% of B.C. principal photography days are outside Vancouver, a 12.5% Regional Bonus applies on a prorated basis." />
+          <InfoIcon tooltip="12.5% Regional Bonus prorated by the percentage of B.C. principal photography days outside Vancouver (e.g., 5/10 days = 12.5% × 50% of eligible labour)." />
         </label>
         <input
           type="number"
