@@ -65,16 +65,16 @@ export default function BCCalculator({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* Tax Credit Type Selector */}
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Tax credit type
         </label>
         <select
           value={creditType}
           onChange={(e) => setCreditType(e.target.value)}
-          className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+          className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
             backgroundRepeat: 'no-repeat',
@@ -90,7 +90,7 @@ export default function BCCalculator({
 
       {/* Total Budget Input */}
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Total budget
         </label>
         <div className="relative">
@@ -100,14 +100,14 @@ export default function BCCalculator({
             value={formatNumber(totalBudget)}
             onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
             placeholder="0"
-            className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
         </div>
       </div>
 
       {/* Eligible BC Labour Input */}
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Eligible BC labour expenditures
         </label>
         <div className="relative">
@@ -117,14 +117,14 @@ export default function BCCalculator({
             value={formatNumber(eligibleLabour)}
             onChange={(e) => handleNumberInput(e.target.value, setEligibleLabour)}
             placeholder="0"
-            className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
           />
         </div>
       </div>
 
       {/* Shooting Days Section */}
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Total shooting days
         </label>
         <input
@@ -133,12 +133,12 @@ export default function BCCalculator({
           onChange={(e) => setTotalDays(e.target.value)}
           placeholder="0"
           min="0"
-          className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+          className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Days outside Vancouver
           <InfoIcon tooltip="12.5% Regional Bonus applies if more than 50% of B.C. principal photography days are outside Vancouver." />
         </label>
@@ -148,7 +148,7 @@ export default function BCCalculator({
           onChange={(e) => setOutsideVancouver(e.target.value)}
           placeholder="0"
           min="0"
-          className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+          className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
         />
         {totalDays > 0 && (
           <div className="text-xs text-gray-500 mt-1 ml-4">{outsideVancouverPercent}% of total days</div>
@@ -156,7 +156,7 @@ export default function BCCalculator({
       </div>
 
       <div>
-        <label className="block text-sm font-normal text-gray-900 mb-1.5">
+        <label className="block text-sm font-normal text-gray-900 mb-0.5">
           Days in distant location
           <InfoIcon tooltip="If over 50% of B.C. shoot days are outside Vancouver, a 6% Distant Location Bonus applies to qualifying distant-location shoot days (prorated)." />
         </label>
@@ -166,7 +166,7 @@ export default function BCCalculator({
           onChange={(e) => setDistantLocation(e.target.value)}
           placeholder="0"
           min="0"
-          className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+          className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
         />
         {totalDays > 0 && (
           <div className="text-xs text-gray-500 mt-1 ml-4">{distantPercent}% of total days</div>
@@ -174,12 +174,12 @@ export default function BCCalculator({
       </div>
 
       {/* Results Section */}
-      <div className="mt-5 pt-5 border-t border-gray-200 bg-red-50 rounded-2xl p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Results</h3>
+      <div className="mt-3 pt-3 border-t border-gray-200 bg-red-50 rounded-2xl p-2.5">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Results</h3>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {/* Total Credit */}
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
+          <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
             <span className="text-sm font-semibold text-gray-900">Total tax credit</span>
             <span className="text-xl font-bold text-gray-900">
               ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
@@ -187,7 +187,7 @@ export default function BCCalculator({
           </div>
 
           {/* Percentage of Budget */}
-          <div className="flex justify-between items-center py-2">
+          <div className="flex justify-between items-center py-1.5">
             <span className="text-xs text-gray-600">
               Percentage of budget
             </span>
@@ -198,7 +198,7 @@ export default function BCCalculator({
 
           {/* Breakdown */}
           {result.breakdown && (
-            <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="mt-2 pt-2 border-t border-gray-100">
               <details className="group">
                 <summary className="text-xs font-medium text-gray-700 cursor-pointer hover:text-gray-900 list-none flex items-center justify-between">
                   <span>Credit breakdown</span>
@@ -211,7 +211,7 @@ export default function BCCalculator({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
-                <div className="mt-3 text-xs text-gray-600 whitespace-pre-line leading-relaxed">
+                <div className="mt-2 text-xs text-gray-600 whitespace-pre-line leading-relaxed">
                   {result.breakdown}
                 </div>
               </details>
@@ -221,7 +221,7 @@ export default function BCCalculator({
       </div>
 
       {/* Stackable Funding Section */}
-      <div className="mt-4 pt-4 border-t border-gray-200">
+      <div className="mt-3 pt-3 border-t border-gray-200">
         <button
           onClick={() => setShowStackable(!showStackable)}
           className="w-full flex items-center justify-between text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
@@ -238,17 +238,17 @@ export default function BCCalculator({
         </button>
 
         {showStackable && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-3 space-y-1.5">
             {/* Federal Credit Type */}
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Federal tax credit
                 <InfoIcon tooltip="CPTC (25%) for Canadian content, PSTC (16%) for service productions" />
               </label>
               <select
                 value={federalCreditType}
                 onChange={(e) => setFederalCreditType(e.target.value)}
-                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                   backgroundRepeat: 'no-repeat',
@@ -264,7 +264,7 @@ export default function BCCalculator({
 
             {/* Canadian Labour */}
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Eligible Canadian labour
                 <InfoIcon tooltip="Total Canadian labour expenditures eligible for federal tax credit" />
               </label>
@@ -275,14 +275,14 @@ export default function BCCalculator({
                   value={formatNumber(canadianLabour)}
                   onChange={(e) => handleNumberInput(e.target.value, setCanadianLabour)}
                   placeholder="0"
-                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                  className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                 />
               </div>
             </div>
 
             {/* CMF Funding */}
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 CMF funding (optional)
                 <InfoIcon tooltip="Canada Media Fund financing amount, if applicable" />
               </label>
@@ -293,16 +293,16 @@ export default function BCCalculator({
                   value={formatNumber(cmfFunding)}
                   onChange={(e) => handleNumberInput(e.target.value, setCmfFunding)}
                   placeholder="0"
-                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                  className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                 />
               </div>
             </div>
 
             {/* Stackable Results */}
             {stackableResult && (
-              <div className="mt-4 pt-4 border-t border-gray-200 bg-blue-50 rounded-2xl p-4">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Total Stackable Funding</h4>
-                <div className="space-y-2 text-xs">
+              <div className="mt-3 pt-3 border-t border-gray-200 bg-blue-50 rounded-2xl p-2.5">
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Total Stackable Funding</h4>
+                <div className="space-y-1.5 text-xs">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Provincial credit</span>
                     <span className="font-medium text-gray-900">${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
@@ -317,7 +317,7 @@ export default function BCCalculator({
                       <span className="font-medium text-gray-900">${stackableResult.cmfFunding.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
                     </div>
                   )}
-                  <div className="flex justify-between pt-2 border-t border-blue-200">
+                  <div className="flex justify-between pt-1.5 border-t border-blue-200">
                     <span className="font-semibold text-gray-900">Total funding</span>
                     <span className="text-lg font-bold text-gray-900">${stackableResult.total.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</span>
                   </div>
