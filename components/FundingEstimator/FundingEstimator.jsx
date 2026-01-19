@@ -90,13 +90,25 @@ export default function FundingEstimator() {
     const distantPercent = days ? (distantDays / days) : 0;
 
     const baseCredit = labour * 0.40;
-    const regionalCredit = labour * 0.06 * outsideVancouverPercent;
-    const distantCredit = labour * 0.06 * distantPercent;
+    // Regional bonus: 12.5% only if 50% or more days are outside Vancouver
+    const regionalCredit = outsideVancouverPercent >= 0.5 ? labour * 0.125 : 0;
+    // Distant location bonus: 6% only if 50% or more days are outside Vancouver
+    const distantCredit = outsideVancouverPercent >= 0.5 ? labour * 0.06 * distantPercent : 0;
     const totalCredit = baseCredit + regionalCredit + distantCredit;
 
     const budgetPercent = budget > 0 ? (totalCredit / budget) * 100 : 0;
 
-    const breakdown = `Base Credit (40%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nRegional Bonus (6% pro-rated to ${(outsideVancouverPercent * 100).toFixed(1)}% of days): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${((totalCredit / labour) * 100).toFixed(1)}% of eligible labour`;
+    let breakdown = `Base Credit (40%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+    if (outsideVancouverPercent >= 0.5) {
+      breakdown += `\nRegional Bonus (12.5%): $${regionalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      breakdown += `\nDistant Location Bonus (6% pro-rated to ${(distantPercent * 100).toFixed(1)}% of days): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    } else {
+      breakdown += `\nRegional Bonus: Not applicable (less than 50% of days outside Vancouver)`;
+      breakdown += `\nDistant Location Bonus: Not applicable (less than 50% of days outside Vancouver)`;
+    }
+
+    breakdown += `\nTotal Tax Credit: $${totalCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEffective Rate: ${labour > 0 ? ((totalCredit / labour) * 100).toFixed(1) : 0}% of eligible labour`;
 
     return { credit: totalCredit, budgetPercent, breakdown };
   };
