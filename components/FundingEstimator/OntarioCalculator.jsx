@@ -156,7 +156,7 @@ export default function OntarioCalculator({
       )}
 
       {/* Results Section */}
-      <div className="mt-5 pt-5 border-t border-gray-200 bg-white rounded-2xl p-4">
+      <div className="mt-5 pt-5 border-t border-gray-200 bg-red-50 rounded-2xl p-4">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Results</h3>
 
         <div className="space-y-2">
