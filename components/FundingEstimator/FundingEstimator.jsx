@@ -149,7 +149,6 @@ export default function FundingEstimator() {
           <div className="mb-4">
             <label className="block text-sm font-normal text-gray-900 mb-1.5">
               Province
-              <InfoIcon />
             </label>
             <select
               value={scenario1Province}
