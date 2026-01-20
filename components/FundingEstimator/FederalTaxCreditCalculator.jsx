@@ -75,9 +75,19 @@ export default function FederalTaxCreditCalculator({
       breakdown += `Tax Credit Rate: 25%\n`;
       breakdown += `\nFinal CPTC Credit (25% × lesser amount): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else if (creditType === 'pstc') {
+      // PSTC Calculation
+      // Eligible Canadian labour cannot exceed Total Budget
       rate = 0.16;
-      credit = labour * rate;
-      breakdown = `Federal Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTax Credit Rate: ${(rate * 100).toFixed(0)}%\nTotal Federal Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+      // Cap labour at total budget
+      const cappedLabour = Math.min(labour, budget);
+      credit = cappedLabour * rate;
+
+      breakdown = `Total Budget: $${budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Eligible Canadian Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Capped Labour (cannot exceed budget): $${cappedLabour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Tax Credit Rate: ${(rate * 100).toFixed(0)}%\n`;
+      breakdown += `\nTotal Federal Credit (16% × capped labour): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
 
     const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
