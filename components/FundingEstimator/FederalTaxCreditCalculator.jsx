@@ -43,14 +43,19 @@ export default function FederalTaxCreditCalculator({
 
     if (creditType === 'cptc') {
       // CPTC (CANCON) Calculation
-      // Take the LESSER of Net Production Cost OR Eligible Canadian Labour
+      // Labour is capped at 60% of budget
+      // Take the LESSER of Net Production Cost OR Capped Labour
       // Then multiply by 25%
 
       rate = 0.25;
       const netProductionCosts = Math.max(0, budget - provincialCredit);
 
-      // Take the lesser of net production costs or eligible Canadian labour
-      const lesserAmount = Math.min(netProductionCosts, labour);
+      // Cap the eligible Canadian labour at 60% of budget
+      const labourCap = budget * 0.6;
+      const cappedLabour = Math.min(labour, labourCap);
+
+      // Take the lesser of net production costs or capped labour
+      const lesserAmount = Math.min(netProductionCosts, cappedLabour);
 
       // Apply 25% rate to the lesser amount
       credit = lesserAmount * rate;
@@ -59,7 +64,9 @@ export default function FederalTaxCreditCalculator({
       breakdown += `Provincial Tax Credit: $${provincialCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `Net Production Costs (budget - provincial): $${netProductionCosts.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `\nEligible Canadian Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
-      breakdown += `\nLesser of Net Production Costs or Labour: $${lesserAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Labour Cap (60% of budget): $${labourCap.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Capped Labour: $${cappedLabour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nLesser of Net Production Costs or Capped Labour: $${lesserAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `Tax Credit Rate: 25%\n`;
       breakdown += `\nFinal CPTC Credit (25% × lesser amount): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else if (creditType === 'pstc') {
