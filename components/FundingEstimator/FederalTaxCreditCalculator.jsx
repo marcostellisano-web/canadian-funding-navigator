@@ -27,27 +27,48 @@ export default function FederalTaxCreditCalculator({
   canadianLabour,
   setCanadianLabour,
   totalBudget,
+  provincialTaxCredit,
   formatNumber,
   handleNumberInput
 }) {
   // Calculate federal tax credit
   const calculateFederal = () => {
     const labour = parseFloat(canadianLabour) || 0;
+    const budget = parseFloat(totalBudget) || 0;
+    const provincialCredit = parseFloat(provincialTaxCredit) || 0;
+
     let credit = 0;
     let rate = 0;
+    let breakdown = '';
 
     if (creditType === 'cptc') {
+      // CPTC (CANCON) Calculation
+      // The tax credit is the lesser of:
+      // 1. 25% of eligible Canadian labour
+      // 2. 25% of 60% of net production costs (net production costs = total budget - provincial tax credit)
+
       rate = 0.25;
-      credit = labour * rate;
+      const optionA = labour * rate;
+      const netProductionCosts = Math.max(0, budget - provincialCredit);
+      const optionB = netProductionCosts * 0.60 * rate;
+
+      // Take the lesser of the two options
+      credit = Math.min(optionA, optionB);
+
+      breakdown = `Eligible Canadian Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Option A (25% of labour): $${optionA.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nTotal Budget: $${budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Provincial Tax Credit: $${provincialCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Net Production Costs (budget - provincial): $${netProductionCosts.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Option B (25% of 60% of net production costs): $${optionB.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nFinal CPTC Credit (lesser of A or B): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else if (creditType === 'pstc') {
       rate = 0.16;
       credit = labour * rate;
+      breakdown = `Federal Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTax Credit Rate: ${(rate * 100).toFixed(0)}%\nTotal Federal Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
 
-    const budget = parseFloat(totalBudget) || 0;
     const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
-
-    const breakdown = `Federal Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTax Credit Rate: ${(rate * 100).toFixed(0)}%\nTotal Federal Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
     return { credit, budgetPercent, breakdown, rate };
   };
@@ -63,7 +84,7 @@ export default function FederalTaxCreditCalculator({
         <div>
           <label className="block text-sm font-normal text-gray-900 mb-0.5">
             Federal tax credit type
-            <InfoIcon tooltip="CPTC (25%) for Canadian content, PSTC (16%) for service productions" />
+            <InfoIcon tooltip="CPTC (CANCON) for Canadian content productions, PSTC for service productions" />
           </label>
           <select
             value={creditType}
@@ -77,8 +98,8 @@ export default function FederalTaxCreditCalculator({
               paddingRight: '2.5rem'
             }}
           >
-            <option value="cptc">CPTC - Canadian Content (25%)</option>
-            <option value="pstc">PSTC - Service Production (16%)</option>
+            <option value="cptc">CAVCO Production Tax Credit - CPTC (CANCON)</option>
+            <option value="pstc">CAVCO Service Tax Credit - PSTC</option>
           </select>
         </div>
 
