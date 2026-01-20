@@ -1,5 +1,4 @@
 import React from 'react';
-import StackableFundingSection from './StackableFundingSection';
 
 const InfoIcon = ({ tooltip }) => (
   <span className="relative inline-block group">
@@ -34,190 +33,137 @@ export default function OntarioCalculator({
   regionalBonus,
   setRegionalBonus,
   result,
-  showStackable,
-  setShowStackable,
-  federalCreditType,
-  setFederalCreditType,
-  canadianLabour,
-  setCanadianLabour,
-  cmfFunding,
-  setCmfFunding,
-  stackableResult
+  formatNumber,
+  handleNumberInput
 }) {
-  // Format number with commas
-  const formatNumber = (value) => {
-    if (!value) return '';
-    // Remove non-digits
-    const number = value.toString().replace(/\D/g, '');
-    // Add commas
-    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
-
-  // Handle input change with comma formatting
-  const handleNumberInput = (value, setter) => {
-    // Remove commas for storage
-    const rawValue = value.replace(/,/g, '');
-    setter(rawValue);
-  };
-
   return (
-    <div className="space-y-1.5">
-      {/* Tax Credit Type Selector */}
-      <div>
-        <label className="block text-sm font-normal text-gray-900 mb-0.5">
-          Tax credit type
-        </label>
-        <select
-          value={creditType}
-          onChange={(e) => setCreditType(e.target.value)}
-          className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right 1rem center',
-            backgroundSize: '1rem',
-            paddingRight: '2.5rem'
-          }}
-        >
-          <option value="production">Production Tax Credit - (OFTTC)</option>
-          <option value="service">Service Tax Credit - (OPSTC)</option>
-        </select>
-      </div>
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+      <h3 className="text-base font-semibold text-gray-900 mb-3">Provincial Tax Credit - Ontario</h3>
 
-      {/* Total Budget Input */}
-      <div>
-        <label className="block text-sm font-normal text-gray-900 mb-0.5">
-          Total budget
-        </label>
-        <div className="relative">
-          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-          <input
-            type="text"
-            value={formatNumber(totalBudget)}
-            onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
-            placeholder="0"
-            className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-          />
-        </div>
-      </div>
-
-      {/* Provincial Labour Input */}
-      <div>
-        <label className="block text-sm font-normal text-gray-900 mb-0.5">
-          Provincial labour
-        </label>
-        <div className="relative">
-          <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-          <input
-            type="text"
-            value={formatNumber(provincialLabour)}
-            onChange={(e) => handleNumberInput(e.target.value, setProvincialLabour)}
-            placeholder="0"
-            className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-          />
-        </div>
-      </div>
-
-      {/* Non-labour Ontario services (Service Type Only) */}
-      {creditType === 'service' && (
+      <div className="space-y-1.5">
+        {/* Tax Credit Type Selector */}
         <div>
           <label className="block text-sm font-normal text-gray-900 mb-0.5">
-            Non-labour Ontario services
-            <InfoIcon tooltip="Contracted Ontario services such as equipment rentals, post, VFX, or catering." />
+            Tax credit type
+          </label>
+          <select
+            value={creditType}
+            onChange={(e) => setCreditType(e.target.value)}
+            className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 1rem center',
+              backgroundSize: '1rem',
+              paddingRight: '2.5rem'
+            }}
+          >
+            <option value="production">Production Tax Credit - (OFTTC)</option>
+            <option value="service">Service Tax Credit - (OPSTC)</option>
+          </select>
+        </div>
+
+        {/* Total Budget Input */}
+        <div>
+          <label className="block text-sm font-normal text-gray-900 mb-0.5">
+            Total budget
           </label>
           <div className="relative">
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
             <input
               type="text"
-              value={formatNumber(productionExpenses)}
-              onChange={(e) => handleNumberInput(e.target.value, setProductionExpenses)}
+              value={formatNumber(totalBudget)}
+              onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
               placeholder="0"
               className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
             />
           </div>
         </div>
-      )}
 
-      {/* Regional Bonus (Production Type Only) */}
-      {creditType === 'production' && (
-        <div className="bg-gray-50 border border-gray-200 p-2.5 rounded-2xl">
-          <label className="flex items-start gap-2 cursor-pointer group">
-            <input
-              type="checkbox"
-              checked={regionalBonus}
-              onChange={(e) => setRegionalBonus(e.target.checked)}
-              className="w-4 h-4 mt-0.5 text-gray-900 rounded border-gray-300 focus:ring-0 focus:ring-offset-0 cursor-pointer"
-            />
-            <div className="flex-1">
-              <span className="text-xs font-medium text-gray-900 block">Regional Bonus</span>
-              <span className="text-xs text-gray-600 block mt-0.5">Projects with at least 85% of Ontario location days outside the GTA can qualify for this 10% bonus</span>
-            </div>
+        {/* Provincial Labour Input */}
+        <div>
+          <label className="block text-sm font-normal text-gray-900 mb-0.5">
+            Provincial labour
           </label>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+            <input
+              type="text"
+              value={formatNumber(provincialLabour)}
+              onChange={(e) => handleNumberInput(e.target.value, setProvincialLabour)}
+              placeholder="0"
+              className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            />
+          </div>
         </div>
-      )}
 
-      {/* Results Section */}
-      <div className="mt-3 pt-3 border-t border-gray-200 bg-red-50 rounded-2xl p-2.5">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Results</h3>
-
-        <div className="space-y-1.5">
-          {/* Total Credit */}
-          <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-            <span className="text-sm font-semibold text-gray-900">Total tax credit</span>
-            <span className="text-xl font-bold text-gray-900">
-              ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
-            </span>
+        {/* Non-labour Ontario services (Service Type Only) */}
+        {creditType === 'service' && (
+          <div>
+            <label className="block text-sm font-normal text-gray-900 mb-0.5">
+              Non-labour Ontario services
+              <InfoIcon tooltip="Contracted Ontario services such as equipment rentals, post, VFX, or catering." />
+            </label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+              <input
+                type="text"
+                value={formatNumber(productionExpenses)}
+                onChange={(e) => handleNumberInput(e.target.value, setProductionExpenses)}
+                placeholder="0"
+                className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+              />
+            </div>
           </div>
+        )}
 
-          {/* Percentage of Budget */}
-          <div className="flex justify-between items-center py-1.5">
-            <span className="text-xs text-gray-600">
-              Percentage of budget
-            </span>
-            <span className="text-sm font-medium text-gray-900">
-              {result.budgetPercent.toFixed(2)}%
-            </span>
+        {/* Regional Bonus (Production Type Only) */}
+        {creditType === 'production' && (
+          <div className="bg-gray-50 border border-gray-200 p-2.5 rounded-2xl">
+            <label className="flex items-start gap-2 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={regionalBonus}
+                onChange={(e) => setRegionalBonus(e.target.checked)}
+                className="w-4 h-4 mt-0.5 text-gray-900 rounded border-gray-300 focus:ring-0 focus:ring-offset-0 cursor-pointer"
+              />
+              <div className="flex-1">
+                <span className="text-xs font-medium text-gray-900 block">Regional Bonus</span>
+                <span className="text-xs text-gray-600 block mt-0.5">Projects with at least 85% of Ontario location days outside the GTA can qualify for this 10% bonus</span>
+              </div>
+            </label>
           </div>
+        )}
 
-          {/* Breakdown */}
-          {result.breakdown && (
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <details className="group">
-                <summary className="text-xs font-medium text-gray-700 cursor-pointer hover:text-gray-900 list-none flex items-center justify-between">
-                  <span>Credit breakdown</span>
-                  <svg
-                    className="w-4 h-4 transform transition-transform group-open:rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+        {/* Results Section */}
+        {result.credit > 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-200 bg-red-50 rounded-2xl p-2.5">
+            <div className="flex justify-between items-baseline mb-1.5">
+              <span className="text-sm font-semibold text-gray-900">Provincial Tax Credit</span>
+              <div className="text-right">
+                <div className="text-xl font-bold text-gray-900">
+                  ${result.credit.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+                </div>
+                <div className="text-xs text-gray-600">
+                  {result.budgetPercent.toFixed(1)}% of budget
+                </div>
+              </div>
+            </div>
+
+            {/* Breakdown */}
+            {result.breakdown && (
+              <details className="mt-2">
+                <summary className="text-xs text-gray-600 cursor-pointer hover:text-gray-900 transition-colors">
+                  View calculation details
                 </summary>
-                <div className="mt-2 text-xs text-gray-600 whitespace-pre-line leading-relaxed">
+                <div className="mt-1.5 text-xs text-gray-700 whitespace-pre-line bg-white rounded-lg p-2 border border-red-100">
                   {result.breakdown}
                 </div>
               </details>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
-
-      {/* Stackable Funding Section */}
-      <StackableFundingSection
-        showStackable={showStackable}
-        setShowStackable={setShowStackable}
-        federalCreditType={federalCreditType}
-        setFederalCreditType={setFederalCreditType}
-        canadianLabour={canadianLabour}
-        setCanadianLabour={setCanadianLabour}
-        cmfFunding={cmfFunding}
-        setCmfFunding={setCmfFunding}
-        stackableResult={stackableResult}
-        result={result}
-        formatNumber={formatNumber}
-        handleNumberInput={handleNumberInput}
-      />
     </div>
   );
 }
