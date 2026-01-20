@@ -43,29 +43,25 @@ export default function FederalTaxCreditCalculator({
 
     if (creditType === 'cptc') {
       // CPTC (CANCON) Calculation
-      // The tax credit = 25% of Eligible Canadian labour OR 25% of (Total Budget - Provincial Tax Credit), whichever is lower
-      // Maximum cap = (Total Budget - Provincial Tax Credit) × 60% × 25%
+      // The tax credit is the lesser of:
+      // 1. 25% of eligible Canadian labour
+      // 2. 25% of 60% of net production costs (net production costs = total budget - provincial tax credit)
 
       rate = 0.25;
       const optionA = labour * rate;
-      const budgetLessProvincial = Math.max(0, budget - provincialCredit);
-      const optionB = budgetLessProvincial * rate;
-      const maximumCap = budgetLessProvincial * 0.60 * 0.25;
+      const netProductionCosts = Math.max(0, budget - provincialCredit);
+      const optionB = netProductionCosts * 0.60 * rate;
 
-      // Take the lower of Option A or Option B
-      const lowerOption = Math.min(optionA, optionB);
-
-      // Apply the maximum cap
-      credit = Math.min(lowerOption, maximumCap);
+      // Take the lesser of the two options
+      credit = Math.min(optionA, optionB);
 
       breakdown = `Eligible Canadian Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `Option A (25% of labour): $${optionA.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `\nTotal Budget: $${budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
       breakdown += `Provincial Tax Credit: $${provincialCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
-      breakdown += `Budget less Provincial: $${budgetLessProvincial.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
-      breakdown += `Option B (25% of budget less provincial): $${optionB.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
-      breakdown += `\nMaximum Cap (60% × 25% of budget less provincial): $${maximumCap.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
-      breakdown += `\nFinal Credit (lower of A or B, capped at maximum): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      breakdown += `Net Production Costs (budget - provincial): $${netProductionCosts.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Option B (25% of 60% of net production costs): $${optionB.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nFinal CPTC Credit (lesser of A or B): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else if (creditType === 'pstc') {
       rate = 0.16;
       credit = labour * rate;
