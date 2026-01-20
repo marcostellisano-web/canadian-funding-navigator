@@ -27,27 +27,52 @@ export default function FederalTaxCreditCalculator({
   canadianLabour,
   setCanadianLabour,
   totalBudget,
+  provincialTaxCredit,
   formatNumber,
   handleNumberInput
 }) {
   // Calculate federal tax credit
   const calculateFederal = () => {
     const labour = parseFloat(canadianLabour) || 0;
+    const budget = parseFloat(totalBudget) || 0;
+    const provincialCredit = parseFloat(provincialTaxCredit) || 0;
+
     let credit = 0;
     let rate = 0;
+    let breakdown = '';
 
     if (creditType === 'cptc') {
+      // CPTC (CANCON) Calculation
+      // The tax credit = 25% of Eligible Canadian labour OR 25% of (Total Budget - Provincial Tax Credit), whichever is lower
+      // Maximum cap = (Total Budget - Provincial Tax Credit) × 60% × 25%
+
       rate = 0.25;
-      credit = labour * rate;
+      const optionA = labour * rate;
+      const budgetLessProvincial = Math.max(0, budget - provincialCredit);
+      const optionB = budgetLessProvincial * rate;
+      const maximumCap = budgetLessProvincial * 0.60 * 0.25;
+
+      // Take the lower of Option A or Option B
+      const lowerOption = Math.min(optionA, optionB);
+
+      // Apply the maximum cap
+      credit = Math.min(lowerOption, maximumCap);
+
+      breakdown = `Eligible Canadian Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Option A (25% of labour): $${optionA.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nTotal Budget: $${budget.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Provincial Tax Credit: $${provincialCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Budget less Provincial: $${budgetLessProvincial.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `Option B (25% of budget less provincial): $${optionB.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nMaximum Cap (60% × 25% of budget less provincial): $${maximumCap.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n`;
+      breakdown += `\nFinal Credit (lower of A or B, capped at maximum): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     } else if (creditType === 'pstc') {
       rate = 0.16;
       credit = labour * rate;
+      breakdown = `Federal Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTax Credit Rate: ${(rate * 100).toFixed(0)}%\nTotal Federal Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
 
-    const budget = parseFloat(totalBudget) || 0;
     const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
-
-    const breakdown = `Federal Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTax Credit Rate: ${(rate * 100).toFixed(0)}%\nTotal Federal Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
     return { credit, budgetPercent, breakdown, rate };
   };
@@ -63,7 +88,7 @@ export default function FederalTaxCreditCalculator({
         <div>
           <label className="block text-sm font-normal text-gray-900 mb-0.5">
             Federal tax credit type
-            <InfoIcon tooltip="CPTC (25%) for Canadian content, PSTC (16%) for service productions" />
+            <InfoIcon tooltip="CPTC (CANCON) for Canadian content productions, PSTC for service productions" />
           </label>
           <select
             value={creditType}
@@ -77,8 +102,8 @@ export default function FederalTaxCreditCalculator({
               paddingRight: '2.5rem'
             }}
           >
-            <option value="cptc">CPTC - Canadian Content (25%)</option>
-            <option value="pstc">PSTC - Service Production (16%)</option>
+            <option value="cptc">CAVCO Production Tax Credit - CPTC (CANCON)</option>
+            <option value="pstc">CAVCO Service Tax Credit - PSTC</option>
           </select>
         </div>
 

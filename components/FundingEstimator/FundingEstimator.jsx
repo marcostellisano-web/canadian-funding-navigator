@@ -265,6 +265,7 @@ export default function FundingEstimator() {
             canadianLabour={scenario1CanadianLabour}
             setCanadianLabour={setScenario1CanadianLabour}
             totalBudget={totalBudget1}
+            provincialTaxCredit={result1.credit}
             formatNumber={formatNumber}
             handleNumberInput={handleNumberInput}
           />
@@ -360,6 +361,7 @@ export default function FundingEstimator() {
               canadianLabour={scenario2CanadianLabour}
               setCanadianLabour={setScenario2CanadianLabour}
               totalBudget={totalBudget2}
+              provincialTaxCredit={result2.credit}
               formatNumber={formatNumber}
               handleNumberInput={handleNumberInput}
             />
