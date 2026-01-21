@@ -49,7 +49,8 @@ const CMF_PROGRAMS = [
     name: 'POV Fund',
     percentage: 49,
     maxAmount: 400000,
-    description: '49% of the budget to a maximum of $400,000'
+    description: '49% of the budget to a maximum of $400,000',
+    note: 'Eligible Projects in this Program must be one-off Auteur Point of View Documentaries'
   },
   {
     id: 'broadcaster-envelope',
@@ -64,7 +65,8 @@ const CMF_PROGRAMS = [
     name: 'Regional Bonus Program',
     percentage: 15,
     maxAmount: 1000000,
-    description: '15% of the budget to a maximum of $1,000,000'
+    description: '15% of the budget to a maximum of $1,000,000',
+    note: 'Designed to support projects produced primarily outside Canada\'s major production centres'
   }
 ];
 
