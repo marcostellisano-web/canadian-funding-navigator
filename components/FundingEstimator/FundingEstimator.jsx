@@ -149,14 +149,38 @@ export default function FundingEstimator() {
   };
 
   // Calculate federal tax credit
-  const calculateFederal = (federalCreditType, canadianLabour) => {
+  const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
+    const budget = parseFloat(totalBudget) || 0;
+    const provincialCredit = parseFloat(provincialTaxCredit) || 0;
     let credit = 0;
 
     if (federalCreditType === 'cptc') {
-      credit = labour * 0.25;
+      // CPTC (CANCON) Calculation
+      // Net Production Cost is capped at 60%
+      // Labour is capped at 60% of budget
+      // Take the LESSER of the two capped values
+      // Then multiply by 25%
+      const netProductionCosts = Math.max(0, budget - provincialCredit);
+
+      // Cap net production costs at 60%
+      const cappedNetProductionCosts = netProductionCosts * 0.6;
+
+      // Cap the eligible Canadian labour at 60% of budget
+      const labourCap = budget * 0.6;
+      const cappedLabour = Math.min(labour, labourCap);
+
+      // Take the lesser of capped net production costs or capped labour
+      const lesserAmount = Math.min(cappedNetProductionCosts, cappedLabour);
+
+      // Apply 25% rate to the lesser amount
+      credit = lesserAmount * 0.25;
     } else if (federalCreditType === 'pstc') {
-      credit = labour * 0.16;
+      // PSTC Calculation
+      // Eligible Canadian labour cannot exceed Total Budget
+      // Cap labour at total budget
+      const cappedLabour = Math.min(labour, budget);
+      credit = cappedLabour * 0.16;
     }
 
     return credit;
@@ -172,13 +196,13 @@ export default function FundingEstimator() {
         : calculateBC(scenario2BcCreditType, scenario2BcTotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation))
     : null;
 
-  // Calculate federal credits
-  const federal1 = calculateFederal(scenario1FederalCreditType, scenario1CanadianLabour);
-  const federal2 = compareMode ? calculateFederal(scenario2FederalCreditType, scenario2CanadianLabour) : 0;
-
   // Get total budgets for each scenario
   const totalBudget1 = scenario1Province === 'ON' ? scenario1OnTotalBudget : scenario1BcTotalBudget;
   const totalBudget2 = scenario2Province === 'ON' ? scenario2OnTotalBudget : scenario2BcTotalBudget;
+
+  // Calculate federal credits
+  const federal1 = calculateFederal(scenario1FederalCreditType, scenario1CanadianLabour, totalBudget1, result1.credit);
+  const federal2 = compareMode ? calculateFederal(scenario2FederalCreditType, scenario2CanadianLabour, totalBudget2, result2.credit) : 0;
 
   return (
     <div className="space-y-6">
