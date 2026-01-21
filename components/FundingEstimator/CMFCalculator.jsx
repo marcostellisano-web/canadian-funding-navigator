@@ -135,10 +135,10 @@ export default function CMFCalculator({
 
         {/* Program Description and Notes */}
         {currentProgram && currentProgram.id !== 'none' && (
-          <div className="text-xs text-gray-600 bg-blue-50 rounded-lg p-2.5">
+          <div className="text-xs text-gray-600 bg-green-50 rounded-lg p-2.5">
             <p className="font-medium mb-1">{currentProgram.description}</p>
             {currentProgram.note && (
-              <p className="italic text-blue-700">Note: {currentProgram.note}</p>
+              <p className="italic text-green-700">Note: {currentProgram.note}</p>
             )}
           </div>
         )}
