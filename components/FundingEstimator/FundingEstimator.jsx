@@ -24,13 +24,12 @@ export default function FundingEstimator() {
 
   // Scenario 1 state - Provincial
   const [scenario1Province, setScenario1Province] = useState('ON');
+  const [scenario1TotalBudget, setScenario1TotalBudget] = useState('');
   const [scenario1OnCreditType, setScenario1OnCreditType] = useState('production');
-  const [scenario1OnTotalBudget, setScenario1OnTotalBudget] = useState('');
   const [scenario1OnProvincialLabour, setScenario1OnProvincialLabour] = useState('');
   const [scenario1OnProductionExpenses, setScenario1OnProductionExpenses] = useState('');
   const [scenario1OnRegionalBonus, setScenario1OnRegionalBonus] = useState(false);
   const [scenario1BcCreditType, setScenario1BcCreditType] = useState('fibc');
-  const [scenario1BcTotalBudget, setScenario1BcTotalBudget] = useState('');
   const [scenario1BcEligibleLabour, setScenario1BcEligibleLabour] = useState('');
   const [scenario1BcTotalDays, setScenario1BcTotalDays] = useState('');
   const [scenario1BcOutsideVancouver, setScenario1BcOutsideVancouver] = useState('');
@@ -45,13 +44,12 @@ export default function FundingEstimator() {
 
   // Scenario 2 state - Provincial
   const [scenario2Province, setScenario2Province] = useState('BC');
+  const [scenario2TotalBudget, setScenario2TotalBudget] = useState('');
   const [scenario2OnCreditType, setScenario2OnCreditType] = useState('production');
-  const [scenario2OnTotalBudget, setScenario2OnTotalBudget] = useState('');
   const [scenario2OnProvincialLabour, setScenario2OnProvincialLabour] = useState('');
   const [scenario2OnProductionExpenses, setScenario2OnProductionExpenses] = useState('');
   const [scenario2OnRegionalBonus, setScenario2OnRegionalBonus] = useState(false);
   const [scenario2BcCreditType, setScenario2BcCreditType] = useState('fibc');
-  const [scenario2BcTotalBudget, setScenario2BcTotalBudget] = useState('');
   const [scenario2BcEligibleLabour, setScenario2BcEligibleLabour] = useState('');
   const [scenario2BcTotalDays, setScenario2BcTotalDays] = useState('');
   const [scenario2BcOutsideVancouver, setScenario2BcOutsideVancouver] = useState('');
@@ -187,22 +185,18 @@ export default function FundingEstimator() {
   };
 
   const result1 = scenario1Province === 'ON'
-    ? calculateOntario(scenario1OnCreditType, scenario1OnTotalBudget, scenario1OnProvincialLabour, scenario1OnProductionExpenses, scenario1OnRegionalBonus)
-    : calculateBC(scenario1BcCreditType, scenario1BcTotalBudget, scenario1BcEligibleLabour, scenario1BcTotalDays, scenario1BcOutsideVancouver, scenario1BcDistantLocation);
+    ? calculateOntario(scenario1OnCreditType, scenario1TotalBudget, scenario1OnProvincialLabour, scenario1OnProductionExpenses, scenario1OnRegionalBonus)
+    : calculateBC(scenario1BcCreditType, scenario1TotalBudget, scenario1BcEligibleLabour, scenario1BcTotalDays, scenario1BcOutsideVancouver, scenario1BcDistantLocation);
 
   const result2 = compareMode
     ? (scenario2Province === 'ON'
-        ? calculateOntario(scenario2OnCreditType, scenario2OnTotalBudget, scenario2OnProvincialLabour, scenario2OnProductionExpenses, scenario2OnRegionalBonus)
-        : calculateBC(scenario2BcCreditType, scenario2BcTotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation))
+        ? calculateOntario(scenario2OnCreditType, scenario2TotalBudget, scenario2OnProvincialLabour, scenario2OnProductionExpenses, scenario2OnRegionalBonus)
+        : calculateBC(scenario2BcCreditType, scenario2TotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation))
     : null;
 
-  // Get total budgets for each scenario
-  const totalBudget1 = scenario1Province === 'ON' ? scenario1OnTotalBudget : scenario1BcTotalBudget;
-  const totalBudget2 = scenario2Province === 'ON' ? scenario2OnTotalBudget : scenario2BcTotalBudget;
-
   // Calculate federal credits
-  const federal1 = calculateFederal(scenario1FederalCreditType, scenario1CanadianLabour, totalBudget1, result1.credit);
-  const federal2 = compareMode ? calculateFederal(scenario2FederalCreditType, scenario2CanadianLabour, totalBudget2, result2.credit) : 0;
+  const federal1 = calculateFederal(scenario1FederalCreditType, scenario1CanadianLabour, scenario1TotalBudget, result1.credit);
+  const federal2 = compareMode ? calculateFederal(scenario2FederalCreditType, scenario2CanadianLabour, scenario2TotalBudget, result2.credit) : 0;
 
   return (
     <div className="space-y-6">
@@ -217,39 +211,57 @@ export default function FundingEstimator() {
         </button>
       </div>
 
+      {/* Total Budget Section */}
+      <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
+        {/* Scenario 1 Budget */}
+        <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+            Total Budget
+          </label>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+            <input
+              type="text"
+              value={formatNumber(scenario1TotalBudget)}
+              onChange={(e) => handleNumberInput(e.target.value, setScenario1TotalBudget)}
+              placeholder="0"
+              className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            />
+          </div>
+        </div>
+
+        {/* Scenario 2 Budget (Compare Mode) */}
+        {compareMode && (
+          <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+              Total Budget (Comparison)
+            </label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+              <input
+                type="text"
+                value={formatNumber(scenario2TotalBudget)}
+                onChange={(e) => handleNumberInput(e.target.value, setScenario2TotalBudget)}
+                placeholder="0"
+                className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Calculators */}
       <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
         {/* Scenario 1 */}
         <div className="space-y-4">
-          {/* Province Selector */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <label className="block text-sm font-normal text-gray-900 mb-1.5">
-              Province
-            </label>
-            <select
-              value={scenario1Province}
-              onChange={(e) => setScenario1Province(e.target.value)}
-              className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right 1rem center',
-                backgroundSize: '1rem',
-                paddingRight: '2.5rem'
-              }}
-            >
-              <option value="ON">Ontario</option>
-              <option value="BC">British Columbia</option>
-            </select>
-          </div>
-
           {/* Provincial Calculator */}
           {scenario1Province === 'ON' && (
             <OntarioCalculator
+              province={scenario1Province}
+              setProvince={setScenario1Province}
               creditType={scenario1OnCreditType}
               setCreditType={setScenario1OnCreditType}
-              totalBudget={scenario1OnTotalBudget}
-              setTotalBudget={setScenario1OnTotalBudget}
+              totalBudget={scenario1TotalBudget}
               provincialLabour={scenario1OnProvincialLabour}
               setProvincialLabour={setScenario1OnProvincialLabour}
               productionExpenses={scenario1OnProductionExpenses}
@@ -264,10 +276,11 @@ export default function FundingEstimator() {
 
           {scenario1Province === 'BC' && (
             <BCCalculator
+              province={scenario1Province}
+              setProvince={setScenario1Province}
               creditType={scenario1BcCreditType}
               setCreditType={setScenario1BcCreditType}
-              totalBudget={scenario1BcTotalBudget}
-              setTotalBudget={setScenario1BcTotalBudget}
+              totalBudget={scenario1TotalBudget}
               eligibleLabour={scenario1BcEligibleLabour}
               setEligibleLabour={setScenario1BcEligibleLabour}
               totalDays={scenario1BcTotalDays}
@@ -288,7 +301,7 @@ export default function FundingEstimator() {
             setCreditType={setScenario1FederalCreditType}
             canadianLabour={scenario1CanadianLabour}
             setCanadianLabour={setScenario1CanadianLabour}
-            totalBudget={totalBudget1}
+            totalBudget={scenario1TotalBudget}
             provincialTaxCredit={result1.credit}
             formatNumber={formatNumber}
             handleNumberInput={handleNumberInput}
@@ -298,7 +311,7 @@ export default function FundingEstimator() {
           <CMFCalculator
             cmfFunding={scenario1CmfFunding}
             setCmfFunding={setScenario1CmfFunding}
-            totalBudget={totalBudget1}
+            totalBudget={scenario1TotalBudget}
             formatNumber={formatNumber}
             handleNumberInput={handleNumberInput}
           />
@@ -309,43 +322,21 @@ export default function FundingEstimator() {
             provinceName={scenario1Province === 'ON' ? 'Ontario' : 'BC'}
             federalCredit={federal1}
             cmfFunding={scenario1CmfFunding}
-            totalBudget={totalBudget1}
+            totalBudget={scenario1TotalBudget}
           />
         </div>
 
         {/* Scenario 2 (Compare Mode) */}
         {compareMode && (
           <div className="space-y-4">
-            {/* Province Selector */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
-                Compare with
-                <InfoIcon />
-              </label>
-              <select
-                value={scenario2Province}
-                onChange={(e) => setScenario2Province(e.target.value)}
-                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 1rem center',
-                  backgroundSize: '1rem',
-                  paddingRight: '2.5rem'
-                }}
-              >
-                <option value="BC">British Columbia</option>
-                <option value="ON">Ontario</option>
-              </select>
-            </div>
-
             {/* Provincial Calculator */}
             {scenario2Province === 'ON' && (
               <OntarioCalculator
+                province={scenario2Province}
+                setProvince={setScenario2Province}
                 creditType={scenario2OnCreditType}
                 setCreditType={setScenario2OnCreditType}
-                totalBudget={scenario2OnTotalBudget}
-                setTotalBudget={setScenario2OnTotalBudget}
+                totalBudget={scenario2TotalBudget}
                 provincialLabour={scenario2OnProvincialLabour}
                 setProvincialLabour={setScenario2OnProvincialLabour}
                 productionExpenses={scenario2OnProductionExpenses}
@@ -355,15 +346,17 @@ export default function FundingEstimator() {
                 result={result2}
                 formatNumber={formatNumber}
                 handleNumberInput={handleNumberInput}
+                showCompareLabel={true}
               />
             )}
 
             {scenario2Province === 'BC' && (
               <BCCalculator
+                province={scenario2Province}
+                setProvince={setScenario2Province}
                 creditType={scenario2BcCreditType}
                 setCreditType={setScenario2BcCreditType}
-                totalBudget={scenario2BcTotalBudget}
-                setTotalBudget={setScenario2BcTotalBudget}
+                totalBudget={scenario2TotalBudget}
                 eligibleLabour={scenario2BcEligibleLabour}
                 setEligibleLabour={setScenario2BcEligibleLabour}
                 totalDays={scenario2BcTotalDays}
@@ -375,6 +368,7 @@ export default function FundingEstimator() {
                 result={result2}
                 formatNumber={formatNumber}
                 handleNumberInput={handleNumberInput}
+                showCompareLabel={true}
               />
             )}
 
@@ -384,7 +378,7 @@ export default function FundingEstimator() {
               setCreditType={setScenario2FederalCreditType}
               canadianLabour={scenario2CanadianLabour}
               setCanadianLabour={setScenario2CanadianLabour}
-              totalBudget={totalBudget2}
+              totalBudget={scenario2TotalBudget}
               provincialTaxCredit={result2.credit}
               formatNumber={formatNumber}
               handleNumberInput={handleNumberInput}
@@ -394,7 +388,7 @@ export default function FundingEstimator() {
             <CMFCalculator
               cmfFunding={scenario2CmfFunding}
               setCmfFunding={setScenario2CmfFunding}
-              totalBudget={totalBudget2}
+              totalBudget={scenario2TotalBudget}
               formatNumber={formatNumber}
               handleNumberInput={handleNumberInput}
             />
@@ -405,7 +399,7 @@ export default function FundingEstimator() {
               provinceName={scenario2Province === 'ON' ? 'Ontario' : 'BC'}
               federalCredit={federal2}
               cmfFunding={scenario2CmfFunding}
-              totalBudget={totalBudget2}
+              totalBudget={scenario2TotalBudget}
             />
           </div>
         )}
