@@ -22,10 +22,11 @@ const InfoIcon = ({ tooltip }) => (
 );
 
 export default function BCCalculator({
+  province,
+  setProvince,
   creditType,
   setCreditType,
   totalBudget,
-  setTotalBudget,
   eligibleLabour,
   setEligibleLabour,
   totalDays,
@@ -36,7 +37,8 @@ export default function BCCalculator({
   setDistantLocation,
   result,
   formatNumber,
-  handleNumberInput
+  handleNumberInput,
+  showCompareLabel = false
 }) {
   const outsideVancouverPercent = totalDays ? ((outsideVancouver / totalDays) * 100).toFixed(1) : 0;
   const distantPercent = totalDays ? ((distantLocation / totalDays) * 100).toFixed(1) : 0;
@@ -46,6 +48,28 @@ export default function BCCalculator({
       <h3 className="text-base font-semibold text-gray-900 mb-3">Provincial Tax Credit - BC</h3>
 
       <div className="space-y-1.5">
+        {/* Province Selector */}
+        <div>
+          <label className="block text-sm font-normal text-gray-900 mb-0.5">
+            {showCompareLabel ? 'Compare with' : 'Province'}
+          </label>
+          <select
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 1rem center',
+              backgroundSize: '1rem',
+              paddingRight: '2.5rem'
+            }}
+          >
+            <option value="ON">Ontario</option>
+            <option value="BC">British Columbia</option>
+          </select>
+        </div>
+
         {/* Tax Credit Type Selector */}
         <div>
           <label className="block text-sm font-normal text-gray-900 mb-0.5">
@@ -66,23 +90,6 @@ export default function BCCalculator({
             <option value="fibc">Film Incentive B.C. (FIBC)</option>
             <option value="pstc">Production Services Tax Credit (PSTC)</option>
           </select>
-        </div>
-
-        {/* Total Budget Input */}
-        <div>
-          <label className="block text-sm font-normal text-gray-900 mb-0.5">
-            Total budget
-          </label>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-            <input
-              type="text"
-              value={formatNumber(totalBudget)}
-              onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
-              placeholder="0"
-              className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-            />
-          </div>
         </div>
 
         {/* Eligible BC Labour Input */}
