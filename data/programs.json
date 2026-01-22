@@ -15,8 +15,8 @@
       "Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming)."
     ],
     "upcomingDeadlines": [
-      { "date": "2025-05-22", "description": "Spring Intake Period" },
-      { "date": "2025-09-23", "description": "Fall Intake Period" }
+      { "date": "2026-05-22", "description": "Spring Intake Period" },
+      { "date": "2026-09-23", "description": "Fall Intake Period" }
     ]
   },
   {
@@ -35,8 +35,8 @@
       "Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming)."
     ],
     "upcomingDeadlines": [
-      { "date": "2025-05-01", "description": "Spring Intake Period" },
-      { "date": "2025-10-17", "description": "Fall Intake Period" }
+      { "date": "2026-05-01", "description": "Spring Intake Period" },
+      { "date": "2026-10-17", "description": "Fall Intake Period" }
     ]
   },
   {
@@ -55,7 +55,7 @@
       "Triggering Commitment Threshold: 15% of Eligible Costs"
     ],
     "upcomingDeadlines": [
-      { "date": "2025-08-19", "description": "Annual Intake Period" }
+      { "date": "2026-08-19", "description": "Annual Intake Period" }
     ]
   },
   {
@@ -75,7 +75,7 @@
       "Triggering Commitment Threshold: 15% of Eligible Costs"
     ],
     "upcomingDeadlines": [
-      { "date": "2025-05-01", "description": "Annual Intake Period" }
+      { "date": "2026-05-01", "description": "Annual Intake Period" }
     ]
   },
   {
@@ -94,8 +94,8 @@
       "Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming)."
     ],
     "upcomingDeadlines": [
-      { "date": "2025-05-13", "description": "Spring Intake Period" },
-      { "date": "2025-09-23", "description": "Fall Intake Period" }
+      { "date": "2026-05-13", "description": "Spring Intake Period" },
+      { "date": "2026-09-23", "description": "Fall Intake Period" }
     ]
   }
 ]
