@@ -24,8 +24,6 @@ const InfoIcon = ({ tooltip }) => (
 export default function BCCalculator({
   creditType,
   setCreditType,
-  totalBudget,
-  setTotalBudget,
   eligibleLabour,
   setEligibleLabour,
   totalDays,
@@ -66,23 +64,6 @@ export default function BCCalculator({
             <option value="fibc">Film Incentive B.C. (FIBC)</option>
             <option value="pstc">Production Services Tax Credit (PSTC)</option>
           </select>
-        </div>
-
-        {/* Total Budget Input */}
-        <div>
-          <label className="block text-sm font-normal text-gray-900 mb-0.5">
-            Total budget
-          </label>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-            <input
-              type="text"
-              value={formatNumber(totalBudget)}
-              onChange={(e) => handleNumberInput(e.target.value, setTotalBudget)}
-              placeholder="0"
-              className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-            />
-          </div>
         </div>
 
         {/* Eligible BC Labour Input */}
