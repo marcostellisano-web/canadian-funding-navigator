@@ -28,7 +28,12 @@ export default function handler(req, res) {
         res.status(404).json({ error: 'Program not found' });
       }
     } catch (error) {
-      res.status(500).json({ error: 'Failed to read program' });
+      console.error('Error reading program:', error);
+      res.status(500).json({
+        error: 'Failed to read program',
+        details: error.message,
+        code: error.code
+      });
     }
   } else if (req.method === 'PUT') {
     // Update a program
@@ -45,7 +50,12 @@ export default function handler(req, res) {
       writePrograms(programs);
       res.status(200).json(updatedProgram);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to update program' });
+      console.error('Error updating program:', error);
+      res.status(500).json({
+        error: 'Failed to update program',
+        details: error.message,
+        code: error.code
+      });
     }
   } else if (req.method === 'DELETE') {
     // Delete a program
@@ -61,7 +71,12 @@ export default function handler(req, res) {
       writePrograms(programs);
       res.status(200).json({ message: 'Program deleted successfully' });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to delete program' });
+      console.error('Error deleting program:', error);
+      res.status(500).json({
+        error: 'Failed to delete program',
+        details: error.message,
+        code: error.code
+      });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });

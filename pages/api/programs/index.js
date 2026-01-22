@@ -21,7 +21,12 @@ export default function handler(req, res) {
       const programs = readPrograms();
       res.status(200).json(programs);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to read programs' });
+      console.error('Error reading programs:', error);
+      res.status(500).json({
+        error: 'Failed to read programs',
+        details: error.message,
+        code: error.code
+      });
     }
   } else if (req.method === 'POST') {
     // Create a new program
