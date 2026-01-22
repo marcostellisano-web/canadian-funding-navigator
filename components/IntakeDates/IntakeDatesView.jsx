@@ -52,13 +52,13 @@ export default function IntakeDatesView({ programs }) {
                 </div>
               </div>
               {!isPast && (
-                <div className={`text-sm font-medium px-3 py-1 rounded-full ${isUrgent ? 'bg-red-100 text-red-700' :
-                    isUpcoming ? 'bg-amber-100 text-amber-700' :
-                      'text-gray-500'
+                <div className={`text-sm font-medium px-3 py-1 rounded-full ${
+                    daysUntil <= 30 ? 'bg-red-100 text-red-700' :
+                      'bg-green-100 text-green-700'
                   }`}>
                   {daysUntil === 0 ? 'Today' :
                     daysUntil === 1 ? 'Tomorrow' :
-                      `${daysUntil} days`}
+                      `${daysUntil} days remaining`}
                 </div>
               )}
             </div>
