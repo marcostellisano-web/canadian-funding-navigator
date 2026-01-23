@@ -74,6 +74,7 @@ export default function CMFCalculator({
   cmfFunding,
   setCmfFunding,
   totalBudget,
+  province,
   formatNumber,
   handleNumberInput
 }) {
@@ -90,13 +91,19 @@ export default function CMFCalculator({
     const program = CMF_PROGRAMS.find(p => p.id === selectedProgram);
     if (!program) return;
 
+    // Anglophone Minority Incentive only applies to Quebec
+    if (selectedProgram === 'anglophone-minority' && province !== 'QC') {
+      setCmfFunding('0');
+      return;
+    }
+
     const calculatedAmount = (budget * program.percentage) / 100;
     const finalAmount = program.maxAmount
       ? Math.min(calculatedAmount, program.maxAmount)
       : calculatedAmount;
 
     setCmfFunding(finalAmount.toFixed(0));
-  }, [selectedProgram, budget, setCmfFunding]);
+  }, [selectedProgram, budget, province, setCmfFunding]);
 
   const funding = parseFloat(cmfFunding) || 0;
   const budgetPercent = budget > 0 ? (funding / budget) * 100 : 0;

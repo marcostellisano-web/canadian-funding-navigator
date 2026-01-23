@@ -39,14 +39,14 @@ export default function FundingEstimator() {
   const [compareMode, setCompareMode] = useState(false);
 
   // Collapsible section state for Scenario 1
-  const [scenario1CmfOpen, setScenario1CmfOpen] = useState(true);
-  const [scenario1ProvincialOpen, setScenario1ProvincialOpen] = useState(true);
-  const [scenario1FederalOpen, setScenario1FederalOpen] = useState(true);
+  const [scenario1CmfOpen, setScenario1CmfOpen] = useState(false);
+  const [scenario1ProvincialOpen, setScenario1ProvincialOpen] = useState(false);
+  const [scenario1FederalOpen, setScenario1FederalOpen] = useState(false);
 
   // Collapsible section state for Scenario 2
-  const [scenario2CmfOpen, setScenario2CmfOpen] = useState(true);
-  const [scenario2ProvincialOpen, setScenario2ProvincialOpen] = useState(true);
-  const [scenario2FederalOpen, setScenario2FederalOpen] = useState(true);
+  const [scenario2CmfOpen, setScenario2CmfOpen] = useState(false);
+  const [scenario2ProvincialOpen, setScenario2ProvincialOpen] = useState(false);
+  const [scenario2FederalOpen, setScenario2FederalOpen] = useState(false);
 
   // Scenario 1 state - Provincial
   const [scenario1Province, setScenario1Province] = useState('ON');
@@ -295,6 +295,7 @@ export default function FundingEstimator() {
                 cmfFunding={scenario1CmfFunding}
                 setCmfFunding={setScenario1CmfFunding}
                 totalBudget={scenario1TotalBudget}
+                province={scenario1Province}
                 formatNumber={formatNumber}
                 handleNumberInput={handleNumberInput}
               />
@@ -440,6 +441,7 @@ export default function FundingEstimator() {
                   cmfFunding={scenario2CmfFunding}
                   setCmfFunding={setScenario2CmfFunding}
                   totalBudget={scenario2TotalBudget}
+                  province={scenario2Province}
                   formatNumber={formatNumber}
                   handleNumberInput={handleNumberInput}
                 />
