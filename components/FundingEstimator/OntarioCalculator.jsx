@@ -36,8 +36,6 @@ export default function OntarioCalculator({
 }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-      <h3 className="text-base font-semibold text-gray-900 mb-3">Provincial Tax Credit - Ontario</h3>
-
       <div className="space-y-1.5">
         {/* Tax Credit Type Selector */}
         <div>
