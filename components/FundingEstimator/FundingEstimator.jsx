@@ -228,7 +228,7 @@ export default function FundingEstimator() {
     <div className="space-y-6">
       {/* Compare Toggle */}
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Tax Credit Estimator</h2>
+        <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
         <button
           onClick={() => setCompareMode(!compareMode)}
           className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
