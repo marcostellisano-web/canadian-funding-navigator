@@ -19,8 +19,34 @@ const InfoIcon = () => (
   </svg>
 );
 
+const ChevronIcon = ({ isOpen }) => (
+  <svg
+    className={`w-5 h-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M19 9l-7 7-7-7"
+    />
+  </svg>
+);
+
 export default function FundingEstimator() {
   const [compareMode, setCompareMode] = useState(false);
+
+  // Collapsible section state for Scenario 1
+  const [scenario1CmfOpen, setScenario1CmfOpen] = useState(true);
+  const [scenario1ProvincialOpen, setScenario1ProvincialOpen] = useState(true);
+  const [scenario1FederalOpen, setScenario1FederalOpen] = useState(true);
+
+  // Collapsible section state for Scenario 2
+  const [scenario2CmfOpen, setScenario2CmfOpen] = useState(true);
+  const [scenario2ProvincialOpen, setScenario2ProvincialOpen] = useState(true);
+  const [scenario2FederalOpen, setScenario2FederalOpen] = useState(true);
 
   // Scenario 1 state - Provincial
   const [scenario1Province, setScenario1Province] = useState('ON');
@@ -211,110 +237,140 @@ export default function FundingEstimator() {
         </button>
       </div>
 
-      {/* Total Budget Section */}
-      <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
-        {/* Scenario 1 Budget */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-            Total Budget
-          </label>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-            <input
-              type="text"
-              value={formatNumber(scenario1TotalBudget)}
-              onChange={(e) => handleNumberInput(e.target.value, setScenario1TotalBudget)}
-              placeholder="0"
-              className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-            />
-          </div>
-        </div>
-
-        {/* Scenario 2 Budget (Compare Mode) */}
-        {compareMode && (
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-              Total Budget (Comparison)
-            </label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
-              <input
-                type="text"
-                value={formatNumber(scenario2TotalBudget)}
-                onChange={(e) => handleNumberInput(e.target.value, setScenario2TotalBudget)}
-                placeholder="0"
-                className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-              />
-            </div>
-          </div>
-        )}
-      </div>
-
       {/* Calculators */}
       <div className={`grid ${compareMode ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
         {/* Scenario 1 */}
         <div className="space-y-4">
-          {/* Provincial Calculator */}
-          {scenario1Province === 'ON' && (
-            <OntarioCalculator
-              province={scenario1Province}
-              setProvince={setScenario1Province}
-              creditType={scenario1OnCreditType}
-              setCreditType={setScenario1OnCreditType}
-              totalBudget={scenario1TotalBudget}
-              provincialLabour={scenario1OnProvincialLabour}
-              setProvincialLabour={setScenario1OnProvincialLabour}
-              productionExpenses={scenario1OnProductionExpenses}
-              setProductionExpenses={setScenario1OnProductionExpenses}
-              regionalBonus={scenario1OnRegionalBonus}
-              setRegionalBonus={setScenario1OnRegionalBonus}
-              result={result1}
-              formatNumber={formatNumber}
-              handleNumberInput={handleNumberInput}
-            />
-          )}
+          {/* Province and Total Budget */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+            <div>
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                Province
+              </label>
+              <select
+                value={scenario1Province}
+                onChange={(e) => setScenario1Province(e.target.value)}
+                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '1rem',
+                  paddingRight: '2.5rem'
+                }}
+              >
+                <option value="ON">Ontario</option>
+                <option value="BC">British Columbia</option>
+              </select>
+            </div>
 
-          {scenario1Province === 'BC' && (
-            <BCCalculator
-              province={scenario1Province}
-              setProvince={setScenario1Province}
-              creditType={scenario1BcCreditType}
-              setCreditType={setScenario1BcCreditType}
-              totalBudget={scenario1TotalBudget}
-              eligibleLabour={scenario1BcEligibleLabour}
-              setEligibleLabour={setScenario1BcEligibleLabour}
-              totalDays={scenario1BcTotalDays}
-              setTotalDays={setScenario1BcTotalDays}
-              outsideVancouver={scenario1BcOutsideVancouver}
-              setOutsideVancouver={setScenario1BcOutsideVancouver}
-              distantLocation={scenario1BcDistantLocation}
-              setDistantLocation={setScenario1BcDistantLocation}
-              result={result1}
-              formatNumber={formatNumber}
-              handleNumberInput={handleNumberInput}
-            />
-          )}
-
-          {/* Federal Calculator */}
-          <FederalTaxCreditCalculator
-            creditType={scenario1FederalCreditType}
-            setCreditType={setScenario1FederalCreditType}
-            canadianLabour={scenario1CanadianLabour}
-            setCanadianLabour={setScenario1CanadianLabour}
-            totalBudget={scenario1TotalBudget}
-            provincialTaxCredit={result1.credit}
-            formatNumber={formatNumber}
-            handleNumberInput={handleNumberInput}
-          />
+            <div>
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                Total budget
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+                <input
+                  type="text"
+                  value={formatNumber(scenario1TotalBudget)}
+                  onChange={(e) => handleNumberInput(e.target.value, setScenario1TotalBudget)}
+                  placeholder="0"
+                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* CMF Calculator */}
-          <CMFCalculator
-            cmfFunding={scenario1CmfFunding}
-            setCmfFunding={setScenario1CmfFunding}
-            totalBudget={scenario1TotalBudget}
-            formatNumber={formatNumber}
-            handleNumberInput={handleNumberInput}
-          />
+          <div>
+            <button
+              onClick={() => setScenario1CmfOpen(!scenario1CmfOpen)}
+              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
+              <ChevronIcon isOpen={scenario1CmfOpen} />
+            </button>
+            {scenario1CmfOpen && (
+              <CMFCalculator
+                cmfFunding={scenario1CmfFunding}
+                setCmfFunding={setScenario1CmfFunding}
+                totalBudget={scenario1TotalBudget}
+                formatNumber={formatNumber}
+                handleNumberInput={handleNumberInput}
+              />
+            )}
+          </div>
+
+          {/* Provincial Calculator */}
+          <div>
+            <button
+              onClick={() => setScenario1ProvincialOpen(!scenario1ProvincialOpen)}
+              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
+              <ChevronIcon isOpen={scenario1ProvincialOpen} />
+            </button>
+            {scenario1ProvincialOpen && (
+              <>
+                {scenario1Province === 'ON' && (
+                  <OntarioCalculator
+                    creditType={scenario1OnCreditType}
+                    setCreditType={setScenario1OnCreditType}
+                    provincialLabour={scenario1OnProvincialLabour}
+                    setProvincialLabour={setScenario1OnProvincialLabour}
+                    productionExpenses={scenario1OnProductionExpenses}
+                    setProductionExpenses={setScenario1OnProductionExpenses}
+                    regionalBonus={scenario1OnRegionalBonus}
+                    setRegionalBonus={setScenario1OnRegionalBonus}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
+
+                {scenario1Province === 'BC' && (
+                  <BCCalculator
+                    creditType={scenario1BcCreditType}
+                    setCreditType={setScenario1BcCreditType}
+                    eligibleLabour={scenario1BcEligibleLabour}
+                    setEligibleLabour={setScenario1BcEligibleLabour}
+                    totalDays={scenario1BcTotalDays}
+                    setTotalDays={setScenario1BcTotalDays}
+                    outsideVancouver={scenario1BcOutsideVancouver}
+                    setOutsideVancouver={setScenario1BcOutsideVancouver}
+                    distantLocation={scenario1BcDistantLocation}
+                    setDistantLocation={setScenario1BcDistantLocation}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Federal Calculator */}
+          <div>
+            <button
+              onClick={() => setScenario1FederalOpen(!scenario1FederalOpen)}
+              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
+              <ChevronIcon isOpen={scenario1FederalOpen} />
+            </button>
+            {scenario1FederalOpen && (
+              <FederalTaxCreditCalculator
+                creditType={scenario1FederalCreditType}
+                setCreditType={setScenario1FederalCreditType}
+                canadianLabour={scenario1CanadianLabour}
+                setCanadianLabour={setScenario1CanadianLabour}
+                totalBudget={scenario1TotalBudget}
+                provincialTaxCredit={result1.credit}
+                formatNumber={formatNumber}
+                handleNumberInput={handleNumberInput}
+              />
+            )}
+          </div>
 
           {/* Summary */}
           <FundingSummary
@@ -329,69 +385,137 @@ export default function FundingEstimator() {
         {/* Scenario 2 (Compare Mode) */}
         {compareMode && (
           <div className="space-y-4">
-            {/* Provincial Calculator */}
-            {scenario2Province === 'ON' && (
-              <OntarioCalculator
-                province={scenario2Province}
-                setProvince={setScenario2Province}
-                creditType={scenario2OnCreditType}
-                setCreditType={setScenario2OnCreditType}
-                totalBudget={scenario2TotalBudget}
-                provincialLabour={scenario2OnProvincialLabour}
-                setProvincialLabour={setScenario2OnProvincialLabour}
-                productionExpenses={scenario2OnProductionExpenses}
-                setProductionExpenses={setScenario2OnProductionExpenses}
-                regionalBonus={scenario2OnRegionalBonus}
-                setRegionalBonus={setScenario2OnRegionalBonus}
-                result={result2}
-                formatNumber={formatNumber}
-                handleNumberInput={handleNumberInput}
-                showCompareLabel={true}
-              />
-            )}
+            {/* Province and Total Budget */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+              <div>
+                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                  Compare with
+                  <InfoIcon />
+                </label>
+                <select
+                  value={scenario2Province}
+                  onChange={(e) => setScenario2Province(e.target.value)}
+                  className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                    backgroundSize: '1rem',
+                    paddingRight: '2.5rem'
+                  }}
+                >
+                  <option value="BC">British Columbia</option>
+                  <option value="ON">Ontario</option>
+                </select>
+              </div>
 
-            {scenario2Province === 'BC' && (
-              <BCCalculator
-                province={scenario2Province}
-                setProvince={setScenario2Province}
-                creditType={scenario2BcCreditType}
-                setCreditType={setScenario2BcCreditType}
-                totalBudget={scenario2TotalBudget}
-                eligibleLabour={scenario2BcEligibleLabour}
-                setEligibleLabour={setScenario2BcEligibleLabour}
-                totalDays={scenario2BcTotalDays}
-                setTotalDays={setScenario2BcTotalDays}
-                outsideVancouver={scenario2BcOutsideVancouver}
-                setOutsideVancouver={setScenario2BcOutsideVancouver}
-                distantLocation={scenario2BcDistantLocation}
-                setDistantLocation={setScenario2BcDistantLocation}
-                result={result2}
-                formatNumber={formatNumber}
-                handleNumberInput={handleNumberInput}
-                showCompareLabel={true}
-              />
-            )}
-
-            {/* Federal Calculator */}
-            <FederalTaxCreditCalculator
-              creditType={scenario2FederalCreditType}
-              setCreditType={setScenario2FederalCreditType}
-              canadianLabour={scenario2CanadianLabour}
-              setCanadianLabour={setScenario2CanadianLabour}
-              totalBudget={scenario2TotalBudget}
-              provincialTaxCredit={result2.credit}
-              formatNumber={formatNumber}
-              handleNumberInput={handleNumberInput}
-            />
+              <div>
+                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                  Total budget
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-900 text-sm">$</span>
+                  <input
+                    type="text"
+                    value={formatNumber(scenario2TotalBudget)}
+                    onChange={(e) => handleNumberInput(e.target.value, setScenario2TotalBudget)}
+                    placeholder="0"
+                    className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
 
             {/* CMF Calculator */}
-            <CMFCalculator
-              cmfFunding={scenario2CmfFunding}
-              setCmfFunding={setScenario2CmfFunding}
-              totalBudget={scenario2TotalBudget}
-              formatNumber={formatNumber}
-              handleNumberInput={handleNumberInput}
-            />
+            <div>
+              <button
+                onClick={() => setScenario2CmfOpen(!scenario2CmfOpen)}
+                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
+                <ChevronIcon isOpen={scenario2CmfOpen} />
+              </button>
+              {scenario2CmfOpen && (
+                <CMFCalculator
+                  cmfFunding={scenario2CmfFunding}
+                  setCmfFunding={setScenario2CmfFunding}
+                  totalBudget={scenario2TotalBudget}
+                  formatNumber={formatNumber}
+                  handleNumberInput={handleNumberInput}
+                />
+              )}
+            </div>
+
+            {/* Provincial Calculator */}
+            <div>
+              <button
+                onClick={() => setScenario2ProvincialOpen(!scenario2ProvincialOpen)}
+                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
+                <ChevronIcon isOpen={scenario2ProvincialOpen} />
+              </button>
+              {scenario2ProvincialOpen && (
+                <>
+                  {scenario2Province === 'ON' && (
+                    <OntarioCalculator
+                      creditType={scenario2OnCreditType}
+                      setCreditType={setScenario2OnCreditType}
+                      provincialLabour={scenario2OnProvincialLabour}
+                      setProvincialLabour={setScenario2OnProvincialLabour}
+                      productionExpenses={scenario2OnProductionExpenses}
+                      setProductionExpenses={setScenario2OnProductionExpenses}
+                      regionalBonus={scenario2OnRegionalBonus}
+                      setRegionalBonus={setScenario2OnRegionalBonus}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'BC' && (
+                    <BCCalculator
+                      creditType={scenario2BcCreditType}
+                      setCreditType={setScenario2BcCreditType}
+                      eligibleLabour={scenario2BcEligibleLabour}
+                      setEligibleLabour={setScenario2BcEligibleLabour}
+                      totalDays={scenario2BcTotalDays}
+                      setTotalDays={setScenario2BcTotalDays}
+                      outsideVancouver={scenario2BcOutsideVancouver}
+                      setOutsideVancouver={setScenario2BcOutsideVancouver}
+                      distantLocation={scenario2BcDistantLocation}
+                      setDistantLocation={setScenario2BcDistantLocation}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Federal Calculator */}
+            <div>
+              <button
+                onClick={() => setScenario2FederalOpen(!scenario2FederalOpen)}
+                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
+                <ChevronIcon isOpen={scenario2FederalOpen} />
+              </button>
+              {scenario2FederalOpen && (
+                <FederalTaxCreditCalculator
+                  creditType={scenario2FederalCreditType}
+                  setCreditType={setScenario2FederalCreditType}
+                  canadianLabour={scenario2CanadianLabour}
+                  setCanadianLabour={setScenario2CanadianLabour}
+                  totalBudget={scenario2TotalBudget}
+                  provincialTaxCredit={result2.credit}
+                  formatNumber={formatNumber}
+                  handleNumberInput={handleNumberInput}
+                />
+              )}
+            </div>
 
             {/* Summary */}
             <FundingSummary

@@ -22,11 +22,8 @@ const InfoIcon = ({ tooltip }) => (
 );
 
 export default function OntarioCalculator({
-  province,
-  setProvince,
   creditType,
   setCreditType,
-  totalBudget,
   provincialLabour,
   setProvincialLabour,
   productionExpenses,
@@ -35,36 +32,13 @@ export default function OntarioCalculator({
   setRegionalBonus,
   result,
   formatNumber,
-  handleNumberInput,
-  showCompareLabel = false
+  handleNumberInput
 }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
       <h3 className="text-base font-semibold text-gray-900 mb-3">Provincial Tax Credit - Ontario</h3>
 
       <div className="space-y-1.5">
-        {/* Province Selector */}
-        <div>
-          <label className="block text-sm font-normal text-gray-900 mb-0.5">
-            {showCompareLabel ? 'Compare with' : 'Province'}
-          </label>
-          <select
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
-            className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 1rem center',
-              backgroundSize: '1rem',
-              paddingRight: '2.5rem'
-            }}
-          >
-            <option value="ON">Ontario</option>
-            <option value="BC">British Columbia</option>
-          </select>
-        </div>
-
         {/* Tax Credit Type Selector */}
         <div>
           <label className="block text-sm font-normal text-gray-900 mb-0.5">
