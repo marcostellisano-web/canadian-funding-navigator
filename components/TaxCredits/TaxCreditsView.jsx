@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import OntarioTaxCreditsView from './OntarioTaxCreditsView';
 import BCTaxCreditsView from './BCTaxCreditsView';
+import QuebecTaxCreditsView from './QuebecTaxCreditsView';
 
 export default function TaxCreditsView() {
   const [selectedProvince, setSelectedProvince] = useState(null);
 
   const provinces = [
     { id: 'ontario', name: 'Ontario', available: true },
-    { id: 'bc', name: 'British Columbia', available: true }
+    { id: 'bc', name: 'British Columbia', available: true },
+    { id: 'quebec', name: 'Quebec', available: true }
     // More provinces can be added here in the future
   ];
 
@@ -22,6 +24,7 @@ export default function TaxCreditsView() {
         </button>
         {selectedProvince === 'ontario' && <OntarioTaxCreditsView />}
         {selectedProvince === 'bc' && <BCTaxCreditsView />}
+        {selectedProvince === 'quebec' && <QuebecTaxCreditsView />}
       </div>
     );
   }
