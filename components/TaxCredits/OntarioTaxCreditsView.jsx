@@ -5,9 +5,12 @@ import TaxCreditInfoCard from './TaxCreditInfoCard';
 export default function OntarioTaxCreditsView() {
   const [viewMode, setViewMode] = useState('both'); // 'both', 'ofttc', 'opstc'
 
+  const ontarioFlag = '/flag-ontario.svg';
+
   const ofttcData = {
     title: 'Ontario Film & Television Tax Credit (OFTTC)',
     rate: '35% of Ontario labour expenditures',
+    flag: ontarioFlag,
     requirements: [
       'Minimum 75% of goods and services must be spent on Ontario expenditures',
       'Minimum 95% of post-production costs must be incurred in Ontario'
@@ -24,6 +27,7 @@ export default function OntarioTaxCreditsView() {
   const opstcData = {
     title: 'Ontario Production Services Tax Credit (OPSTC)',
     rate: '21.5% of all qualifying production expenditures',
+    flag: ontarioFlag,
     requirements: [
       'Available if a project does not qualify for the OFTTC',
       'Regional bonus does not apply to this credit'

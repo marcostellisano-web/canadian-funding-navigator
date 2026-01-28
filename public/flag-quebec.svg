@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- White cross on blue -->
+  <rect width="48" height="32" fill="#003DA5"/>
+
+  <!-- White cross -->
+  <rect x="20" y="0" width="8" height="32" fill="white"/>
+  <rect x="0" y="12" width="48" height="8" fill="white"/>
+
+  <!-- Fleur-de-lis in each quadrant (simplified) -->
+  <!-- Top-left -->
+  <g transform="translate(10, 6)">
+    <path d="M0,4 Q1,0 2,0 Q3,0 4,4 L3,4 L3,6 L1,6 L1,4 Z" fill="white" transform="scale(0.8)"/>
+  </g>
+
+  <!-- Top-right -->
+  <g transform="translate(34, 6)">
+    <path d="M0,4 Q1,0 2,0 Q3,0 4,4 L3,4 L3,6 L1,6 L1,4 Z" fill="white" transform="scale(0.8)"/>
+  </g>
+
+  <!-- Bottom-left -->
+  <g transform="translate(10, 22)">
+    <path d="M0,4 Q1,0 2,0 Q3,0 4,4 L3,4 L3,6 L1,6 L1,4 Z" fill="white" transform="scale(0.8)"/>
+  </g>
+
+  <!-- Bottom-right -->
+  <g transform="translate(34, 22)">
+    <path d="M0,4 Q1,0 2,0 Q3,0 4,4 L3,4 L3,6 L1,6 L1,4 Z" fill="white" transform="scale(0.8)"/>
+  </g>
+</svg>

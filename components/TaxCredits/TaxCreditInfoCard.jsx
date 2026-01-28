@@ -8,11 +8,21 @@ export default function TaxCreditInfoCard({
   bonuses,
   episodeMinimums,
   website,
-  regionalBonusLink
+  regionalBonusLink,
+  flag
 }) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6 h-full">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">{title}</h3>
+      <div className="flex items-start gap-3 mb-4">
+        {flag && (
+          <img
+            src={flag}
+            alt=""
+            className="w-8 h-5 object-cover rounded shadow-sm border border-gray-200 flex-shrink-0 mt-0.5"
+          />
+        )}
+        <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
+      </div>
 
       <div className="space-y-6">
         {/* Credit Rate */}

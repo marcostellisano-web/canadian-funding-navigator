@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- Red background -->
+  <rect width="48" height="32" fill="#CC0000"/>
+
+  <!-- Union Jack in top left -->
+  <g transform="translate(0,0)">
+    <rect width="16" height="10" fill="#00247D"/>
+    <!-- White diagonals -->
+    <path d="M0,0 L16,10 M16,0 L0,10" stroke="white" stroke-width="2"/>
+    <!-- Red diagonals -->
+    <path d="M0,0 L16,10 M16,0 L0,10" stroke="#CC0000" stroke-width="1"/>
+    <!-- White cross -->
+    <rect x="6" y="0" width="4" height="10" fill="white"/>
+    <rect x="0" y="3.5" width="16" height="3" fill="white"/>
+    <!-- Red cross -->
+    <rect x="7" y="0" width="2" height="10" fill="#CC0000"/>
+    <rect x="0" y="4" width="16" height="2" fill="#CC0000"/>
+  </g>
+
+  <!-- Ontario Shield -->
+  <g transform="translate(26, 8)">
+    <!-- Shield shape -->
+    <path d="M0,0 L14,0 L14,10 Q7,16 0,10 Z" fill="#228B22"/>
+    <!-- Cross of St. George at top -->
+    <rect x="0" y="0" width="14" height="4" fill="white"/>
+    <rect x="6" y="0" width="2" height="4" fill="#CC0000"/>
+    <rect x="0" y="1.5" width="14" height="1" fill="#CC0000"/>
+    <!-- Maple leaves (simplified) -->
+    <circle cx="4" cy="8" r="1.5" fill="#FFD700"/>
+    <circle cx="7" cy="6" r="1.5" fill="#FFD700"/>
+    <circle cx="10" cy="8" r="1.5" fill="#FFD700"/>
+  </g>
+</svg>
