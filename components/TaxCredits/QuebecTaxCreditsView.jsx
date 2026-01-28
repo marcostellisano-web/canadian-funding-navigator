@@ -5,9 +5,12 @@ import TaxCreditInfoCard from './TaxCreditInfoCard';
 export default function QuebecTaxCreditsView() {
   const [viewMode, setViewMode] = useState('both'); // 'both', 'sptc', 'spstc'
 
+  const quebecFlag = '/flag-quebec.svg';
+
   const sptcData = {
     title: 'SODEC Production Tax Credit',
     rate: '32% of Quebec labour expenditures',
+    flag: quebecFlag,
     requirements: [
       'A minimum of 75% of goods and services must be spent on Quebec expenditures',
       'All labour performed in Quebec regardless of residency is considered eligible',
@@ -19,6 +22,7 @@ export default function QuebecTaxCreditsView() {
   const spstcData = {
     title: 'SODEC Production Services Tax Credit',
     rate: '25% of all qualifying production expenditures incurred in Quebec',
+    flag: quebecFlag,
     requirements: [
       'Available if a project does not qualify for the production tax credit',
       'The cost of the production must exceed $250,000'
