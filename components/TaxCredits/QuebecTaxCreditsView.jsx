@@ -17,7 +17,7 @@ export default function QuebecTaxCreditsView() {
   };
 
   const spstcData = {
-    title: 'SODEC Production Services Tax Credit (OPSTC)',
+    title: 'SODEC Production Services Tax Credit',
     rate: '25% of all qualifying production expenditures incurred in Quebec',
     requirements: [
       'Available if a project does not qualify for the production tax credit',
