@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- Blue wavy lines (ocean) at bottom -->
+  <rect width="48" height="32" fill="#00247D"/>
+
+  <!-- White and blue wavy stripes at bottom -->
+  <path d="M0,22 Q6,20 12,22 T24,22 T36,22 T48,22 L48,24 Q42,26 36,24 T24,24 T12,24 T0,24 Z" fill="white"/>
+  <path d="M0,26 Q6,24 12,26 T24,26 T36,26 T48,26 L48,28 Q42,30 36,28 T24,28 T12,28 T0,28 Z" fill="white"/>
+  <path d="M0,30 Q6,28 12,30 T24,30 T36,30 T48,30 L48,32 L0,32 Z" fill="white"/>
+
+  <!-- Union Jack at top -->
+  <rect y="0" width="48" height="16" fill="#00247D"/>
+  <!-- White diagonals -->
+  <path d="M0,0 L48,16 M48,0 L0,16" stroke="white" stroke-width="3"/>
+  <!-- Red diagonals -->
+  <path d="M0,0 L48,16 M48,0 L0,16" stroke="#CC0000" stroke-width="1.5"/>
+  <!-- White cross -->
+  <rect x="20" y="0" width="8" height="16" fill="white"/>
+  <rect x="0" y="5.5" width="48" height="5" fill="white"/>
+  <!-- Red cross -->
+  <rect x="22" y="0" width="4" height="16" fill="#CC0000"/>
+  <rect x="0" y="6.5" width="48" height="3" fill="#CC0000"/>
+
+  <!-- Crown (simplified) -->
+  <g transform="translate(19, 3)">
+    <path d="M0,7 L1,4 L3,6 L5,2 L7,6 L9,4 L10,7 Z" fill="#FFD700"/>
+    <rect x="1" y="7" width="8" height="3" fill="#FFD700"/>
+  </g>
+</svg>

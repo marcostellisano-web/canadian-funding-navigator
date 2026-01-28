@@ -7,9 +7,9 @@ export default function TaxCreditsView() {
   const [selectedProvince, setSelectedProvince] = useState(null);
 
   const provinces = [
-    { id: 'ontario', name: 'Ontario', available: true },
-    { id: 'bc', name: 'British Columbia', available: true },
-    { id: 'quebec', name: 'Quebec', available: true }
+    { id: 'ontario', name: 'Ontario', available: true, flag: '/flag-ontario.svg' },
+    { id: 'bc', name: 'British Columbia', available: true, flag: '/flag-bc.svg' },
+    { id: 'quebec', name: 'Quebec', available: true, flag: '/flag-quebec.svg' }
     // More provinces can be added here in the future
   ];
 
@@ -48,6 +48,13 @@ export default function TaxCreditsView() {
                 : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
             }`}
           >
+            {province.flag && (
+              <img
+                src={province.flag}
+                alt=""
+                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+              />
+            )}
             <h3 className={`text-lg font-semibold mb-2 ${
               province.available ? 'text-gray-900 group-hover:text-red-600' : 'text-gray-400'
             }`}>
