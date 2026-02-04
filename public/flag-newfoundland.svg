@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- White background -->
+  <rect width="48" height="32" fill="#FFFFFF"/>
+
+  <!-- Blue triangles (left side) -->
+  <polygon points="0,0 16,16 0,32" fill="#0033A0"/>
+  <polygon points="48,0 32,16 48,32" fill="#0033A0"/>
+
+  <!-- Red triangles (top and bottom) -->
+  <polygon points="0,0 24,0 16,16" fill="#DA291C"/>
+  <polygon points="24,0 48,0 32,16" fill="#DA291C"/>
+  <polygon points="0,32 24,32 16,16" fill="#DA291C"/>
+  <polygon points="24,32 48,32 32,16" fill="#DA291C"/>
+
+  <!-- Gold arrow/trident pointing right -->
+  <g fill="#FEDD00">
+    <!-- Main arrow shaft -->
+    <polygon points="16,16 30,16 32,14 38,16 32,18 30,16"/>
+    <!-- Upper barb -->
+    <polygon points="24,10 28,14 24,14"/>
+    <!-- Lower barb -->
+    <polygon points="24,22 28,18 24,18"/>
+  </g>
+</svg>
