@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- White background -->
+  <rect width="48" height="32" fill="#FFFFFF"/>
+
+  <!-- Blue St. Andrew's Cross (Saltire) -->
+  <path d="M0,0 L48,32 M48,0 L0,32" stroke="#0065BD" stroke-width="6"/>
+
+  <!-- Royal Arms shield in center -->
+  <g transform="translate(17, 9)">
+    <!-- Shield background (gold/yellow) -->
+    <path d="M0,2 Q0,0 2,0 L12,0 Q14,0 14,2 L14,11 Q14,14 7,14 Q0,14 0,11 Z" fill="#FFD700" stroke="#C8102E" stroke-width="0.5"/>
+
+    <!-- Red lion rampant (simplified) -->
+    <g fill="#C8102E">
+      <!-- Body -->
+      <ellipse cx="7" cy="8" rx="3" ry="4"/>
+      <!-- Head -->
+      <circle cx="7" cy="4" r="2"/>
+      <!-- Front legs raised -->
+      <path d="M5,6 L3,3 M9,6 L11,3" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Back legs -->
+      <path d="M5,11 L4,13 M9,11 L10,13" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Tail -->
+      <path d="M7,12 Q10,13 11,11" stroke="#C8102E" stroke-width="1" fill="none"/>
+    </g>
+
+    <!-- Double tressure (red border with fleur-de-lis pattern - simplified) -->
+    <path d="M1,2 Q1,1 2,1 L12,1 Q13,1 13,2 L13,10 Q13,13 7,13 Q1,13 1,10 Z" fill="none" stroke="#C8102E" stroke-width="0.5"/>
+  </g>
+</svg>

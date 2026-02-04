@@ -5,6 +5,7 @@ import QuebecTaxCreditsView from './QuebecTaxCreditsView';
 import AlbertaTaxCreditsView from './AlbertaTaxCreditsView';
 import SaskatchewanTaxCreditsView from './SaskatchewanTaxCreditsView';
 import ManitobaTaxCreditsView from './ManitobaTaxCreditsView';
+import NovaScotiaTaxCreditsView from './NovaScotiaTaxCreditsView';
 
 export default function TaxCreditsView() {
   const [selectedProvince, setSelectedProvince] = useState(null);
@@ -15,7 +16,8 @@ export default function TaxCreditsView() {
     { id: 'quebec', name: 'Quebec', available: true, flag: '/flag-quebec.svg' },
     { id: 'alberta', name: 'Alberta', available: true, flag: '/flag-alberta.svg' },
     { id: 'saskatchewan', name: 'Saskatchewan', available: true, flag: '/flag-saskatchewan.svg' },
-    { id: 'manitoba', name: 'Manitoba', available: true, flag: '/flag-manitoba.svg' }
+    { id: 'manitoba', name: 'Manitoba', available: true, flag: '/flag-manitoba.svg' },
+    { id: 'nova-scotia', name: 'Nova Scotia', available: true, flag: '/flag-nova-scotia.svg' }
     // More provinces can be added here in the future
   ];
 
@@ -34,6 +36,7 @@ export default function TaxCreditsView() {
         {selectedProvince === 'alberta' && <AlbertaTaxCreditsView />}
         {selectedProvince === 'saskatchewan' && <SaskatchewanTaxCreditsView />}
         {selectedProvince === 'manitoba' && <ManitobaTaxCreditsView />}
+        {selectedProvince === 'nova-scotia' && <NovaScotiaTaxCreditsView />}
       </div>
     );
   }
