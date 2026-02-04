@@ -2,23 +2,26 @@
   <!-- White background -->
   <rect width="48" height="32" fill="#FFFFFF"/>
 
-  <!-- Blue triangles (left side) -->
-  <polygon points="0,0 16,16 0,32" fill="#0033A0"/>
-  <polygon points="48,0 32,16 48,32" fill="#0033A0"/>
+  <!-- Left side: Blue triangles with white cross -->
+  <!-- Top-left blue triangle -->
+  <polygon points="0,0 24,0 24,16" fill="#00205B"/>
+  <!-- Bottom-left blue triangle -->
+  <polygon points="0,32 24,32 24,16" fill="#00205B"/>
+  <!-- White diagonal cross on left side -->
+  <polygon points="0,0 5,0 24,14 24,18 5,32 0,32 0,27 19,16 0,5" fill="#FFFFFF"/>
 
-  <!-- Red triangles (top and bottom) -->
-  <polygon points="0,0 24,0 16,16" fill="#DA291C"/>
-  <polygon points="24,0 48,0 32,16" fill="#DA291C"/>
-  <polygon points="0,32 24,32 16,16" fill="#DA291C"/>
-  <polygon points="24,32 48,32 32,16" fill="#DA291C"/>
+  <!-- Right side: Red outlined triangles -->
+  <!-- Top-right red triangle -->
+  <polygon points="48,0 48,16 26,16" fill="#C8102E"/>
+  <!-- Bottom-right red triangle -->
+  <polygon points="48,32 48,16 26,16" fill="#C8102E"/>
+  <!-- White inner area for top-right -->
+  <polygon points="46,2 46,14 30,14" fill="#FFFFFF"/>
+  <!-- White inner area for bottom-right -->
+  <polygon points="46,30 46,18 30,18" fill="#FFFFFF"/>
 
-  <!-- Gold arrow/trident pointing right -->
-  <g fill="#FEDD00">
-    <!-- Main arrow shaft -->
-    <polygon points="16,16 30,16 32,14 38,16 32,18 30,16"/>
-    <!-- Upper barb -->
-    <polygon points="24,10 28,14 24,14"/>
-    <!-- Lower barb -->
-    <polygon points="24,22 28,18 24,18"/>
-  </g>
+  <!-- Gold arrow in center-right -->
+  <polygon points="24,12 24,20 40,20 40,22 46,16 40,10 40,12" fill="#FEDD00"/>
+  <!-- Red outline on arrow -->
+  <polygon points="24,11 24,12 40,12 40,10 41,10 47,16 41,22 40,22 40,20 24,20 24,21 23,21 23,11" fill="none" stroke="#C8102E" stroke-width="0.5"/>
 </svg>
