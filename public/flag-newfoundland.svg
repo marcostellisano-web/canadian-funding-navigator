@@ -1,27 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
-  <!-- White background -->
-  <rect width="48" height="32" fill="#FFFFFF"/>
-
-  <!-- Left side: Blue triangles with white cross -->
-  <!-- Top-left blue triangle -->
-  <polygon points="0,0 24,0 24,16" fill="#00205B"/>
-  <!-- Bottom-left blue triangle -->
-  <polygon points="0,32 24,32 24,16" fill="#00205B"/>
-  <!-- White diagonal cross on left side -->
-  <polygon points="0,0 5,0 24,14 24,18 5,32 0,32 0,27 19,16 0,5" fill="#FFFFFF"/>
-
-  <!-- Right side: Red outlined triangles -->
-  <!-- Top-right red triangle -->
-  <polygon points="48,0 48,16 26,16" fill="#C8102E"/>
-  <!-- Bottom-right red triangle -->
-  <polygon points="48,32 48,16 26,16" fill="#C8102E"/>
-  <!-- White inner area for top-right -->
-  <polygon points="46,2 46,14 30,14" fill="#FFFFFF"/>
-  <!-- White inner area for bottom-right -->
-  <polygon points="46,30 46,18 30,18" fill="#FFFFFF"/>
-
-  <!-- Gold arrow in center-right -->
-  <polygon points="24,12 24,20 40,20 40,22 46,16 40,10 40,12" fill="#FEDD00"/>
-  <!-- Red outline on arrow -->
-  <polygon points="24,11 24,12 40,12 40,10 41,10 47,16 41,22 40,22 40,20 24,20 24,21 23,21 23,11" fill="none" stroke="#C8102E" stroke-width="0.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 43200 21600">
+	<title>Flag of Newfoundland and Labrador</title>
+	<path fill="#fff" d="m0 0h43200v21600H0z"/>
+	<path fill="#003865" d="m3159 900h13547v7822zm0 19800h13547v-7822zm-1559-948v-8152h14121zm0-17904v8152h14121z"/>
+	<path fill="#ba0c2f" d="m18706 8722V900h23094zm0 1154h17894l3000 924-3000 924H18706l1600-924zm0 3002v7822h23094zm17631 6922H19606v-5667zm0-18000H19606v5667z"/>
+	<path fill="#ffa400" d="m20199 10276h16341l1701 524-1701 524H20199l907-524z"/>
 </svg>
