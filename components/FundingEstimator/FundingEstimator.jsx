@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import OntarioCalculator from './OntarioCalculator';
 import BCCalculator from './BCCalculator';
 import NewfoundlandCalculator from './NewfoundlandCalculator';
+import AlbertaCalculator from './AlbertaCalculator';
 import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
@@ -64,6 +65,8 @@ export default function FundingEstimator() {
   const [scenario1NlCreditType, setScenario1NlCreditType] = useState('labour');
   const [scenario1NlProvincialLabour, setScenario1NlProvincialLabour] = useState('');
   const [scenario1NlProductionExpenditures, setScenario1NlProductionExpenditures] = useState('');
+  const [scenario1AbCreditType, setScenario1AbCreditType] = useState('base');
+  const [scenario1AbProductionExpenditures, setScenario1AbProductionExpenditures] = useState('');
 
   // Scenario 1 state - Federal
   const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
@@ -87,6 +90,8 @@ export default function FundingEstimator() {
   const [scenario2NlCreditType, setScenario2NlCreditType] = useState('labour');
   const [scenario2NlProvincialLabour, setScenario2NlProvincialLabour] = useState('');
   const [scenario2NlProductionExpenditures, setScenario2NlProductionExpenditures] = useState('');
+  const [scenario2AbCreditType, setScenario2AbCreditType] = useState('base');
+  const [scenario2AbProductionExpenditures, setScenario2AbProductionExpenditures] = useState('');
 
   // Scenario 2 state - Federal
   const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
@@ -212,6 +217,28 @@ export default function FundingEstimator() {
     return { credit, budgetPercent, breakdown };
   };
 
+  // Calculate Alberta tax credit
+  const calculateAlberta = (creditType, totalBudget, productionExpenditures) => {
+    const budget = parseFloat(totalBudget) || 0;
+    const expenditures = parseFloat(productionExpenditures) || 0;
+
+    const rate = creditType === 'enhanced' ? 0.30 : 0.22;
+    const rateName = creditType === 'enhanced' ? '30%' : '22%';
+    const credit = expenditures * rate;
+
+    let breakdown = '';
+    if (creditType === 'enhanced') {
+      const baseCredit = expenditures * 0.22;
+      const enhancementCredit = expenditures * 0.08;
+      breakdown = `Base Credit (22%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nEnhancement (+8%): $${enhancementCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nTotal Credit (${rateName}): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    } else {
+      breakdown = `Base Credit (${rateName}): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${rateName} of $${expenditures.toLocaleString()})`;
+    }
+
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
   // Calculate federal tax credit
   const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
@@ -258,6 +285,8 @@ export default function FundingEstimator() {
         return calculateBC(scenario1BcCreditType, scenario1TotalBudget, scenario1BcEligibleLabour, scenario1BcTotalDays, scenario1BcOutsideVancouver, scenario1BcDistantLocation);
       } else if (province === 'NL') {
         return calculateNewfoundland(scenario1NlCreditType, scenario1TotalBudget, scenario1NlProvincialLabour, scenario1NlProductionExpenditures);
+      } else if (province === 'AB') {
+        return calculateAlberta(scenario1AbCreditType, scenario1TotalBudget, scenario1AbProductionExpenditures);
       }
     } else {
       if (province === 'ON') {
@@ -266,13 +295,15 @@ export default function FundingEstimator() {
         return calculateBC(scenario2BcCreditType, scenario2TotalBudget, scenario2BcEligibleLabour, scenario2BcTotalDays, scenario2BcOutsideVancouver, scenario2BcDistantLocation);
       } else if (province === 'NL') {
         return calculateNewfoundland(scenario2NlCreditType, scenario2TotalBudget, scenario2NlProvincialLabour, scenario2NlProductionExpenditures);
+      } else if (province === 'AB') {
+        return calculateAlberta(scenario2AbCreditType, scenario2TotalBudget, scenario2AbProductionExpenditures);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
   };
 
   const getProvinceName = (code) => {
-    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador' };
+    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta' };
     return names[code] || code;
   };
 
@@ -320,6 +351,7 @@ export default function FundingEstimator() {
               >
                 <option value="ON">Ontario</option>
                 <option value="BC">British Columbia</option>
+                <option value="AB">Alberta</option>
                 <option value="NL">Newfoundland & Labrador</option>
               </select>
             </div>
@@ -421,6 +453,18 @@ export default function FundingEstimator() {
                     handleNumberInput={handleNumberInput}
                   />
                 )}
+
+                {scenario1Province === 'AB' && (
+                  <AlbertaCalculator
+                    creditType={scenario1AbCreditType}
+                    setCreditType={setScenario1AbCreditType}
+                    productionExpenditures={scenario1AbProductionExpenditures}
+                    setProductionExpenditures={setScenario1AbProductionExpenditures}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
               </>
             )}
           </div>
@@ -482,6 +526,7 @@ export default function FundingEstimator() {
                 >
                   <option value="BC">British Columbia</option>
                   <option value="ON">Ontario</option>
+                  <option value="AB">Alberta</option>
                   <option value="NL">Newfoundland & Labrador</option>
                 </select>
               </div>
@@ -578,6 +623,18 @@ export default function FundingEstimator() {
                       productionExpenditures={scenario2NlProductionExpenditures}
                       setProductionExpenditures={setScenario2NlProductionExpenditures}
                       totalBudget={scenario2TotalBudget}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'AB' && (
+                    <AlbertaCalculator
+                      creditType={scenario2AbCreditType}
+                      setCreditType={setScenario2AbCreditType}
+                      productionExpenditures={scenario2AbProductionExpenditures}
+                      setProductionExpenditures={setScenario2AbProductionExpenditures}
                       result={result2}
                       formatNumber={formatNumber}
                       handleNumberInput={handleNumberInput}
