@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32">
+  <!-- Royal Blue background -->
+  <rect width="48" height="32" fill="#0033A0"/>
+
+  <!-- Shield background (centered) -->
+  <g transform="translate(16, 4)">
+    <!-- Shield shape -->
+    <path d="M0,0 L16,0 L16,18 Q8,24 0,18 Z" fill="#FFD700"/>
+
+    <!-- St. George's Cross (red on white) -->
+    <rect x="0" y="0" width="16" height="6" fill="white"/>
+    <rect x="6.5" y="0" width="3" height="6" fill="#C8102E"/>
+    <rect x="0" y="2" width="16" height="2" fill="#C8102E"/>
+
+    <!-- Blue sky and mountains -->
+    <rect x="0" y="6" width="16" height="5" fill="#87CEEB"/>
+
+    <!-- Mountains (dark blue/gray) -->
+    <path d="M0,9 L3,6 L6,9 L9,6.5 L12,9 L15,7 L16,9 L16,11 L0,11 Z" fill="#4A5568"/>
+
+    <!-- Green hills/foothills -->
+    <path d="M0,11 L4,10 L8,11 L12,10 L16,11 L16,13 L0,13 Z" fill="#228B22"/>
+
+    <!-- Prairie/wheat field (golden) -->
+    <rect x="0" y="13" width="16" height="5" fill="#DAA520"/>
+
+    <!-- Wheat stalks suggestion -->
+    <path d="M2,14 L2,18 M6,14 L6,18 M10,14 L10,18 M14,14 L14,18" stroke="#B8860B" stroke-width="0.5"/>
+  </g>
+</svg>
