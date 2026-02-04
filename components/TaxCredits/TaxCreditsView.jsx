@@ -3,6 +3,7 @@ import OntarioTaxCreditsView from './OntarioTaxCreditsView';
 import BCTaxCreditsView from './BCTaxCreditsView';
 import QuebecTaxCreditsView from './QuebecTaxCreditsView';
 import AlbertaTaxCreditsView from './AlbertaTaxCreditsView';
+import SaskatchewanTaxCreditsView from './SaskatchewanTaxCreditsView';
 
 export default function TaxCreditsView() {
   const [selectedProvince, setSelectedProvince] = useState(null);
@@ -11,7 +12,8 @@ export default function TaxCreditsView() {
     { id: 'ontario', name: 'Ontario', available: true, flag: '/flag-ontario.svg' },
     { id: 'bc', name: 'British Columbia', available: true, flag: '/flag-bc.svg' },
     { id: 'quebec', name: 'Quebec', available: true, flag: '/flag-quebec.svg' },
-    { id: 'alberta', name: 'Alberta', available: true, flag: '/flag-alberta.svg' }
+    { id: 'alberta', name: 'Alberta', available: true, flag: '/flag-alberta.svg' },
+    { id: 'saskatchewan', name: 'Saskatchewan', available: true, flag: '/flag-saskatchewan.svg' }
     // More provinces can be added here in the future
   ];
 
@@ -28,6 +30,7 @@ export default function TaxCreditsView() {
         {selectedProvince === 'bc' && <BCTaxCreditsView />}
         {selectedProvince === 'quebec' && <QuebecTaxCreditsView />}
         {selectedProvince === 'alberta' && <AlbertaTaxCreditsView />}
+        {selectedProvince === 'saskatchewan' && <SaskatchewanTaxCreditsView />}
       </div>
     );
   }
