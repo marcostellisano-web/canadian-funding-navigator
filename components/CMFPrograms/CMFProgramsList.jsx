@@ -22,8 +22,7 @@ export default function CMFProgramsList({
                 <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
                   {stripCMFPrefix(source.name)}
                 </h3>
-                <span className="inline-block px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded font-medium mb-1">CMF</span>
-                <p className="text-xs text-gray-500">{source.organization}</p>
+                <span className="inline-block px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded font-medium">CMF</span>
               </div>
               <div className="text-gray-400 group-hover:text-red-600 transition-colors">
                 →
