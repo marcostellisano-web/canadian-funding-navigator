@@ -48,32 +48,30 @@ export default function TaxCreditsView() {
 
   return (
     <div className="space-y-6">
-      {/* Federal Tax Credits Section */}
+      {/* Federal Tax Credits */}
       <div>
         <h2 className="text-xl font-semibold text-gray-900 mb-2">Federal Tax Credits</h2>
         <p className="text-sm text-gray-500">Canada-wide federal film and video production tax credits</p>
       </div>
 
-      <button
-        onClick={() => setSelectedProvince('federal')}
-        className="w-full p-6 border-2 rounded-lg text-left transition-all bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group"
-      >
-        <div className="flex items-center gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <button
+          onClick={() => setSelectedProvince('federal')}
+          className="p-6 border-2 rounded-lg text-left transition-all bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group"
+        >
           <img
             src="/flag-canada.svg"
             alt=""
-            className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200"
+            className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
           />
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-600">
-              Canada (Federal)
-            </h3>
-            <p className="text-sm text-gray-500">CPTC &amp; PSTC — View federal tax credits →</p>
-          </div>
-        </div>
-      </button>
+          <h3 className="text-lg font-semibold mb-2 text-gray-900 group-hover:text-red-600">
+            Canada (Federal)
+          </h3>
+          <p className="text-sm text-gray-500">View tax credits →</p>
+        </button>
+      </div>
 
-      {/* Provincial Tax Credits Section */}
+      {/* Provincial Tax Credits */}
       <div className="pt-2">
         <h2 className="text-xl font-semibold text-gray-900 mb-2">Provincial Tax Credits</h2>
         <p className="text-sm text-gray-500">Choose a province to view available tax credit programs</p>
