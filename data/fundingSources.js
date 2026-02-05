@@ -9,6 +9,7 @@ const fundingSources = [
     fundingRange: 'The maximum contribution shall be the lesser of 25% of the Project\'s Eligible Costs or $900,000.',
     deadlines: 'May and September intake periods',
     website: 'https://cmf-fmc.ca/program/official-language-minority-communities-olmc-production-funding/',
+    tileDescription: 'CMF Support for English-Language Projects in Quebec',
     tags: ['Documentary', 'English', 'Quebec'],
     keyPoints: [
       'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up.',
@@ -29,6 +30,7 @@ const fundingSources = [
     fundingRange: 'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up, up to a maximum of 20% of the Project\'s Eligible Costs.',
     deadlines: 'May and October intake periods',
     website: 'https://cmf-fmc.ca/program/broadcaster-envelope-program-english-and-french/',
+    tileDescription: 'CMF funding allocated Through Canadian Broadcasters',
     tags: ['TV Series', 'Broadcaster'],
     keyPoints: [
       'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount.',
@@ -49,6 +51,7 @@ const fundingSources = [
     fundingRange: 'The CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
     deadlines: 'August intake period',
     website: 'https://cmf-fmc.ca/program/distributor-program/',
+    tileDescription: 'Unlock CMF Funds Without a Canadian Broadcaster',
     tags: ['Distributor'],
     keyPoints: [
       'CMF contribution amounts in excess of the above will be in the form of an Equity Investment up to the maximum amount of 49%.',
@@ -68,6 +71,7 @@ const fundingSources = [
     fundingRange: 'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up, up to a maximum of 20% of the Project\'s Eligible Costs.',
     deadlines: 'May intake period',
     website: 'https://cmf-fmc.ca/program/pov-program/',
+    tileDescription: 'CMF funding for one-off point-of-view (POV) documentary production',
     tags: ['Documentary', 'Auteur', 'POV'],
     keyPoints: [
       'The CMF\'s Maximum Contribution in this Program is the lesser of 49% of the Project\'s Eligible Costs or $400,000.',
@@ -88,6 +92,7 @@ const fundingSources = [
     fundingRange: 'The maximum contribution shall be the lesser of 15% of the Project\'s Eligible Costs or $1,00,000.',
     deadlines: 'May and September intake periods',
     website: 'https://cmf-fmc.ca/program/regional-production-funding/',
+    tileDescription: 'CMF Support for Productions Outside Major Production Hubs',
     tags: ['Regional', 'Bonus'],
     keyPoints: [
       'The initial CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up.',
