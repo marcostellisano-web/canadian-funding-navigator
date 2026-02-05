@@ -20,6 +20,7 @@ export default function CMFProgramsList({
             <div className="flex justify-between items-start mb-3">
               <div>
                 <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
+                  <span className="inline-block px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded font-medium mr-2 align-middle">CMF</span>
                   {stripCMFPrefix(source.name)}
                 </h3>
                 <p className="text-xs text-gray-500">{source.organization}</p>
