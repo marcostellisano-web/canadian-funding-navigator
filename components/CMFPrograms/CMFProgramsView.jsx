@@ -4,7 +4,6 @@ import CMFProgramDetail from './CMFProgramDetail';
 
 export default function CMFProgramsView({ programs }) {
   const [selectedFunding, setSelectedFunding] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const handleFundingSelect = (source) => {
     setSelectedFunding(source);
@@ -16,8 +15,6 @@ export default function CMFProgramsView({ programs }) {
       {!selectedFunding ? (
         <CMFProgramsList
           programs={programs}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
           onProgramSelect={handleFundingSelect}
         />
       ) : (
