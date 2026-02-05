@@ -80,9 +80,6 @@ export default function CMFProgramsList({
                         →
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                      {source.description}
-                    </p>
                     <div className="flex flex-wrap gap-2">
                       {source.tags.map((tag, idx) => (
                         <span key={idx} className="px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded">
