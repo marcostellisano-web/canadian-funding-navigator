@@ -1,6 +1,8 @@
 import React from 'react';
 import { Download } from 'lucide-react';
 
+const stripCMFPrefix = (name) => name.replace(/^CMF\s+/, '');
+
 export default function CMFProgramDetail({ program, onBack }) {
   const generatePDF = () => {
     if (!program) return;
@@ -9,7 +11,7 @@ export default function CMFProgramDetail({ program, onBack }) {
     printWindow.document.write(`
       <html>
         <head>
-          <title>${program.name}</title>
+          <title>${stripCMFPrefix(program.name)}</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 60px; line-height: 1.8; max-width: 800px; margin: 0 auto; }
             h1 { font-size: 24px; margin-bottom: 4px; font-weight: 600; }
@@ -19,7 +21,7 @@ export default function CMFProgramDetail({ program, onBack }) {
           </style>
         </head>
         <body>
-          <h1>${program.name}</h1>
+          <h1>${stripCMFPrefix(program.name)}</h1>
           <div class="org">${program.organization}</div>
 
           <h2>Description</h2>
@@ -42,7 +44,7 @@ export default function CMFProgramDetail({ program, onBack }) {
           ` : ''}
 
           <h2>Website</h2>
-          <p><a href="${program.website}">${program.name}</a></p>
+          <p><a href="${program.website}">${stripCMFPrefix(program.name)}</a></p>
         </body>
       </html>
     `);
@@ -63,7 +65,7 @@ export default function CMFProgramDetail({ program, onBack }) {
         <div className="flex justify-between items-start pb-6 border-b border-gray-100">
           <div>
             <h2 className="text-2xl font-semibold mb-2">
-              {program.name}
+              {stripCMFPrefix(program.name)}
             </h2>
             <p className="text-sm text-gray-500 mb-3">
               {program.organization}
@@ -128,7 +130,7 @@ export default function CMFProgramDetail({ program, onBack }) {
             rel="noopener noreferrer"
             className="text-red-600 hover:text-red-700 underline"
           >
-            {program.name} →
+            {stripCMFPrefix(program.name)} →
           </a>
         </div>
       </div>
