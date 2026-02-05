@@ -1,6 +1,8 @@
 import React from 'react';
 import { Search, X } from 'lucide-react';
 
+const stripCMFPrefix = (name) => name.replace(/^CMF\s+/, '');
+
 export default function CMFProgramsList({
   programs,
   searchQuery,
@@ -60,17 +62,17 @@ export default function CMFProgramsList({
               <h2 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
                 {categoryName}
               </h2>
-              <div className="grid gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categorySources.map(source => (
                   <div
                     key={source.id}
                     onClick={() => onProgramSelect(source)}
-                    className="bg-white p-6 border border-gray-100 rounded-lg hover:border-red-200 hover:shadow-sm transition-all cursor-pointer group"
+                    className="bg-white p-6 border-2 border-gray-200 rounded-lg hover:border-red-400 hover:shadow-md transition-all cursor-pointer group"
                   >
                     <div className="flex justify-between items-start mb-3">
                       <div>
                         <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
-                          {source.name}
+                          {stripCMFPrefix(source.name)}
                         </h3>
                         <p className="text-xs text-gray-500">{source.organization}</p>
                       </div>
