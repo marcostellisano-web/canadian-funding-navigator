@@ -7,6 +7,7 @@ import GermanyIncentivesView from './GermanyIncentivesView';
 import IrelandIncentivesView from './IrelandIncentivesView';
 import HungaryIncentivesView from './HungaryIncentivesView';
 import PortugalIncentivesView from './PortugalIncentivesView';
+import BelgiumIncentivesView from './BelgiumIncentivesView';
 import AustraliaIncentivesView from './AustraliaIncentivesView';
 import NewZealandIncentivesView from './NewZealandIncentivesView';
 
@@ -22,6 +23,7 @@ export default function InternationalIncentivesView() {
     { id: 'ireland', name: 'Ireland', available: true, flag: '/flag-ireland.svg' },
     { id: 'hungary', name: 'Hungary', available: true, flag: '/flag-hungary.svg' },
     { id: 'portugal', name: 'Portugal', available: true, flag: '/flag-portugal.svg' },
+    { id: 'belgium', name: 'Belgium', available: true, flag: '/flag-belgium.svg' },
   ];
 
   const otherCountries = [
@@ -46,6 +48,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'ireland' && <IrelandIncentivesView />}
         {selectedCountry === 'hungary' && <HungaryIncentivesView />}
         {selectedCountry === 'portugal' && <PortugalIncentivesView />}
+        {selectedCountry === 'belgium' && <BelgiumIncentivesView />}
         {selectedCountry === 'australia' && <AustraliaIncentivesView />}
         {selectedCountry === 'new-zealand' && <NewZealandIncentivesView />}
       </div>
