@@ -7,6 +7,7 @@ import TaxCreditsView from '../components/TaxCredits/TaxCreditsView';
 import CMFProgramsView from '../components/CMFPrograms/CMFProgramsView';
 import IntakeDatesView from '../components/IntakeDates/IntakeDatesView';
 import AdminPanel from '../components/Admin/AdminPanel';
+import InternationalIncentivesView from '../components/InternationalIncentives/InternationalIncentivesView';
 
 export default function Home() {
   const [programs, setPrograms] = useState([]);
@@ -168,6 +169,19 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600"></div>
                 )}
               </button>
+              <button
+                onClick={() => setActiveTab('international')}
+                className={`pb-3 text-sm font-medium transition-all relative ${
+                  activeTab === 'international'
+                    ? 'text-gray-900'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                International Incentives
+                {activeTab === 'international' && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
+                )}
+              </button>
               {showAdmin && (
                 <button
                   onClick={() => setActiveTab('admin')}
@@ -190,6 +204,7 @@ export default function Home() {
             {activeTab === 'cmf' && <CMFProgramsView programs={programs} />}
             {activeTab === 'calendar' && <IntakeDatesView programs={programs} />}
             {activeTab === 'estimator' && <FundingEstimator />}
+            {activeTab === 'international' && <InternationalIncentivesView />}
             {activeTab === 'admin' && showAdmin && (
               <AdminPanel programs={programs} onRefresh={fetchPrograms} />
             )}
