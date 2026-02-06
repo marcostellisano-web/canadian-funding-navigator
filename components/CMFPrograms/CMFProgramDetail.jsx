@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download } from 'lucide-react';
+import { Download, Clock } from 'lucide-react';
 
 const stripCMFPrefix = (name) => name.replace(/^CMF\s+/, '');
 
@@ -37,6 +37,19 @@ export default function CMFProgramDetail({ program, onBack }) {
 
           <h2>Deadlines</h2>
           <p>${program.deadlines}</p>
+          ${(program.upcomingDeadlines || []).length > 0 ? `
+            <table style="width:100%; border-collapse:collapse; margin-top:8px;">
+              ${program.upcomingDeadlines.map(d => {
+                const dt = new Date(d.date);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const days = Math.ceil((dt - today) / (1000*60*60*24));
+                const dateStr = dt.toLocaleDateString('en-CA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                const status = days < 0 ? 'Passed' : days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days + ' days remaining';
+                return '<tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;">' + d.description + '<br/><span style="color:#999;font-size:12px;">' + dateStr + '</span></td><td style="padding:8px 0;text-align:right;color:' + (days <= 30 && days >= 0 ? '#b91c1c' : days < 0 ? '#999' : '#15803d') + ';font-weight:600;font-size:13px;">' + status + '</td></tr>';
+              }).join('')}
+            </table>
+          ` : ''}
 
           ${program.keyPoints.length > 0 ? `
             <h2>Key Points</h2>
@@ -106,7 +119,76 @@ export default function CMFProgramDetail({ program, onBack }) {
 
         <div>
           <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Deadlines</h3>
-          <p className="text-gray-700 leading-relaxed">{program.deadlines}</p>
+          <p className="text-gray-700 leading-relaxed mb-4">{program.deadlines}</p>
+          {program.upcomingDeadlines && program.upcomingDeadlines.length > 0 && (
+            <div className="space-y-3">
+              {program.upcomingDeadlines
+                .map(deadline => {
+                  const deadlineDate = new Date(deadline.date);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                  return { ...deadline, deadlineDate, daysUntil };
+                })
+                .sort((a, b) => a.deadlineDate - b.deadlineDate)
+                .map((deadline, idx) => {
+                  const { deadlineDate, daysUntil } = deadline;
+                  const isPast = daysUntil < 0;
+                  const isUrgent = daysUntil >= 0 && daysUntil <= 7;
+                  const isUpcoming = daysUntil > 7 && daysUntil <= 30;
+                  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`flex items-center justify-between p-4 rounded-lg border transition-all ${
+                        isPast ? 'bg-gray-50 border-gray-100 opacity-50' :
+                        isUrgent ? 'bg-red-50 border-red-200' :
+                        isUpcoming ? 'bg-amber-50 border-amber-200' :
+                        'bg-white border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="text-center w-14">
+                          <div className={`text-xl font-semibold ${
+                            isPast ? 'text-gray-400' :
+                            isUrgent ? 'text-red-600' :
+                            'text-gray-900'
+                          }`}>
+                            {deadlineDate.getDate()}
+                          </div>
+                          <div className="text-xs text-gray-500 uppercase font-medium">
+                            {monthNames[deadlineDate.getMonth()]}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-medium text-sm">{deadline.description}</div>
+                          <div className="text-xs text-gray-400 mt-0.5">
+                            {deadlineDate.toLocaleDateString('en-CA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                          </div>
+                        </div>
+                      </div>
+                      {!isPast && (
+                        <div className="flex items-center gap-2">
+                          <Clock size={14} className={daysUntil <= 30 ? 'text-red-500' : 'text-green-600'} />
+                          <span className={`text-sm font-medium px-3 py-1 rounded-full ${
+                            daysUntil <= 30 ? 'bg-red-100 text-red-700' :
+                            'bg-green-100 text-green-700'
+                          }`}>
+                            {daysUntil === 0 ? 'Today' :
+                              daysUntil === 1 ? 'Tomorrow' :
+                              `${daysUntil} days remaining`}
+                          </span>
+                        </div>
+                      )}
+                      {isPast && (
+                        <span className="text-xs text-gray-400 font-medium">Passed</span>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+          )}
         </div>
 
         {program.keyPoints.length > 0 && (
