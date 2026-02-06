@@ -5,31 +5,31 @@ export default function HungaryIncentivesView() {
   const hungaryFlag = '/flag-hungary.svg';
 
   const rebateData = {
-    title: 'Hungarian Film Incentive',
-    rate: '30% cash rebate on qualifying spend',
+    title: 'Hungarian Tax Rebate',
+    rate: '30% of the eligible Hungarian spend',
     flag: hungaryFlag,
     requirements: [
-      'Minimum qualifying Hungarian spend of HUF 100M (~€250,000)',
-      'Available for feature films, TV series, animation, documentaries, and post-production',
-      'Must be approved by the Hungarian National Film Fund (NFI)',
-      'No cap on eligible expenditure',
-      'Includes above-the-line and below-the-line costs incurred in Hungary'
+      'No minimum spend and no cap per project',
+      'No annual fiscal budget cap',
+      'Foreign companies and/or producers should conclude co-production or service agreements with a Hungarian registered company',
+      'All films shall meet the cultural test criteria (cultural test) which follows the usual format for European cultural tests',
+      'VAT is fully recoverable on all goods and services of the production'
     ],
     bonuses: [
       {
-        title: 'Additional 25% Corporate Tax Deduction',
-        bonus: 'Up to 25% extra for investors',
-        description: 'Hungarian corporate taxpayers can receive an additional tax deduction of up to 25% of their contribution to the film fund, making the effective incentive even higher for locally structured deals'
+        title: 'Non-Hungarian Spend Eligibility',
+        bonus: 'Up to 25% of eligible spend',
+        description: 'Up to 25% of the eligible spend can be non-Hungarian spend which also qualifies for the 30% tax rebate'
       }
     ],
-    website: 'https://nfi.hu/en/film-incentive'
+    website: 'https://hungariantaxcredit.com/'
   };
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-gray-900">Hungary Incentives</h2>
-        <p className="text-sm text-gray-500 mt-1">One of Europe's most competitive film rebate programs</p>
+        <p className="text-sm text-gray-500 mt-1">Tax rebate is 30% of the eligible Hungarian spend</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
