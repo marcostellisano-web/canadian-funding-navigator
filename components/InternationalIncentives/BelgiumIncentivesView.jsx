@@ -10,8 +10,7 @@ export default function BelgiumIncentivesView() {
     flag: belgiumFlag,
     requirements: [
       'Pair with an investor who finances an optimal amount of the EU spend in order to receive a "tax shelter certificate"',
-      'The basis for calculating the Tax Shelter benefit and the investment are the eligible direct and indirect audiovisual expenses that the audiovisual work will spend in the European Economic Area (EEA) and in Belgium',
-      'You must spend 90% of the 70% tax certificate in Belgium'
+      'The basis for calculating the Tax Shelter benefit and the investment are the eligible direct and indirect audiovisual expenses that the audiovisual work will spend in the European Economic Area (EEA) and in Belgium'
     ],
     bonuses: [
       {
