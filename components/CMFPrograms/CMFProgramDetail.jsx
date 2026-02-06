@@ -35,6 +35,11 @@ export default function CMFProgramDetail({ program, onBack }) {
           <h2>Funding</h2>
           <p>${program.fundingRange}</p>
 
+          ${program.keyPoints.length > 0 ? `
+            <h2>Key Points</h2>
+            ${program.keyPoints.map(point => `<p>• ${point}</p>`).join('')}
+          ` : ''}
+
           <h2>Deadlines</h2>
           <p>${program.deadlines}</p>
           ${(program.upcomingDeadlines || []).length > 0 ? `
@@ -49,11 +54,6 @@ export default function CMFProgramDetail({ program, onBack }) {
                 return '<tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;">' + d.description + '<br/><span style="color:#999;font-size:12px;">' + dateStr + '</span></td><td style="padding:8px 0;text-align:right;color:' + (days <= 30 && days >= 0 ? '#b91c1c' : days < 0 ? '#999' : '#15803d') + ';font-weight:600;font-size:13px;">' + status + '</td></tr>';
               }).join('')}
             </table>
-          ` : ''}
-
-          ${program.keyPoints.length > 0 ? `
-            <h2>Key Points</h2>
-            ${program.keyPoints.map(point => `<p>• ${point}</p>`).join('')}
           ` : ''}
 
           <h2>Website</h2>
@@ -116,6 +116,19 @@ export default function CMFProgramDetail({ program, onBack }) {
           <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Funding</h3>
           <p className="text-gray-700 leading-relaxed">{program.fundingRange}</p>
         </div>
+
+        {program.keyPoints.length > 0 && (
+          <div>
+            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Key Points</h3>
+            <div className="space-y-3">
+              {program.keyPoints.map((point, idx) => (
+                <p key={idx} className="text-gray-700 leading-relaxed">
+                  • {point}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div>
           <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Deadlines</h3>
@@ -190,19 +203,6 @@ export default function CMFProgramDetail({ program, onBack }) {
             </div>
           )}
         </div>
-
-        {program.keyPoints.length > 0 && (
-          <div>
-            <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Key Points</h3>
-            <div className="space-y-3">
-              {program.keyPoints.map((point, idx) => (
-                <p key={idx} className="text-gray-700 leading-relaxed">
-                  • {point}
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
 
         <div>
           <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Website</h3>
