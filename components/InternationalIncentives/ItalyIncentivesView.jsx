@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TaxCreditInfoCard from '../TaxCredits/TaxCreditInfoCard';
 
 export default function ItalyIncentivesView() {
-  const [viewMode, setViewMode] = useState('both');
-
   const italyFlag = '/flag-italy.svg';
 
   const foreignData = {
@@ -23,20 +21,7 @@ export default function ItalyIncentivesView() {
         description: 'Productions filming in Southern Italy (Mezzogiorno) regions may access additional regional funds'
       }
     ],
-    website: 'https://cinema.cultura.gov.it/en/'
-  };
-
-  const domesticData = {
-    title: 'Tax Credit for Italian Productions',
-    rate: '40% of production costs',
-    flag: italyFlag,
-    requirements: [
-      'Must be produced by an Italian production company',
-      'Must meet Italian cultural test requirements',
-      'Available for feature films, TV series, documentaries, and animation',
-      'Cap of €20M per project for films, €10M for TV'
-    ],
-    website: 'https://cinema.cultura.gov.it/en/'
+    website: 'https://mestierecinema.it/tax-credit-and-funds'
   };
 
   return (
@@ -44,45 +29,12 @@ export default function ItalyIncentivesView() {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Italy Incentives</h2>
-          <p className="text-sm text-gray-500 mt-1">Tax credits for foreign and domestic productions</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
-            <button
-              onClick={() => setViewMode('both')}
-              className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
-                viewMode === 'both' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Both
-            </button>
-            <button
-              onClick={() => setViewMode('foreign')}
-              className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
-                viewMode === 'foreign' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Foreign
-            </button>
-            <button
-              onClick={() => setViewMode('domestic')}
-              className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
-                viewMode === 'domestic' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Domestic
-            </button>
-          </div>
+          <p className="text-sm text-gray-500 mt-1">Tax credits for foreign productions</p>
         </div>
       </div>
 
-      <div className={`grid ${viewMode === 'both' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
-        {(viewMode === 'both' || viewMode === 'foreign') && (
-          <TaxCreditInfoCard {...foreignData} />
-        )}
-        {(viewMode === 'both' || viewMode === 'domestic') && (
-          <TaxCreditInfoCard {...domesticData} />
-        )}
+      <div className="grid grid-cols-1 gap-6">
+        <TaxCreditInfoCard {...foreignData} />
       </div>
     </div>
   );
