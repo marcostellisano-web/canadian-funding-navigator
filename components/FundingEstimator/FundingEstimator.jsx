@@ -4,6 +4,7 @@ import BCCalculator from './BCCalculator';
 import NewfoundlandCalculator from './NewfoundlandCalculator';
 import AlbertaCalculator from './AlbertaCalculator';
 import SaskatchewanCalculator from './SaskatchewanCalculator';
+import QuebecCalculator from './QuebecCalculator';
 import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
@@ -72,6 +73,9 @@ export default function FundingEstimator() {
   const [scenario1SkProductionExpenditures, setScenario1SkProductionExpenditures] = useState('');
   const [scenario1SkRuralBonus, setScenario1SkRuralBonus] = useState(false);
   const [scenario1SkPostProductionBonus, setScenario1SkPostProductionBonus] = useState(false);
+  const [scenario1QcCreditType, setScenario1QcCreditType] = useState('production');
+  const [scenario1QcProvincialLabour, setScenario1QcProvincialLabour] = useState('');
+  const [scenario1QcProductionExpenditures, setScenario1QcProductionExpenditures] = useState('');
 
   // Scenario 1 state - Federal
   const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
@@ -101,6 +105,9 @@ export default function FundingEstimator() {
   const [scenario2SkProductionExpenditures, setScenario2SkProductionExpenditures] = useState('');
   const [scenario2SkRuralBonus, setScenario2SkRuralBonus] = useState(false);
   const [scenario2SkPostProductionBonus, setScenario2SkPostProductionBonus] = useState(false);
+  const [scenario2QcCreditType, setScenario2QcCreditType] = useState('production');
+  const [scenario2QcProvincialLabour, setScenario2QcProvincialLabour] = useState('');
+  const [scenario2QcProductionExpenditures, setScenario2QcProductionExpenditures] = useState('');
 
   // Scenario 2 state - Federal
   const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
@@ -274,6 +281,42 @@ export default function FundingEstimator() {
     return { credit, budgetPercent, breakdown };
   };
 
+  // Calculate Quebec tax credit
+  const calculateQuebec = (creditType, totalBudget, provincialLabour, productionExpenditures) => {
+    const budget = parseFloat(totalBudget) || 0;
+    const labour = parseFloat(provincialLabour) || 0;
+    const expenditures = parseFloat(productionExpenditures) || 0;
+
+    let credit = 0;
+    let breakdown = '';
+
+    if (creditType === 'production') {
+      // SODEC Production Tax Credit: 32% of Quebec labour, capped at 65% of budget
+      const labourCap = budget * 0.65;
+      const cappedLabour = budget > 0 ? Math.min(labour, labourCap) : labour;
+      credit = cappedLabour * 0.32;
+
+      if (budget > 0 && labour > labourCap) {
+        breakdown = `Quebec Labour: $${labour.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nLabour Cap (65% of budget): $${labourCap.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\nCredit (32% of capped labour): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      } else {
+        breakdown = `Labour Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (32% of $${cappedLabour.toLocaleString()})`;
+        if (budget > 0) {
+          breakdown += `\nWithin labour cap of $${labourCap.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (65% of budget)`;
+        }
+      }
+    } else {
+      // SODEC Production Services Tax Credit: 25% of qualifying production expenditures
+      credit = expenditures * 0.25;
+      breakdown = `Production Services Credit: $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (25% of $${expenditures.toLocaleString()})`;
+      if (budget > 0 && budget <= 250000) {
+        breakdown += `\nNote: Production cost must exceed $250,000 to qualify`;
+      }
+    }
+
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
   // Calculate federal tax credit
   const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
@@ -324,6 +367,8 @@ export default function FundingEstimator() {
         return calculateAlberta(scenario1AbCreditType, scenario1TotalBudget, scenario1AbProductionExpenditures);
       } else if (province === 'SK') {
         return calculateSaskatchewan(scenario1SkCreditType, scenario1TotalBudget, scenario1SkProductionExpenditures, scenario1SkRuralBonus, scenario1SkPostProductionBonus);
+      } else if (province === 'QC') {
+        return calculateQuebec(scenario1QcCreditType, scenario1TotalBudget, scenario1QcProvincialLabour, scenario1QcProductionExpenditures);
       }
     } else {
       if (province === 'ON') {
@@ -336,13 +381,15 @@ export default function FundingEstimator() {
         return calculateAlberta(scenario2AbCreditType, scenario2TotalBudget, scenario2AbProductionExpenditures);
       } else if (province === 'SK') {
         return calculateSaskatchewan(scenario2SkCreditType, scenario2TotalBudget, scenario2SkProductionExpenditures, scenario2SkRuralBonus, scenario2SkPostProductionBonus);
+      } else if (province === 'QC') {
+        return calculateQuebec(scenario2QcCreditType, scenario2TotalBudget, scenario2QcProvincialLabour, scenario2QcProductionExpenditures);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
   };
 
   const getProvinceName = (code) => {
-    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan' };
+    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan', 'QC': 'Quebec' };
     return names[code] || code;
   };
 
@@ -390,6 +437,7 @@ export default function FundingEstimator() {
               >
                 <option value="ON">Ontario</option>
                 <option value="BC">British Columbia</option>
+                <option value="QC">Quebec</option>
                 <option value="AB">Alberta</option>
                 <option value="SK">Saskatchewan</option>
                 <option value="NL">Newfoundland & Labrador</option>
@@ -521,6 +569,21 @@ export default function FundingEstimator() {
                     handleNumberInput={handleNumberInput}
                   />
                 )}
+
+                {scenario1Province === 'QC' && (
+                  <QuebecCalculator
+                    creditType={scenario1QcCreditType}
+                    setCreditType={setScenario1QcCreditType}
+                    provincialLabour={scenario1QcProvincialLabour}
+                    setProvincialLabour={setScenario1QcProvincialLabour}
+                    productionExpenditures={scenario1QcProductionExpenditures}
+                    setProductionExpenditures={setScenario1QcProductionExpenditures}
+                    totalBudget={scenario1TotalBudget}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
               </>
             )}
           </div>
@@ -582,6 +645,7 @@ export default function FundingEstimator() {
                 >
                   <option value="BC">British Columbia</option>
                   <option value="ON">Ontario</option>
+                  <option value="QC">Quebec</option>
                   <option value="AB">Alberta</option>
                   <option value="SK">Saskatchewan</option>
                   <option value="NL">Newfoundland & Labrador</option>
@@ -708,6 +772,21 @@ export default function FundingEstimator() {
                       setRuralBonus={setScenario2SkRuralBonus}
                       postProductionBonus={scenario2SkPostProductionBonus}
                       setPostProductionBonus={setScenario2SkPostProductionBonus}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'QC' && (
+                    <QuebecCalculator
+                      creditType={scenario2QcCreditType}
+                      setCreditType={setScenario2QcCreditType}
+                      provincialLabour={scenario2QcProvincialLabour}
+                      setProvincialLabour={setScenario2QcProvincialLabour}
+                      productionExpenditures={scenario2QcProductionExpenditures}
+                      setProductionExpenditures={setScenario2QcProductionExpenditures}
+                      totalBudget={scenario2TotalBudget}
                       result={result2}
                       formatNumber={formatNumber}
                       handleNumberInput={handleNumberInput}
