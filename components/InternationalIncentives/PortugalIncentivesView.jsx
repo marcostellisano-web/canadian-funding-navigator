@@ -26,7 +26,7 @@ export default function PortugalIncentivesView() {
         description: 'Productions filming in Azores or Madeira may access additional regional incentives and support'
       }
     ],
-    website: 'https://www.ica-ip.pt/en/1-4-5/cash-rebate/'
+    website: 'https://portugalfilmcommission.com/en/cash-refund/'
   };
 
   return (
