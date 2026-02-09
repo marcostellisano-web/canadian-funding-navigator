@@ -3,7 +3,6 @@ import UKIncentivesView from './UKIncentivesView';
 import FranceIncentivesView from './FranceIncentivesView';
 import ItalyIncentivesView from './ItalyIncentivesView';
 import SpainIncentivesView from './SpainIncentivesView';
-import GermanyIncentivesView from './GermanyIncentivesView';
 import IrelandIncentivesView from './IrelandIncentivesView';
 import HungaryIncentivesView from './HungaryIncentivesView';
 import PortugalIncentivesView from './PortugalIncentivesView';
@@ -20,7 +19,6 @@ export default function InternationalIncentivesView() {
     { id: 'france', name: 'France', available: true, flag: '/flag-france.svg' },
     { id: 'italy', name: 'Italy', available: true, flag: '/flag-italy.svg' },
     { id: 'spain', name: 'Spain', available: true, flag: '/flag-spain.svg' },
-    { id: 'germany', name: 'Germany', available: true, flag: '/flag-germany.svg' },
     { id: 'ireland', name: 'Ireland', available: true, flag: '/flag-ireland.svg' },
     { id: 'hungary', name: 'Hungary', available: true, flag: '/flag-hungary.svg' },
     { id: 'portugal', name: 'Portugal', available: true, flag: '/flag-portugal.svg' },
@@ -46,7 +44,6 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'france' && <FranceIncentivesView />}
         {selectedCountry === 'italy' && <ItalyIncentivesView />}
         {selectedCountry === 'spain' && <SpainIncentivesView />}
-        {selectedCountry === 'germany' && <GermanyIncentivesView />}
         {selectedCountry === 'ireland' && <IrelandIncentivesView />}
         {selectedCountry === 'hungary' && <HungaryIncentivesView />}
         {selectedCountry === 'portugal' && <PortugalIncentivesView />}
