@@ -3,6 +3,7 @@ import OntarioCalculator from './OntarioCalculator';
 import BCCalculator from './BCCalculator';
 import NewfoundlandCalculator from './NewfoundlandCalculator';
 import AlbertaCalculator from './AlbertaCalculator';
+import SaskatchewanCalculator from './SaskatchewanCalculator';
 import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
@@ -67,6 +68,10 @@ export default function FundingEstimator() {
   const [scenario1NlProductionExpenditures, setScenario1NlProductionExpenditures] = useState('');
   const [scenario1AbCreditType, setScenario1AbCreditType] = useState('base');
   const [scenario1AbProductionExpenditures, setScenario1AbProductionExpenditures] = useState('');
+  const [scenario1SkCreditType, setScenario1SkCreditType] = useState('saskatchewan');
+  const [scenario1SkProductionExpenditures, setScenario1SkProductionExpenditures] = useState('');
+  const [scenario1SkRuralBonus, setScenario1SkRuralBonus] = useState(false);
+  const [scenario1SkPostProductionBonus, setScenario1SkPostProductionBonus] = useState(false);
 
   // Scenario 1 state - Federal
   const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
@@ -92,6 +97,10 @@ export default function FundingEstimator() {
   const [scenario2NlProductionExpenditures, setScenario2NlProductionExpenditures] = useState('');
   const [scenario2AbCreditType, setScenario2AbCreditType] = useState('base');
   const [scenario2AbProductionExpenditures, setScenario2AbProductionExpenditures] = useState('');
+  const [scenario2SkCreditType, setScenario2SkCreditType] = useState('saskatchewan');
+  const [scenario2SkProductionExpenditures, setScenario2SkProductionExpenditures] = useState('');
+  const [scenario2SkRuralBonus, setScenario2SkRuralBonus] = useState(false);
+  const [scenario2SkPostProductionBonus, setScenario2SkPostProductionBonus] = useState(false);
 
   // Scenario 2 state - Federal
   const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
@@ -239,6 +248,32 @@ export default function FundingEstimator() {
     return { credit, budgetPercent, breakdown };
   };
 
+  // Calculate Saskatchewan tax credit
+  const calculateSaskatchewan = (creditType, totalBudget, productionExpenditures, ruralBonus, postProductionBonus) => {
+    const budget = parseFloat(totalBudget) || 0;
+    const expenditures = parseFloat(productionExpenditures) || 0;
+
+    const baseRate = creditType === 'service' ? 0.25 : 0.30;
+    const baseRateName = creditType === 'service' ? '25%' : '30%';
+    const baseCredit = expenditures * baseRate;
+    const ruralCredit = ruralBonus ? expenditures * 0.05 : 0;
+    const postProdCredit = postProductionBonus ? expenditures * 0.05 : 0;
+    const credit = baseCredit + ruralCredit + postProdCredit;
+
+    let breakdown = `Base Credit (${baseRateName}): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${baseRateName} of $${expenditures.toLocaleString()})`;
+    if (ruralBonus) {
+      breakdown += `\nRural Bonus (+5%): $${ruralCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    if (postProductionBonus) {
+      breakdown += `\nPost-Production Bonus (+5%): $${postProdCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    const effectiveRate = ((baseRate + (ruralBonus ? 0.05 : 0) + (postProductionBonus ? 0.05 : 0)) * 100).toFixed(0);
+    breakdown += `\nTotal Credit (${effectiveRate}%): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
   // Calculate federal tax credit
   const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
@@ -287,6 +322,8 @@ export default function FundingEstimator() {
         return calculateNewfoundland(scenario1NlCreditType, scenario1TotalBudget, scenario1NlProvincialLabour, scenario1NlProductionExpenditures);
       } else if (province === 'AB') {
         return calculateAlberta(scenario1AbCreditType, scenario1TotalBudget, scenario1AbProductionExpenditures);
+      } else if (province === 'SK') {
+        return calculateSaskatchewan(scenario1SkCreditType, scenario1TotalBudget, scenario1SkProductionExpenditures, scenario1SkRuralBonus, scenario1SkPostProductionBonus);
       }
     } else {
       if (province === 'ON') {
@@ -297,13 +334,15 @@ export default function FundingEstimator() {
         return calculateNewfoundland(scenario2NlCreditType, scenario2TotalBudget, scenario2NlProvincialLabour, scenario2NlProductionExpenditures);
       } else if (province === 'AB') {
         return calculateAlberta(scenario2AbCreditType, scenario2TotalBudget, scenario2AbProductionExpenditures);
+      } else if (province === 'SK') {
+        return calculateSaskatchewan(scenario2SkCreditType, scenario2TotalBudget, scenario2SkProductionExpenditures, scenario2SkRuralBonus, scenario2SkPostProductionBonus);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
   };
 
   const getProvinceName = (code) => {
-    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta' };
+    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan' };
     return names[code] || code;
   };
 
@@ -352,6 +391,7 @@ export default function FundingEstimator() {
                 <option value="ON">Ontario</option>
                 <option value="BC">British Columbia</option>
                 <option value="AB">Alberta</option>
+                <option value="SK">Saskatchewan</option>
                 <option value="NL">Newfoundland & Labrador</option>
               </select>
             </div>
@@ -465,6 +505,22 @@ export default function FundingEstimator() {
                     handleNumberInput={handleNumberInput}
                   />
                 )}
+
+                {scenario1Province === 'SK' && (
+                  <SaskatchewanCalculator
+                    creditType={scenario1SkCreditType}
+                    setCreditType={setScenario1SkCreditType}
+                    productionExpenditures={scenario1SkProductionExpenditures}
+                    setProductionExpenditures={setScenario1SkProductionExpenditures}
+                    ruralBonus={scenario1SkRuralBonus}
+                    setRuralBonus={setScenario1SkRuralBonus}
+                    postProductionBonus={scenario1SkPostProductionBonus}
+                    setPostProductionBonus={setScenario1SkPostProductionBonus}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
               </>
             )}
           </div>
@@ -527,6 +583,7 @@ export default function FundingEstimator() {
                   <option value="BC">British Columbia</option>
                   <option value="ON">Ontario</option>
                   <option value="AB">Alberta</option>
+                  <option value="SK">Saskatchewan</option>
                   <option value="NL">Newfoundland & Labrador</option>
                 </select>
               </div>
@@ -635,6 +692,22 @@ export default function FundingEstimator() {
                       setCreditType={setScenario2AbCreditType}
                       productionExpenditures={scenario2AbProductionExpenditures}
                       setProductionExpenditures={setScenario2AbProductionExpenditures}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'SK' && (
+                    <SaskatchewanCalculator
+                      creditType={scenario2SkCreditType}
+                      setCreditType={setScenario2SkCreditType}
+                      productionExpenditures={scenario2SkProductionExpenditures}
+                      setProductionExpenditures={setScenario2SkProductionExpenditures}
+                      ruralBonus={scenario2SkRuralBonus}
+                      setRuralBonus={setScenario2SkRuralBonus}
+                      postProductionBonus={scenario2SkPostProductionBonus}
+                      setPostProductionBonus={setScenario2SkPostProductionBonus}
                       result={result2}
                       formatNumber={formatNumber}
                       handleNumberInput={handleNumberInput}
