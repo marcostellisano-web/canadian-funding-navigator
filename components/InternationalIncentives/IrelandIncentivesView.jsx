@@ -1,44 +1,50 @@
 import React from 'react';
-import TaxCreditInfoCard from '../TaxCredits/TaxCreditInfoCard';
 
 export default function IrelandIncentivesView() {
-  const irelandFlag = '/flag-ireland.svg';
-
-  const section481Data = {
-    title: 'Section 481 Film Tax Credit',
-    rate: '32% of eligible Irish expenditure',
-    flag: irelandFlag,
-    requirements: [
-      'Minimum eligible expenditure of €250,000',
-      'Must be certified as a qualifying film by Revenue',
-      'Available for feature film, TV drama, animation, and creative documentaries',
-      'The producer company must be resident in Ireland or an EEA state',
-      'Maximum eligible expenditure of €70M per project'
-    ],
-    bonuses: [
-      {
-        title: 'Regional Uplift',
-        bonus: '+5% additional (total 37%)',
-        description: 'Available for productions with at least 50% of principal photography days in designated regional areas outside Dublin and Wicklow'
-      },
-      {
-        title: 'VFX/Animation Uplift',
-        bonus: '+5% additional on VFX spend',
-        description: 'Available for qualifying VFX and animation expenditure above €2M'
-      }
-    ],
-    website: 'https://www.screenireland.ie/filming/section-481'
-  };
-
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-gray-900">Ireland Incentives</h2>
-        <p className="text-sm text-gray-500 mt-1">Section 481 film and television tax credit</p>
+        <p className="text-sm text-gray-500 mt-1">Screen Ireland film and television tax credit</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
-        <TaxCreditInfoCard {...section481Data} />
+      <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+        <h3 className="text-lg font-bold text-gray-900 underline">
+          Screen Ireland Film and Television Tax Credit
+        </h3>
+
+        <p className="text-gray-800">
+          The rate of tax credit is worth <strong>up to 32% of eligible Irish expenditure.</strong>
+        </p>
+
+        <ul className="list-disc pl-6 space-y-3 text-gray-800">
+          <li>
+            Projects are excluded from the incentive if their &lsquo;eligible expenditure&rsquo; is less than
+            &euro;125,000, or the total cost of production is less than &euro;250,000.
+          </li>
+          <li>
+            Eligible expenditure: all goods and services while filming in Ireland, and all cast
+            and crew regardless of nationality.
+          </li>
+          <li>
+            This application must be made to the Minister at least 21 working days prior to
+            the commencement of Irish production.
+          </li>
+          <li>
+            Must pass a cultural test as part of the registration process.
+          </li>
+        </ul>
+
+        <div className="pt-2">
+          <a
+            href="https://filminireland.com/irish-film-tax-incentive/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          >
+            Learn more at Film in Ireland →
+          </a>
+        </div>
       </div>
     </div>
   );
