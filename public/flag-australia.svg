@@ -1,11 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2">
-  <rect fill="#00008B" width="3" height="2"/>
-  <g fill="#fff">
-    <polygon points="0,0 0.5,0.35 0.2,0.35 0.5,0.55 0.4,0.85 0.25,0.65 0.1,0.85 0,0.55 0.3,0.35"/>
-    <polygon points="2.3,0.5 2.35,0.6 2.45,0.6 2.37,0.67 2.4,0.77 2.3,0.7 2.2,0.77 2.23,0.67 2.15,0.6 2.25,0.6"/>
-    <polygon points="2.6,0.2 2.65,0.3 2.75,0.3 2.67,0.37 2.7,0.47 2.6,0.4 2.5,0.47 2.53,0.37 2.45,0.3 2.55,0.3"/>
-    <polygon points="2.6,0.9 2.65,1 2.75,1 2.67,1.07 2.7,1.17 2.6,1.1 2.5,1.17 2.53,1.07 2.45,1 2.55,1"/>
-    <polygon points="2.15,1.2 2.2,1.3 2.3,1.3 2.22,1.37 2.25,1.47 2.15,1.4 2.05,1.47 2.08,1.37 2,1.3 2.1,1.3"/>
-    <polygon points="1.2,1.2 1.25,1.28 1.32,1.28 1.27,1.33 1.29,1.4 1.2,1.35 1.11,1.4 1.13,1.33 1.08,1.28 1.15,1.28"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="640" viewBox="0 0 10080 5040">
+<defs>
+<clipPath id="c1"><path d="M0,0H6V3H0z"/></clipPath>
+<clipPath id="c2"><path d="M0,0V1.5H6V3H6zM6,0H3V3H0V3z"/></clipPath>
+<path id="Star7" d="M0,-360 69.421398,-144.155019 281.459334,-224.456329 155.988466,-35.603349 350.974048,80.107536 125.093037,99.758368 156.198146,324.348792 0,160 -156.198146,324.348792 -125.093037,99.758368 -350.974048,80.107536 -155.988466,-35.603349 -281.459334,-224.456329 -69.421398,-144.155019z"/>
+<path id="Star5" d="M0,-210 54.859957,-75.508253 199.721868,-64.893569 88.765275,28.841586 123.434903,169.893569 0,93.333333 -123.434903,169.893569 -88.765275,28.841586 -199.721868,-64.893569 -54.859957,-75.508253z"/>
+</defs>
+<g transform="scale(840)">
+<rect width="12" height="6" fill="#012169"/>
+<path d="M0,0 6,3M6,0 0,3" stroke="#fff" stroke-width="0.6" clip-path="url(#c1)"/>
+<path d="M0,0 6,3M6,0 0,3" stroke="#e4002b" stroke-width="0.4" clip-path="url(#c2)"/>
+<path d="M3,0V3M0,1.5H6" stroke="#fff"/>
+<path d="M3,0V3M0,1.5H6" stroke="#e4002b" stroke-width="0.6"/>
+</g>
+<g fill="#fff">
+<use id="Comwlth" xlink:href="#Star7" transform="translate(2520, 3780) scale(2.1)"/>
+<use id="αCrucis" xlink:href="#Star7" x="7560" y="4200"/>
+<use id="βCrucis" xlink:href="#Star7" x="6300" y="2205"/>
+<use id="γCrucis" xlink:href="#Star7" x="7560" y="840"/>
+<use id="δCrucis" xlink:href="#Star7" x="8680" y="1869"/>
+<use id="εCrucis" xlink:href="#Star5" x="8064" y="2730"/>
+</g>
 </svg>
