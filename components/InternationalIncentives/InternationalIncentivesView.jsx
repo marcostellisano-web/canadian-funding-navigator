@@ -9,6 +9,7 @@ import PortugalIncentivesView from './PortugalIncentivesView';
 import BelgiumIncentivesView from './BelgiumIncentivesView';
 import MaltaIncentivesView from './MaltaIncentivesView';
 import BulgariaIncentivesView from './BulgariaIncentivesView';
+import CzechRepublicIncentivesView from './CzechRepublicIncentivesView';
 import AustraliaIncentivesView from './AustraliaIncentivesView';
 import NewZealandIncentivesView from './NewZealandIncentivesView';
 
@@ -26,6 +27,7 @@ export default function InternationalIncentivesView() {
     { id: 'belgium', name: 'Belgium', available: true, flag: '/flag-belgium.svg' },
     { id: 'malta', name: 'Malta', available: true, flag: '/flag-malta.svg' },
     { id: 'bulgaria', name: 'Bulgaria', available: true, flag: '/flag-bulgaria.svg' },
+    { id: 'czech-republic', name: 'Czech Republic', available: true, flag: '/flag-czech-republic.svg' },
   ];
 
   const otherCountries = [
@@ -52,6 +54,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'belgium' && <BelgiumIncentivesView />}
         {selectedCountry === 'malta' && <MaltaIncentivesView />}
         {selectedCountry === 'bulgaria' && <BulgariaIncentivesView />}
+        {selectedCountry === 'czech-republic' && <CzechRepublicIncentivesView />}
         {selectedCountry === 'australia' && <AustraliaIncentivesView />}
         {selectedCountry === 'new-zealand' && <NewZealandIncentivesView />}
       </div>
