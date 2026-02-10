@@ -88,7 +88,9 @@ export default function FundingEstimator() {
   const [scenario1NsCreditType, setScenario1NsCreditType] = useState('stream1');
   const [scenario1NsProductionExpenditures, setScenario1NsProductionExpenditures] = useState('');
   const [scenario1NsLocationIncentive, setScenario1NsLocationIncentive] = useState(false);
-  const [scenario1NsDistantLocationPercent, setScenario1NsDistantLocationPercent] = useState('');
+  const [scenario1NsTotalShootDays, setScenario1NsTotalShootDays] = useState('');
+  const [scenario1NsZoneADays, setScenario1NsZoneADays] = useState('');
+  const [scenario1NsZoneBDays, setScenario1NsZoneBDays] = useState('');
   const [scenario1NsShootingLengthIncentive, setScenario1NsShootingLengthIncentive] = useState(false);
 
   // Scenario 1 state - Federal
@@ -132,7 +134,9 @@ export default function FundingEstimator() {
   const [scenario2NsCreditType, setScenario2NsCreditType] = useState('stream1');
   const [scenario2NsProductionExpenditures, setScenario2NsProductionExpenditures] = useState('');
   const [scenario2NsLocationIncentive, setScenario2NsLocationIncentive] = useState(false);
-  const [scenario2NsDistantLocationPercent, setScenario2NsDistantLocationPercent] = useState('');
+  const [scenario2NsTotalShootDays, setScenario2NsTotalShootDays] = useState('');
+  const [scenario2NsZoneADays, setScenario2NsZoneADays] = useState('');
+  const [scenario2NsZoneBDays, setScenario2NsZoneBDays] = useState('');
   const [scenario2NsShootingLengthIncentive, setScenario2NsShootingLengthIncentive] = useState(false);
 
   // Scenario 2 state - Federal
@@ -391,16 +395,26 @@ export default function FundingEstimator() {
   };
 
   // Calculate Nova Scotia tax credit
-  const calculateNovaScotia = (creditType, totalBudget, productionExpenditures, locationIncentive, distantLocationPercent, shootingLengthIncentive) => {
+  const calculateNovaScotia = (creditType, totalBudget, productionExpenditures, locationIncentive, totalShootDays, zoneADays, zoneBDays, shootingLengthIncentive) => {
     const budget = parseFloat(totalBudget) || 0;
     const expenditures = parseFloat(productionExpenditures) || 0;
-    const distantPct = Math.min(parseInt(distantLocationPercent) || 0, 10);
+    const totalDays = parseInt(totalShootDays) || 0;
+    const aDays = parseInt(zoneADays) || 0;
+    const bDays = parseInt(zoneBDays) || 0;
 
     const baseRate = creditType === 'stream2' ? 0.25 : 0.26;
     const baseRateName = creditType === 'stream2' ? '25%' : '26%';
     const baseCredit = expenditures * baseRate;
     const locationCredit = locationIncentive ? expenditures * 0.02 : 0;
-    const distantCredit = distantPct > 0 ? expenditures * (distantPct / 100) : 0;
+
+    // Zone B days get 10% prorated; remaining Zone A days (A - B) get 7% prorated
+    const zoneAOnlyDays = Math.max(0, aDays - bDays);
+    const zoneAProrate = totalDays > 0 ? zoneAOnlyDays / totalDays : 0;
+    const zoneBProrate = totalDays > 0 ? bDays / totalDays : 0;
+    const zoneACredit = expenditures * 0.07 * zoneAProrate;
+    const zoneBCredit = expenditures * 0.10 * zoneBProrate;
+    const distantCredit = zoneACredit + zoneBCredit;
+
     const shootingCredit = shootingLengthIncentive ? expenditures * 0.01 : 0;
     const credit = baseCredit + locationCredit + distantCredit + shootingCredit;
 
@@ -408,13 +422,16 @@ export default function FundingEstimator() {
     if (locationIncentive) {
       breakdown += `\nLocation Incentive (+2%): $${locationCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
-    if (distantPct > 0) {
-      breakdown += `\nDistant Location Incentive (+${distantPct}%): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    if (zoneAOnlyDays > 0 && totalDays > 0) {
+      breakdown += `\nZone A (7% × ${zoneAOnlyDays}/${totalDays} days): $${zoneACredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    if (bDays > 0 && totalDays > 0) {
+      breakdown += `\nZone B (10% × ${bDays}/${totalDays} days): $${zoneBCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
     if (shootingLengthIncentive) {
       breakdown += `\nShooting Length Incentive (+1%): $${shootingCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
-    const effectiveRate = ((baseRate + (locationIncentive ? 0.02 : 0) + (distantPct / 100) + (shootingLengthIncentive ? 0.01 : 0)) * 100).toFixed(0);
+    const effectiveRate = budget > 0 ? ((credit / expenditures) * 100).toFixed(1) : ((baseRate + (locationIncentive ? 0.02 : 0) + (shootingLengthIncentive ? 0.01 : 0)) * 100).toFixed(0);
     breakdown += `\nTotal Credit (${effectiveRate}%): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
     const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
@@ -476,7 +493,7 @@ export default function FundingEstimator() {
       } else if (province === 'MB') {
         return calculateManitoba(scenario1MbCreditType, scenario1TotalBudget, scenario1MbProvincialLabour, scenario1MbProductionExpenditures, scenario1MbFrequentFilmingBonus, scenario1MbManitobaProducerBonus, scenario1MbRuralNorthernBonus, scenario1MbProductionCompanyBonus);
       } else if (province === 'NS') {
-        return calculateNovaScotia(scenario1NsCreditType, scenario1TotalBudget, scenario1NsProductionExpenditures, scenario1NsLocationIncentive, scenario1NsDistantLocationPercent, scenario1NsShootingLengthIncentive);
+        return calculateNovaScotia(scenario1NsCreditType, scenario1TotalBudget, scenario1NsProductionExpenditures, scenario1NsLocationIncentive, scenario1NsTotalShootDays, scenario1NsZoneADays, scenario1NsZoneBDays, scenario1NsShootingLengthIncentive);
       }
     } else {
       if (province === 'ON') {
@@ -494,7 +511,7 @@ export default function FundingEstimator() {
       } else if (province === 'MB') {
         return calculateManitoba(scenario2MbCreditType, scenario2TotalBudget, scenario2MbProvincialLabour, scenario2MbProductionExpenditures, scenario2MbFrequentFilmingBonus, scenario2MbManitobaProducerBonus, scenario2MbRuralNorthernBonus, scenario2MbProductionCompanyBonus);
       } else if (province === 'NS') {
-        return calculateNovaScotia(scenario2NsCreditType, scenario2TotalBudget, scenario2NsProductionExpenditures, scenario2NsLocationIncentive, scenario2NsDistantLocationPercent, scenario2NsShootingLengthIncentive);
+        return calculateNovaScotia(scenario2NsCreditType, scenario2TotalBudget, scenario2NsProductionExpenditures, scenario2NsLocationIncentive, scenario2NsTotalShootDays, scenario2NsZoneADays, scenario2NsZoneBDays, scenario2NsShootingLengthIncentive);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
@@ -729,8 +746,12 @@ export default function FundingEstimator() {
                     setProductionExpenditures={setScenario1NsProductionExpenditures}
                     locationIncentive={scenario1NsLocationIncentive}
                     setLocationIncentive={setScenario1NsLocationIncentive}
-                    distantLocationPercent={scenario1NsDistantLocationPercent}
-                    setDistantLocationPercent={setScenario1NsDistantLocationPercent}
+                    totalShootDays={scenario1NsTotalShootDays}
+                    setTotalShootDays={setScenario1NsTotalShootDays}
+                    zoneADays={scenario1NsZoneADays}
+                    setZoneADays={setScenario1NsZoneADays}
+                    zoneBDays={scenario1NsZoneBDays}
+                    setZoneBDays={setScenario1NsZoneBDays}
                     shootingLengthIncentive={scenario1NsShootingLengthIncentive}
                     setShootingLengthIncentive={setScenario1NsShootingLengthIncentive}
                     result={result1}
@@ -979,8 +1000,12 @@ export default function FundingEstimator() {
                       setProductionExpenditures={setScenario2NsProductionExpenditures}
                       locationIncentive={scenario2NsLocationIncentive}
                       setLocationIncentive={setScenario2NsLocationIncentive}
-                      distantLocationPercent={scenario2NsDistantLocationPercent}
-                      setDistantLocationPercent={setScenario2NsDistantLocationPercent}
+                      totalShootDays={scenario2NsTotalShootDays}
+                      setTotalShootDays={setScenario2NsTotalShootDays}
+                      zoneADays={scenario2NsZoneADays}
+                      setZoneADays={setScenario2NsZoneADays}
+                      zoneBDays={scenario2NsZoneBDays}
+                      setZoneBDays={setScenario2NsZoneBDays}
                       shootingLengthIncentive={scenario2NsShootingLengthIncentive}
                       setShootingLengthIncentive={setScenario2NsShootingLengthIncentive}
                       result={result2}

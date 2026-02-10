@@ -28,8 +28,12 @@ export default function NovaScotiaCalculator({
   setProductionExpenditures,
   locationIncentive,
   setLocationIncentive,
-  distantLocationPercent,
-  setDistantLocationPercent,
+  totalShootDays,
+  setTotalShootDays,
+  zoneADays,
+  setZoneADays,
+  zoneBDays,
+  setZoneBDays,
   shootingLengthIncentive,
   setShootingLengthIncentive,
   result,
@@ -117,27 +121,48 @@ export default function NovaScotiaCalculator({
         </div>
 
         {/* Distant Location Incentive */}
-        <div className="bg-gray-50 border border-gray-200 p-2.5 rounded-2xl">
+        <div className="bg-gray-50 border border-gray-200 p-2.5 rounded-2xl space-y-1.5">
+          <span className="text-xs font-medium text-gray-900 block">Distant Location Incentive (up to +10%)</span>
+
           <div>
-            <label className="block text-xs font-medium text-gray-900 mb-1">
-              Distant Location Incentive (up to +10%)
-              <InfoIcon tooltip="Additional funding for shoots that film days of principal photography in a Distant Location. Enter the percentage (0-10%)." />
+            <label className="block text-xs text-gray-600 mb-0.5">
+              Total principal photography days
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={distantLocationPercent}
-                onChange={(e) => {
-                  const val = e.target.value.replace(/[^0-9]/g, '');
-                  const num = parseInt(val) || 0;
-                  setDistantLocationPercent(Math.min(num, 10).toString() || '');
-                }}
-                placeholder="0"
-                className="w-full pl-4 pr-8 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
-              />
-              <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
-            </div>
-            <span className="text-xs text-gray-500 mt-0.5 block">Film days of principal photography in a Distant Location</span>
+            <input
+              type="text"
+              value={totalShootDays}
+              onChange={(e) => handleNumberInput(e.target.value, setTotalShootDays)}
+              placeholder="0"
+              className="w-full pl-4 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-gray-600 mb-0.5">
+              Days &gt;100 km from Halifax City Hall
+              <InfoIcon tooltip="Zone A: 7% prorated on the number of days of principal photography greater than 100 km from Halifax City Hall to total days." />
+            </label>
+            <input
+              type="text"
+              value={zoneADays}
+              onChange={(e) => handleNumberInput(e.target.value, setZoneADays)}
+              placeholder="0"
+              className="w-full pl-4 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-gray-600 mb-0.5">
+              Days &gt;150 km from Halifax City Hall
+              <InfoIcon tooltip="Zone B: 10% prorated on the number of days of principal photography greater than 150 km from Halifax City Hall to total days. Zone B days are a subset of Zone A days." />
+            </label>
+            <input
+              type="text"
+              value={zoneBDays}
+              onChange={(e) => handleNumberInput(e.target.value, setZoneBDays)}
+              placeholder="0"
+              className="w-full pl-4 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+            />
           </div>
         </div>
 
