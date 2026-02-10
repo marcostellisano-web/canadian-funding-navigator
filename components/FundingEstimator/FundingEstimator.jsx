@@ -407,12 +407,12 @@ export default function FundingEstimator() {
     const baseCredit = expenditures * baseRate;
     const locationCredit = locationIncentive ? expenditures * 0.02 : 0;
 
-    // Zone B days get 10% prorated; remaining Zone A days (A - B) get 7% prorated
+    // Distant location incentive only applies when location incentive is checked
     const zoneAOnlyDays = Math.max(0, aDays - bDays);
     const zoneAProrate = totalDays > 0 ? zoneAOnlyDays / totalDays : 0;
     const zoneBProrate = totalDays > 0 ? bDays / totalDays : 0;
-    const zoneACredit = expenditures * 0.07 * zoneAProrate;
-    const zoneBCredit = expenditures * 0.10 * zoneBProrate;
+    const zoneACredit = locationIncentive ? expenditures * 0.07 * zoneAProrate : 0;
+    const zoneBCredit = locationIncentive ? expenditures * 0.10 * zoneBProrate : 0;
     const distantCredit = zoneACredit + zoneBCredit;
 
     const shootingCredit = shootingLengthIncentive ? expenditures * 0.01 : 0;
