@@ -5,6 +5,7 @@ import NewfoundlandCalculator from './NewfoundlandCalculator';
 import AlbertaCalculator from './AlbertaCalculator';
 import SaskatchewanCalculator from './SaskatchewanCalculator';
 import QuebecCalculator from './QuebecCalculator';
+import ManitobaCalculator from './ManitobaCalculator';
 import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
@@ -76,6 +77,13 @@ export default function FundingEstimator() {
   const [scenario1QcCreditType, setScenario1QcCreditType] = useState('production');
   const [scenario1QcProvincialLabour, setScenario1QcProvincialLabour] = useState('');
   const [scenario1QcProductionExpenditures, setScenario1QcProductionExpenditures] = useState('');
+  const [scenario1MbCreditType, setScenario1MbCreditType] = useState('salaries');
+  const [scenario1MbProvincialLabour, setScenario1MbProvincialLabour] = useState('');
+  const [scenario1MbProductionExpenditures, setScenario1MbProductionExpenditures] = useState('');
+  const [scenario1MbFrequentFilmingBonus, setScenario1MbFrequentFilmingBonus] = useState(false);
+  const [scenario1MbManitobaProducerBonus, setScenario1MbManitobaProducerBonus] = useState(false);
+  const [scenario1MbRuralNorthernBonus, setScenario1MbRuralNorthernBonus] = useState(false);
+  const [scenario1MbProductionCompanyBonus, setScenario1MbProductionCompanyBonus] = useState(false);
 
   // Scenario 1 state - Federal
   const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
@@ -108,6 +116,13 @@ export default function FundingEstimator() {
   const [scenario2QcCreditType, setScenario2QcCreditType] = useState('production');
   const [scenario2QcProvincialLabour, setScenario2QcProvincialLabour] = useState('');
   const [scenario2QcProductionExpenditures, setScenario2QcProductionExpenditures] = useState('');
+  const [scenario2MbCreditType, setScenario2MbCreditType] = useState('salaries');
+  const [scenario2MbProvincialLabour, setScenario2MbProvincialLabour] = useState('');
+  const [scenario2MbProductionExpenditures, setScenario2MbProductionExpenditures] = useState('');
+  const [scenario2MbFrequentFilmingBonus, setScenario2MbFrequentFilmingBonus] = useState(false);
+  const [scenario2MbManitobaProducerBonus, setScenario2MbManitobaProducerBonus] = useState(false);
+  const [scenario2MbRuralNorthernBonus, setScenario2MbRuralNorthernBonus] = useState(false);
+  const [scenario2MbProductionCompanyBonus, setScenario2MbProductionCompanyBonus] = useState(false);
 
   // Scenario 2 state - Federal
   const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
@@ -317,6 +332,53 @@ export default function FundingEstimator() {
     return { credit, budgetPercent, breakdown };
   };
 
+  // Calculate Manitoba tax credit
+  const calculateManitoba = (creditType, totalBudget, provincialLabour, productionExpenditures, frequentFilmingBonus, manitobaProducerBonus, ruralNorthernBonus, productionCompanyBonus) => {
+    const budget = parseFloat(totalBudget) || 0;
+    const labour = parseFloat(provincialLabour) || 0;
+    const expenditures = parseFloat(productionExpenditures) || 0;
+
+    let credit = 0;
+    let breakdown = '';
+
+    if (creditType === 'salaries') {
+      // Cost of Salaries: 45% of Manitoba labour + bonuses
+      const baseCredit = labour * 0.45;
+      const frequentCredit = frequentFilmingBonus ? labour * 0.10 : 0;
+      const producerCredit = manitobaProducerBonus ? labour * 0.05 : 0;
+      const ruralCredit = ruralNorthernBonus ? labour * 0.05 : 0;
+      credit = baseCredit + frequentCredit + producerCredit + ruralCredit;
+
+      breakdown = `Base Credit (45%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (45% of $${labour.toLocaleString()})`;
+      if (frequentFilmingBonus) {
+        breakdown += `\nFrequent Filming Bonus (+10%): $${frequentCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+      if (manitobaProducerBonus) {
+        breakdown += `\nManitoba Producer Bonus (+5%): $${producerCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+      if (ruralNorthernBonus) {
+        breakdown += `\nRural and Northern Bonus (+5%): $${ruralCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+      const effectiveRate = (0.45 + (frequentFilmingBonus ? 0.10 : 0) + (manitobaProducerBonus ? 0.05 : 0) + (ruralNorthernBonus ? 0.05 : 0)) * 100;
+      breakdown += `\nTotal Credit (${effectiveRate.toFixed(0)}%): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    } else {
+      // Cost of Production: 30% of qualifying production expenditures + bonus
+      const baseCredit = expenditures * 0.30;
+      const companyCredit = productionCompanyBonus ? expenditures * 0.08 : 0;
+      credit = baseCredit + companyCredit;
+
+      breakdown = `Base Credit (30%): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (30% of $${expenditures.toLocaleString()})`;
+      if (productionCompanyBonus) {
+        breakdown += `\nManitoba Production Company Bonus (+8%): $${companyCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+      const effectiveRate = (0.30 + (productionCompanyBonus ? 0.08 : 0)) * 100;
+      breakdown += `\nTotal Credit (${effectiveRate.toFixed(0)}%): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
   // Calculate federal tax credit
   const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
@@ -369,6 +431,8 @@ export default function FundingEstimator() {
         return calculateSaskatchewan(scenario1SkCreditType, scenario1TotalBudget, scenario1SkProductionExpenditures, scenario1SkRuralBonus, scenario1SkPostProductionBonus);
       } else if (province === 'QC') {
         return calculateQuebec(scenario1QcCreditType, scenario1TotalBudget, scenario1QcProvincialLabour, scenario1QcProductionExpenditures);
+      } else if (province === 'MB') {
+        return calculateManitoba(scenario1MbCreditType, scenario1TotalBudget, scenario1MbProvincialLabour, scenario1MbProductionExpenditures, scenario1MbFrequentFilmingBonus, scenario1MbManitobaProducerBonus, scenario1MbRuralNorthernBonus, scenario1MbProductionCompanyBonus);
       }
     } else {
       if (province === 'ON') {
@@ -383,13 +447,15 @@ export default function FundingEstimator() {
         return calculateSaskatchewan(scenario2SkCreditType, scenario2TotalBudget, scenario2SkProductionExpenditures, scenario2SkRuralBonus, scenario2SkPostProductionBonus);
       } else if (province === 'QC') {
         return calculateQuebec(scenario2QcCreditType, scenario2TotalBudget, scenario2QcProvincialLabour, scenario2QcProductionExpenditures);
+      } else if (province === 'MB') {
+        return calculateManitoba(scenario2MbCreditType, scenario2TotalBudget, scenario2MbProvincialLabour, scenario2MbProductionExpenditures, scenario2MbFrequentFilmingBonus, scenario2MbManitobaProducerBonus, scenario2MbRuralNorthernBonus, scenario2MbProductionCompanyBonus);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
   };
 
   const getProvinceName = (code) => {
-    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan', 'QC': 'Quebec' };
+    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan', 'QC': 'Quebec', 'MB': 'Manitoba' };
     return names[code] || code;
   };
 
@@ -440,6 +506,7 @@ export default function FundingEstimator() {
                 <option value="QC">Quebec</option>
                 <option value="AB">Alberta</option>
                 <option value="SK">Saskatchewan</option>
+                <option value="MB">Manitoba</option>
                 <option value="NL">Newfoundland & Labrador</option>
               </select>
             </div>
@@ -584,6 +651,28 @@ export default function FundingEstimator() {
                     handleNumberInput={handleNumberInput}
                   />
                 )}
+
+                {scenario1Province === 'MB' && (
+                  <ManitobaCalculator
+                    creditType={scenario1MbCreditType}
+                    setCreditType={setScenario1MbCreditType}
+                    provincialLabour={scenario1MbProvincialLabour}
+                    setProvincialLabour={setScenario1MbProvincialLabour}
+                    productionExpenditures={scenario1MbProductionExpenditures}
+                    setProductionExpenditures={setScenario1MbProductionExpenditures}
+                    frequentFilmingBonus={scenario1MbFrequentFilmingBonus}
+                    setFrequentFilmingBonus={setScenario1MbFrequentFilmingBonus}
+                    manitobaProducerBonus={scenario1MbManitobaProducerBonus}
+                    setManitobaProducerBonus={setScenario1MbManitobaProducerBonus}
+                    ruralNorthernBonus={scenario1MbRuralNorthernBonus}
+                    setRuralNorthernBonus={setScenario1MbRuralNorthernBonus}
+                    productionCompanyBonus={scenario1MbProductionCompanyBonus}
+                    setProductionCompanyBonus={setScenario1MbProductionCompanyBonus}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
               </>
             )}
           </div>
@@ -648,6 +737,7 @@ export default function FundingEstimator() {
                   <option value="QC">Quebec</option>
                   <option value="AB">Alberta</option>
                   <option value="SK">Saskatchewan</option>
+                  <option value="MB">Manitoba</option>
                   <option value="NL">Newfoundland & Labrador</option>
                 </select>
               </div>
@@ -787,6 +877,28 @@ export default function FundingEstimator() {
                       productionExpenditures={scenario2QcProductionExpenditures}
                       setProductionExpenditures={setScenario2QcProductionExpenditures}
                       totalBudget={scenario2TotalBudget}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'MB' && (
+                    <ManitobaCalculator
+                      creditType={scenario2MbCreditType}
+                      setCreditType={setScenario2MbCreditType}
+                      provincialLabour={scenario2MbProvincialLabour}
+                      setProvincialLabour={setScenario2MbProvincialLabour}
+                      productionExpenditures={scenario2MbProductionExpenditures}
+                      setProductionExpenditures={setScenario2MbProductionExpenditures}
+                      frequentFilmingBonus={scenario2MbFrequentFilmingBonus}
+                      setFrequentFilmingBonus={setScenario2MbFrequentFilmingBonus}
+                      manitobaProducerBonus={scenario2MbManitobaProducerBonus}
+                      setManitobaProducerBonus={setScenario2MbManitobaProducerBonus}
+                      ruralNorthernBonus={scenario2MbRuralNorthernBonus}
+                      setRuralNorthernBonus={setScenario2MbRuralNorthernBonus}
+                      productionCompanyBonus={scenario2MbProductionCompanyBonus}
+                      setProductionCompanyBonus={setScenario2MbProductionCompanyBonus}
                       result={result2}
                       formatNumber={formatNumber}
                       handleNumberInput={handleNumberInput}
