@@ -6,6 +6,7 @@ import AlbertaCalculator from './AlbertaCalculator';
 import SaskatchewanCalculator from './SaskatchewanCalculator';
 import QuebecCalculator from './QuebecCalculator';
 import ManitobaCalculator from './ManitobaCalculator';
+import NovaScotiaCalculator from './NovaScotiaCalculator';
 import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
@@ -84,6 +85,11 @@ export default function FundingEstimator() {
   const [scenario1MbManitobaProducerBonus, setScenario1MbManitobaProducerBonus] = useState(false);
   const [scenario1MbRuralNorthernBonus, setScenario1MbRuralNorthernBonus] = useState(false);
   const [scenario1MbProductionCompanyBonus, setScenario1MbProductionCompanyBonus] = useState(false);
+  const [scenario1NsCreditType, setScenario1NsCreditType] = useState('stream1');
+  const [scenario1NsProductionExpenditures, setScenario1NsProductionExpenditures] = useState('');
+  const [scenario1NsLocationIncentive, setScenario1NsLocationIncentive] = useState(false);
+  const [scenario1NsDistantLocationPercent, setScenario1NsDistantLocationPercent] = useState('');
+  const [scenario1NsShootingLengthIncentive, setScenario1NsShootingLengthIncentive] = useState(false);
 
   // Scenario 1 state - Federal
   const [scenario1FederalCreditType, setScenario1FederalCreditType] = useState('cptc');
@@ -123,6 +129,11 @@ export default function FundingEstimator() {
   const [scenario2MbManitobaProducerBonus, setScenario2MbManitobaProducerBonus] = useState(false);
   const [scenario2MbRuralNorthernBonus, setScenario2MbRuralNorthernBonus] = useState(false);
   const [scenario2MbProductionCompanyBonus, setScenario2MbProductionCompanyBonus] = useState(false);
+  const [scenario2NsCreditType, setScenario2NsCreditType] = useState('stream1');
+  const [scenario2NsProductionExpenditures, setScenario2NsProductionExpenditures] = useState('');
+  const [scenario2NsLocationIncentive, setScenario2NsLocationIncentive] = useState(false);
+  const [scenario2NsDistantLocationPercent, setScenario2NsDistantLocationPercent] = useState('');
+  const [scenario2NsShootingLengthIncentive, setScenario2NsShootingLengthIncentive] = useState(false);
 
   // Scenario 2 state - Federal
   const [scenario2FederalCreditType, setScenario2FederalCreditType] = useState('cptc');
@@ -379,6 +390,37 @@ export default function FundingEstimator() {
     return { credit, budgetPercent, breakdown };
   };
 
+  // Calculate Nova Scotia tax credit
+  const calculateNovaScotia = (creditType, totalBudget, productionExpenditures, locationIncentive, distantLocationPercent, shootingLengthIncentive) => {
+    const budget = parseFloat(totalBudget) || 0;
+    const expenditures = parseFloat(productionExpenditures) || 0;
+    const distantPct = Math.min(parseInt(distantLocationPercent) || 0, 10);
+
+    const baseRate = creditType === 'stream2' ? 0.25 : 0.26;
+    const baseRateName = creditType === 'stream2' ? '25%' : '26%';
+    const baseCredit = expenditures * baseRate;
+    const locationCredit = locationIncentive ? expenditures * 0.02 : 0;
+    const distantCredit = distantPct > 0 ? expenditures * (distantPct / 100) : 0;
+    const shootingCredit = shootingLengthIncentive ? expenditures * 0.01 : 0;
+    const credit = baseCredit + locationCredit + distantCredit + shootingCredit;
+
+    let breakdown = `Base Credit (${baseRateName}): $${baseCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} (${baseRateName} of $${expenditures.toLocaleString()})`;
+    if (locationIncentive) {
+      breakdown += `\nLocation Incentive (+2%): $${locationCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    if (distantPct > 0) {
+      breakdown += `\nDistant Location Incentive (+${distantPct}%): $${distantCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    if (shootingLengthIncentive) {
+      breakdown += `\nShooting Length Incentive (+1%): $${shootingCredit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+    const effectiveRate = ((baseRate + (locationIncentive ? 0.02 : 0) + (distantPct / 100) + (shootingLengthIncentive ? 0.01 : 0)) * 100).toFixed(0);
+    breakdown += `\nTotal Credit (${effectiveRate}%): $${credit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+    const budgetPercent = budget > 0 ? (credit / budget) * 100 : 0;
+    return { credit, budgetPercent, breakdown };
+  };
+
   // Calculate federal tax credit
   const calculateFederal = (federalCreditType, canadianLabour, totalBudget, provincialTaxCredit) => {
     const labour = parseFloat(canadianLabour) || 0;
@@ -433,6 +475,8 @@ export default function FundingEstimator() {
         return calculateQuebec(scenario1QcCreditType, scenario1TotalBudget, scenario1QcProvincialLabour, scenario1QcProductionExpenditures);
       } else if (province === 'MB') {
         return calculateManitoba(scenario1MbCreditType, scenario1TotalBudget, scenario1MbProvincialLabour, scenario1MbProductionExpenditures, scenario1MbFrequentFilmingBonus, scenario1MbManitobaProducerBonus, scenario1MbRuralNorthernBonus, scenario1MbProductionCompanyBonus);
+      } else if (province === 'NS') {
+        return calculateNovaScotia(scenario1NsCreditType, scenario1TotalBudget, scenario1NsProductionExpenditures, scenario1NsLocationIncentive, scenario1NsDistantLocationPercent, scenario1NsShootingLengthIncentive);
       }
     } else {
       if (province === 'ON') {
@@ -449,13 +493,15 @@ export default function FundingEstimator() {
         return calculateQuebec(scenario2QcCreditType, scenario2TotalBudget, scenario2QcProvincialLabour, scenario2QcProductionExpenditures);
       } else if (province === 'MB') {
         return calculateManitoba(scenario2MbCreditType, scenario2TotalBudget, scenario2MbProvincialLabour, scenario2MbProductionExpenditures, scenario2MbFrequentFilmingBonus, scenario2MbManitobaProducerBonus, scenario2MbRuralNorthernBonus, scenario2MbProductionCompanyBonus);
+      } else if (province === 'NS') {
+        return calculateNovaScotia(scenario2NsCreditType, scenario2TotalBudget, scenario2NsProductionExpenditures, scenario2NsLocationIncentive, scenario2NsDistantLocationPercent, scenario2NsShootingLengthIncentive);
       }
     }
     return { credit: 0, budgetPercent: 0, breakdown: '' };
   };
 
   const getProvinceName = (code) => {
-    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan', 'QC': 'Quebec', 'MB': 'Manitoba' };
+    const names = { 'ON': 'Ontario', 'BC': 'BC', 'NL': 'Newfoundland & Labrador', 'AB': 'Alberta', 'SK': 'Saskatchewan', 'QC': 'Quebec', 'MB': 'Manitoba', 'NS': 'Nova Scotia' };
     return names[code] || code;
   };
 
@@ -507,6 +553,7 @@ export default function FundingEstimator() {
                 <option value="AB">Alberta</option>
                 <option value="SK">Saskatchewan</option>
                 <option value="MB">Manitoba</option>
+                <option value="NS">Nova Scotia</option>
                 <option value="NL">Newfoundland & Labrador</option>
               </select>
             </div>
@@ -673,6 +720,24 @@ export default function FundingEstimator() {
                     handleNumberInput={handleNumberInput}
                   />
                 )}
+
+                {scenario1Province === 'NS' && (
+                  <NovaScotiaCalculator
+                    creditType={scenario1NsCreditType}
+                    setCreditType={setScenario1NsCreditType}
+                    productionExpenditures={scenario1NsProductionExpenditures}
+                    setProductionExpenditures={setScenario1NsProductionExpenditures}
+                    locationIncentive={scenario1NsLocationIncentive}
+                    setLocationIncentive={setScenario1NsLocationIncentive}
+                    distantLocationPercent={scenario1NsDistantLocationPercent}
+                    setDistantLocationPercent={setScenario1NsDistantLocationPercent}
+                    shootingLengthIncentive={scenario1NsShootingLengthIncentive}
+                    setShootingLengthIncentive={setScenario1NsShootingLengthIncentive}
+                    result={result1}
+                    formatNumber={formatNumber}
+                    handleNumberInput={handleNumberInput}
+                  />
+                )}
               </>
             )}
           </div>
@@ -738,6 +803,7 @@ export default function FundingEstimator() {
                   <option value="AB">Alberta</option>
                   <option value="SK">Saskatchewan</option>
                   <option value="MB">Manitoba</option>
+                  <option value="NS">Nova Scotia</option>
                   <option value="NL">Newfoundland & Labrador</option>
                 </select>
               </div>
@@ -899,6 +965,24 @@ export default function FundingEstimator() {
                       setRuralNorthernBonus={setScenario2MbRuralNorthernBonus}
                       productionCompanyBonus={scenario2MbProductionCompanyBonus}
                       setProductionCompanyBonus={setScenario2MbProductionCompanyBonus}
+                      result={result2}
+                      formatNumber={formatNumber}
+                      handleNumberInput={handleNumberInput}
+                    />
+                  )}
+
+                  {scenario2Province === 'NS' && (
+                    <NovaScotiaCalculator
+                      creditType={scenario2NsCreditType}
+                      setCreditType={setScenario2NsCreditType}
+                      productionExpenditures={scenario2NsProductionExpenditures}
+                      setProductionExpenditures={setScenario2NsProductionExpenditures}
+                      locationIncentive={scenario2NsLocationIncentive}
+                      setLocationIncentive={setScenario2NsLocationIncentive}
+                      distantLocationPercent={scenario2NsDistantLocationPercent}
+                      setDistantLocationPercent={setScenario2NsDistantLocationPercent}
+                      shootingLengthIncentive={scenario2NsShootingLengthIncentive}
+                      setShootingLengthIncentive={setScenario2NsShootingLengthIncentive}
                       result={result2}
                       formatNumber={formatNumber}
                       handleNumberInput={handleNumberInput}
