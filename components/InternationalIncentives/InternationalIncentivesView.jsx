@@ -12,6 +12,7 @@ import BulgariaIncentivesView from './BulgariaIncentivesView';
 import CzechRepublicIncentivesView from './CzechRepublicIncentivesView';
 import AustraliaIncentivesView from './AustraliaIncentivesView';
 import NewZealandIncentivesView from './NewZealandIncentivesView';
+import LithuaniaIncentivesView from './LithuaniaIncentivesView';
 
 export default function InternationalIncentivesView() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -28,6 +29,7 @@ export default function InternationalIncentivesView() {
     { id: 'malta', name: 'Malta', available: true, flag: '/flag-malta.svg' },
     { id: 'bulgaria', name: 'Bulgaria', available: true, flag: '/flag-bulgaria.svg' },
     { id: 'czech-republic', name: 'Czech Republic', available: true, flag: '/flag-czech-republic.svg' },
+    { id: 'lithuania', name: 'Lithuania', available: true, flag: '/flag-lithuania.svg' },
   ];
 
   const otherCountries = [
@@ -55,6 +57,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'malta' && <MaltaIncentivesView />}
         {selectedCountry === 'bulgaria' && <BulgariaIncentivesView />}
         {selectedCountry === 'czech-republic' && <CzechRepublicIncentivesView />}
+        {selectedCountry === 'lithuania' && <LithuaniaIncentivesView />}
         {selectedCountry === 'australia' && <AustraliaIncentivesView />}
         {selectedCountry === 'new-zealand' && <NewZealandIncentivesView />}
       </div>
