@@ -13,6 +13,7 @@ import CzechRepublicIncentivesView from './CzechRepublicIncentivesView';
 import AustraliaIncentivesView from './AustraliaIncentivesView';
 import NewZealandIncentivesView from './NewZealandIncentivesView';
 import LithuaniaIncentivesView from './LithuaniaIncentivesView';
+import GeorgiaIncentivesView from './GeorgiaIncentivesView';
 
 export default function InternationalIncentivesView() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -30,6 +31,10 @@ export default function InternationalIncentivesView() {
     { id: 'bulgaria', name: 'Bulgaria', available: true, flag: '/flag-bulgaria.svg' },
     { id: 'czech-republic', name: 'Czech Republic', available: true, flag: '/flag-czech-republic.svg' },
     { id: 'lithuania', name: 'Lithuania', available: true, flag: '/flag-lithuania.svg' },
+  ];
+
+  const usCountries = [
+    { id: 'georgia', name: 'US – Georgia', available: true, flag: '/flag-usa.svg' },
   ];
 
   const otherCountries = [
@@ -60,6 +65,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'lithuania' && <LithuaniaIncentivesView />}
         {selectedCountry === 'australia' && <AustraliaIncentivesView />}
         {selectedCountry === 'new-zealand' && <NewZealandIncentivesView />}
+        {selectedCountry === 'georgia' && <GeorgiaIncentivesView />}
       </div>
     );
   }
@@ -74,6 +80,43 @@ export default function InternationalIncentivesView() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {europeanCountries.map((country) => (
+          <button
+            key={country.id}
+            onClick={() => country.available && setSelectedCountry(country.id)}
+            disabled={!country.available}
+            className={`p-6 border-2 rounded-lg text-left transition-all ${
+              country.available
+                ? 'bg-white border-gray-200 hover:border-blue-400 hover:shadow-md cursor-pointer group'
+                : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
+            }`}
+          >
+            {country.flag && (
+              <img
+                src={country.flag}
+                alt=""
+                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+              />
+            )}
+            <h3 className={`text-lg font-semibold mb-2 ${
+              country.available ? 'text-gray-900 group-hover:text-blue-600' : 'text-gray-400'
+            }`}>
+              {country.name}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {country.available ? 'View incentives →' : 'Coming soon'}
+            </p>
+          </button>
+        ))}
+      </div>
+
+      {/* US State Incentives */}
+      <div className="pt-2">
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">US State Incentives</h2>
+        <p className="text-sm text-gray-500">Film and television production incentives across US states</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {usCountries.map((country) => (
           <button
             key={country.id}
             onClick={() => country.available && setSelectedCountry(country.id)}
