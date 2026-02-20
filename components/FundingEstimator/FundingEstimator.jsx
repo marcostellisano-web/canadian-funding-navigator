@@ -99,6 +99,7 @@ export default function FundingEstimator() {
 
   // Scenario 1 state - CMF
   const [scenario1CmfFunding, setScenario1CmfFunding] = useState('');
+  const [scenario1CmfProgram, setScenario1CmfProgram] = useState('none');
 
   // Scenario 2 state - Provincial
   const [scenario2Province, setScenario2Province] = useState('BC');
@@ -145,6 +146,7 @@ export default function FundingEstimator() {
 
   // Scenario 2 state - CMF
   const [scenario2CmfFunding, setScenario2CmfFunding] = useState('');
+  const [scenario2CmfProgram, setScenario2CmfProgram] = useState('none');
 
   // Utility functions
   const formatNumber = (value) => {
@@ -605,6 +607,8 @@ export default function FundingEstimator() {
               <CMFCalculator
                 cmfFunding={scenario1CmfFunding}
                 setCmfFunding={setScenario1CmfFunding}
+                selectedProgram={scenario1CmfProgram}
+                setSelectedProgram={setScenario1CmfProgram}
                 totalBudget={scenario1TotalBudget}
                 province={scenario1Province}
                 formatNumber={formatNumber}
@@ -859,6 +863,8 @@ export default function FundingEstimator() {
                 <CMFCalculator
                   cmfFunding={scenario2CmfFunding}
                   setCmfFunding={setScenario2CmfFunding}
+                  selectedProgram={scenario2CmfProgram}
+                  setSelectedProgram={setScenario2CmfProgram}
                   totalBudget={scenario2TotalBudget}
                   province={scenario2Province}
                   formatNumber={formatNumber}

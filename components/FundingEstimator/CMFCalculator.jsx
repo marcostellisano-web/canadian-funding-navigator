@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const InfoIcon = ({ tooltip }) => (
   <span className="relative inline-block group">
@@ -73,12 +73,13 @@ const CMF_PROGRAMS = [
 export default function CMFCalculator({
   cmfFunding,
   setCmfFunding,
+  selectedProgram,
+  setSelectedProgram,
   totalBudget,
   province,
   formatNumber,
   handleNumberInput
 }) {
-  const [selectedProgram, setSelectedProgram] = useState('none');
   const budget = parseFloat(totalBudget) || 0;
 
   // Calculate funding based on selected program
