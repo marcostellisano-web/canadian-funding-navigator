@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650">
+  <!-- Red background (7 red stripes) -->
+  <rect width="1235" height="650" fill="#B22234"/>
+  <!-- White stripes (6) -->
+  <rect y="50" width="1235" height="50" fill="#FFFFFF"/>
+  <rect y="150" width="1235" height="50" fill="#FFFFFF"/>
+  <rect y="250" width="1235" height="50" fill="#FFFFFF"/>
+  <rect y="350" width="1235" height="50" fill="#FFFFFF"/>
+  <rect y="450" width="1235" height="50" fill="#FFFFFF"/>
+  <rect y="550" width="1235" height="50" fill="#FFFFFF"/>
+  <!-- Blue canton covering top-left 7 stripes -->
+  <rect width="494" height="350" fill="#3C3B6E"/>
+  <!-- White star dots in canton (simplified for small display) -->
+  <g fill="#FFFFFF">
+    <circle cx="41" cy="35" r="12"/><circle cx="123" cy="35" r="12"/><circle cx="205" cy="35" r="12"/>
+    <circle cx="287" cy="35" r="12"/><circle cx="369" cy="35" r="12"/><circle cx="451" cy="35" r="12"/>
+    <circle cx="82" cy="78" r="12"/><circle cx="164" cy="78" r="12"/><circle cx="246" cy="78" r="12"/>
+    <circle cx="328" cy="78" r="12"/><circle cx="410" cy="78" r="12"/>
+    <circle cx="41" cy="121" r="12"/><circle cx="123" cy="121" r="12"/><circle cx="205" cy="121" r="12"/>
+    <circle cx="287" cy="121" r="12"/><circle cx="369" cy="121" r="12"/><circle cx="451" cy="121" r="12"/>
+    <circle cx="82" cy="164" r="12"/><circle cx="164" cy="164" r="12"/><circle cx="246" cy="164" r="12"/>
+    <circle cx="328" cy="164" r="12"/><circle cx="410" cy="164" r="12"/>
+    <circle cx="41" cy="207" r="12"/><circle cx="123" cy="207" r="12"/><circle cx="205" cy="207" r="12"/>
+    <circle cx="287" cy="207" r="12"/><circle cx="369" cy="207" r="12"/><circle cx="451" cy="207" r="12"/>
+    <circle cx="82" cy="250" r="12"/><circle cx="164" cy="250" r="12"/><circle cx="246" cy="250" r="12"/>
+    <circle cx="328" cy="250" r="12"/><circle cx="410" cy="250" r="12"/>
+    <circle cx="41" cy="293" r="12"/><circle cx="123" cy="293" r="12"/><circle cx="205" cy="293" r="12"/>
+    <circle cx="287" cy="293" r="12"/><circle cx="369" cy="293" r="12"/><circle cx="451" cy="293" r="12"/>
+    <circle cx="82" cy="336" r="12"/><circle cx="164" cy="336" r="12"/><circle cx="246" cy="336" r="12"/>
+    <circle cx="328" cy="336" r="12"/><circle cx="410" cy="336" r="12"/>
+  </g>
+</svg>
