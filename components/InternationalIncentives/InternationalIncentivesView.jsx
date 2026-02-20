@@ -15,6 +15,7 @@ import NewZealandIncentivesView from './NewZealandIncentivesView';
 import LithuaniaIncentivesView from './LithuaniaIncentivesView';
 import GeorgiaIncentivesView from './GeorgiaIncentivesView';
 import IllinoisIncentivesView from './IllinoisIncentivesView';
+import KentuckyIncentivesView from './KentuckyIncentivesView';
 
 export default function InternationalIncentivesView() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -37,6 +38,7 @@ export default function InternationalIncentivesView() {
   const usCountries = [
     { id: 'georgia', name: 'US – Georgia', available: true, flag: '/flag-usa.svg' },
     { id: 'illinois', name: 'US – Illinois', available: true, flag: '/flag-usa.svg' },
+    { id: 'kentucky', name: 'US – Kentucky', available: true, flag: '/flag-usa.svg' },
   ];
 
   const otherCountries = [
@@ -69,6 +71,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'new-zealand' && <NewZealandIncentivesView />}
         {selectedCountry === 'georgia' && <GeorgiaIncentivesView />}
         {selectedCountry === 'illinois' && <IllinoisIncentivesView />}
+        {selectedCountry === 'kentucky' && <KentuckyIncentivesView />}
       </div>
     );
   }
