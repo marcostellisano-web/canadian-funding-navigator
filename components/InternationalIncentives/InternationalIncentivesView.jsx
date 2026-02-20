@@ -16,6 +16,7 @@ import LithuaniaIncentivesView from './LithuaniaIncentivesView';
 import GeorgiaIncentivesView from './GeorgiaIncentivesView';
 import IllinoisIncentivesView from './IllinoisIncentivesView';
 import KentuckyIncentivesView from './KentuckyIncentivesView';
+import NewYorkIncentivesView from './NewYorkIncentivesView';
 
 export default function InternationalIncentivesView() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -39,6 +40,7 @@ export default function InternationalIncentivesView() {
     { id: 'georgia', name: 'US – Georgia', available: true, flag: '/flag-usa.svg' },
     { id: 'illinois', name: 'US – Illinois', available: true, flag: '/flag-usa.svg' },
     { id: 'kentucky', name: 'US – Kentucky', available: true, flag: '/flag-usa.svg' },
+    { id: 'new-york', name: 'US – New York', available: true, flag: '/flag-usa.svg' },
   ];
 
   const otherCountries = [
@@ -72,6 +74,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'georgia' && <GeorgiaIncentivesView />}
         {selectedCountry === 'illinois' && <IllinoisIncentivesView />}
         {selectedCountry === 'kentucky' && <KentuckyIncentivesView />}
+        {selectedCountry === 'new-york' && <NewYorkIncentivesView />}
       </div>
     );
   }
