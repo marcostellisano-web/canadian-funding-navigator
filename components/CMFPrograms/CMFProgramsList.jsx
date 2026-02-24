@@ -18,7 +18,7 @@ export default function CMFProgramsList({
             className="bg-white p-6 border-2 border-gray-200 rounded-lg hover:border-red-400 hover:shadow-md transition-all cursor-pointer group"
           >
             <img
-              src="/cmf-logo-icon.svg"
+              src="/cmf-logo-icon.png"
               alt=""
               className="w-10 h-10 object-contain mb-3"
             />
