@@ -22,18 +22,18 @@ export default function InternationalIncentivesView() {
   const [selectedCountry, setSelectedCountry] = useState(null);
 
   const europeanCountries = [
-    { id: 'uk', name: 'United Kingdom', available: true, flag: '/flag-uk.svg' },
-    { id: 'france', name: 'France', available: true, flag: '/flag-france.svg' },
-    { id: 'italy', name: 'Italy', available: true, flag: '/flag-italy.svg' },
-    { id: 'spain', name: 'Spain', available: true, flag: '/flag-spain.svg' },
-    { id: 'ireland', name: 'Ireland', available: true, flag: '/flag-ireland.svg' },
-    { id: 'hungary', name: 'Hungary', available: true, flag: '/flag-hungary.svg' },
-    { id: 'portugal', name: 'Portugal', available: true, flag: '/flag-portugal.svg' },
     { id: 'belgium', name: 'Belgium', available: true, flag: '/flag-belgium.svg' },
-    { id: 'malta', name: 'Malta', available: true, flag: '/flag-malta.svg' },
     { id: 'bulgaria', name: 'Bulgaria', available: true, flag: '/flag-bulgaria.svg' },
     { id: 'czech-republic', name: 'Czech Republic', available: true, flag: '/flag-czech-republic.svg' },
+    { id: 'france', name: 'France', available: true, flag: '/flag-france.svg' },
+    { id: 'hungary', name: 'Hungary', available: true, flag: '/flag-hungary.svg' },
+    { id: 'ireland', name: 'Ireland', available: true, flag: '/flag-ireland.svg' },
+    { id: 'italy', name: 'Italy', available: true, flag: '/flag-italy.svg' },
     { id: 'lithuania', name: 'Lithuania', available: true, flag: '/flag-lithuania.svg' },
+    { id: 'malta', name: 'Malta', available: true, flag: '/flag-malta.svg' },
+    { id: 'portugal', name: 'Portugal', available: true, flag: '/flag-portugal.svg' },
+    { id: 'spain', name: 'Spain', available: true, flag: '/flag-spain.svg' },
+    { id: 'uk', name: 'United Kingdom', available: true, flag: '/flag-uk.svg' },
   ];
 
   const usCountries = [
