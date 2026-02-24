@@ -17,6 +17,11 @@ export default function CMFProgramsList({
             onClick={() => onProgramSelect(source)}
             className="bg-white p-6 border-2 border-gray-200 rounded-lg hover:border-red-400 hover:shadow-md transition-all cursor-pointer group"
           >
+            <img
+              src="/cmf-logo-icon.png"
+              alt=""
+              className="w-10 h-10 object-contain mb-3"
+            />
             <div className="flex justify-between items-start mb-3">
               <div>
                 <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
