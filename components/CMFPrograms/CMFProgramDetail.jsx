@@ -24,6 +24,9 @@ export default function CMFProgramDetail({ program, onBack }) {
           <h1>${stripCMFPrefix(program.name)}</h1>
           <div class="org">${program.organization}</div>
 
+          <h2>Funding</h2>
+          <p style="font-size:22px;font-weight:700;color:#16a34a;">${program.fundingRange}</p>
+
           <h2>Description</h2>
           <p>${program.description}</p>
 
@@ -31,9 +34,6 @@ export default function CMFProgramDetail({ program, onBack }) {
             <h2>Requirements</h2>
             <p>${program.eligibility}</p>
           ` : ''}
-
-          <h2>Funding</h2>
-          <p>${program.fundingRange}</p>
 
           ${program.keyPoints.length > 0 ? `
             <h2>Key Points</h2>
@@ -101,6 +101,11 @@ export default function CMFProgramDetail({ program, onBack }) {
         </div>
 
         <div>
+          <h3 className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Funding</h3>
+          <p className="text-2xl font-bold text-green-600">{program.fundingRange}</p>
+        </div>
+
+        <div>
           <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Description</h3>
           <p className="text-gray-700 leading-relaxed">{program.description}</p>
         </div>
@@ -111,11 +116,6 @@ export default function CMFProgramDetail({ program, onBack }) {
             <p className="text-gray-700 leading-relaxed">{program.eligibility}</p>
           </div>
         )}
-
-        <div>
-          <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Funding</h3>
-          <p className="text-gray-700 leading-relaxed">{program.fundingRange}</p>
-        </div>
 
         {program.keyPoints.length > 0 && (
           <div>
