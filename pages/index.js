@@ -53,31 +53,27 @@ export default function Home() {
         `${f.name} (${f.organization}): ${f.description} Requirements: ${f.eligibility} Funding: ${f.fundingRange} Deadlines: ${f.deadlines}`
       ).join('\n\n');
 
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || '',
-          'anthropic-version': '2023-06-01'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [
-            ...chatMessages,
-            userMessage
-          ].map(msg => ({
+          messages: [...chatMessages, userMessage].map(msg => ({
             role: msg.role,
-            content: msg.content
+            content: msg.content,
           })),
-          system: `You are a helpful assistant specializing in Canadian film and television funding programs. You have access to the following funding sources:\n\n${fundingContext}\n\nHelp users find the right funding programs for their projects. Be specific, helpful, and provide clear recommendations. If asked about requirements, deadlines, or funding amounts, refer to the specific programs above.`
-        })
+          fundingContext,
+        }),
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Request failed');
+      }
+
       const assistantMessage = {
         role: 'assistant',
-        content: data.content[0].text
+        content: data.content,
       };
 
       setChatMessages(prev => [...prev, assistantMessage]);
