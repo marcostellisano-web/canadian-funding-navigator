@@ -10,21 +10,21 @@ export default function CMFProgramsList({
 
   return (
     <div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {cmfPrograms.map(source => (
           <div
             key={source.id}
             onClick={() => onProgramSelect(source)}
-            className="bg-white p-4 border-2 border-gray-200 rounded-lg hover:border-red-400 hover:shadow-md transition-all cursor-pointer group"
+            className="bg-white p-6 border-2 border-gray-200 rounded-lg hover:border-red-400 hover:shadow-md transition-all cursor-pointer group"
           >
             <img
               src="/cmf-logo-icon.png"
               alt=""
-              className="w-7 h-7 object-contain mb-2"
+              className="w-10 h-10 object-contain mb-3"
             />
-            <div className="flex justify-between items-start mb-2">
+            <div className="flex justify-between items-start mb-3">
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
+                <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-1">
                   {stripCMFPrefix(source.name)}
                 </h3>
                 <span className="inline-block px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded font-medium">CMF</span>
@@ -34,7 +34,7 @@ export default function CMFProgramsList({
               </div>
             </div>
             {source.tileDescription && (
-              <p className="text-xs text-gray-500">{source.tileDescription}</p>
+              <p className="text-sm text-gray-500">{source.tileDescription}</p>
             )}
           </div>
         ))}
