@@ -54,7 +54,7 @@ export default function TaxCreditsView() {
         <p className="text-sm text-gray-500">Canada-wide federal film and video production tax credits</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <button
           onClick={() => setSelectedProvince('federal')}
           className="p-6 border-2 rounded-lg text-left transition-all bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group"
@@ -77,7 +77,7 @@ export default function TaxCreditsView() {
         <p className="text-sm text-gray-500">Choose a province to view available tax credit programs</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {provinces.map((province) => (
           <button
             key={province.id}

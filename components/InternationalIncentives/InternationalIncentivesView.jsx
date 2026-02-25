@@ -87,7 +87,7 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Film and television production incentives across Europe</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {europeanCountries.map((country) => (
           <button
             key={country.id}
@@ -124,7 +124,7 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Film and television production incentives across US states</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {usCountries.map((country) => (
           <button
             key={country.id}
@@ -161,7 +161,7 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Production incentives in the Asia-Pacific region</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {otherCountries.map((country) => (
           <button
             key={country.id}
