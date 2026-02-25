@@ -87,13 +87,13 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Film and television production incentives across Europe</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {europeanCountries.map((country) => (
           <button
             key={country.id}
             onClick={() => country.available && setSelectedCountry(country.id)}
             disabled={!country.available}
-            className={`p-6 border-2 rounded-lg text-left transition-all ${
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
               country.available
                 ? 'bg-white border-gray-200 hover:border-blue-400 hover:shadow-md cursor-pointer group'
                 : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
@@ -103,15 +103,15 @@ export default function InternationalIncentivesView() {
               <img
                 src={country.flag}
                 alt=""
-                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+                className="w-8 h-5 object-cover rounded shadow-sm border border-gray-200 mb-2"
               />
             )}
-            <h3 className={`text-lg font-semibold mb-2 ${
+            <h3 className={`text-sm font-semibold mb-1 ${
               country.available ? 'text-gray-900 group-hover:text-blue-600' : 'text-gray-400'
             }`}>
               {country.name}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {country.available ? 'View incentives →' : 'Coming soon'}
             </p>
           </button>
@@ -124,13 +124,13 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Film and television production incentives across US states</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {usCountries.map((country) => (
           <button
             key={country.id}
             onClick={() => country.available && setSelectedCountry(country.id)}
             disabled={!country.available}
-            className={`p-6 border-2 rounded-lg text-left transition-all ${
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
               country.available
                 ? 'bg-white border-gray-200 hover:border-blue-400 hover:shadow-md cursor-pointer group'
                 : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
@@ -140,15 +140,15 @@ export default function InternationalIncentivesView() {
               <img
                 src={country.flag}
                 alt=""
-                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+                className="w-8 h-5 object-cover rounded shadow-sm border border-gray-200 mb-2"
               />
             )}
-            <h3 className={`text-lg font-semibold mb-2 ${
+            <h3 className={`text-sm font-semibold mb-1 ${
               country.available ? 'text-gray-900 group-hover:text-blue-600' : 'text-gray-400'
             }`}>
               {country.name}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {country.available ? 'View incentives →' : 'Coming soon'}
             </p>
           </button>
@@ -161,13 +161,13 @@ export default function InternationalIncentivesView() {
         <p className="text-sm text-gray-500">Production incentives in the Asia-Pacific region</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {otherCountries.map((country) => (
           <button
             key={country.id}
             onClick={() => country.available && setSelectedCountry(country.id)}
             disabled={!country.available}
-            className={`p-6 border-2 rounded-lg text-left transition-all ${
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
               country.available
                 ? 'bg-white border-gray-200 hover:border-blue-400 hover:shadow-md cursor-pointer group'
                 : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
@@ -177,15 +177,15 @@ export default function InternationalIncentivesView() {
               <img
                 src={country.flag}
                 alt=""
-                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+                className="w-8 h-5 object-cover rounded shadow-sm border border-gray-200 mb-2"
               />
             )}
-            <h3 className={`text-lg font-semibold mb-2 ${
+            <h3 className={`text-sm font-semibold mb-1 ${
               country.available ? 'text-gray-900 group-hover:text-blue-600' : 'text-gray-400'
             }`}>
               {country.name}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {country.available ? 'View incentives →' : 'Coming soon'}
             </p>
           </button>
