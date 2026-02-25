@@ -49,7 +49,7 @@ export default function Home() {
           </div>
           <div className="hidden lg:block">
             <p className="text-base font-['Inter',sans-serif] text-right">
-              <span className="text-[#ff5757] font-semibold">Navigate Canadian film & TV funding programs, tax credits, and incentives.</span>
+              <span className="text-[#ff5757] font-semibold">Navigate film & TV funding in Canada and abroad.</span>
             </p>
           </div>
         </div>
