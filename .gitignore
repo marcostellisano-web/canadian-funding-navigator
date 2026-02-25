@@ -31,3 +31,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated PDF cache (rebuild with: npm run parse-pdfs)
+/data/parsed-pdfs.json
