@@ -532,7 +532,7 @@ export default function FundingEstimator() {
   const federal2 = compareMode ? calculateFederal(scenario2FederalCreditType, scenario2CanadianLabour, scenario2TotalBudget, result2.credit) : 0;
 
   return (
-    <div className={`space-y-6 ${compareMode ? '' : 'max-w-3xl mx-auto'}`}>
+    <div className={`space-y-6 ${compareMode ? '' : 'max-w-3xl'}`}>
       {/* Compare Toggle */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>

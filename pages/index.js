@@ -149,6 +149,20 @@ export default function Home() {
           <AdminPanel programs={programs} onRefresh={fetchPrograms} />
         )}
       </div>
+
+      <footer className="border-t border-gray-200 mt-12 py-8 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-base font-semibold text-gray-700">
+            Built and maintained by Marco Stellisano
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            For questions or feedback, please contact:{' '}
+            <a href="mailto:mstellisano@cineflix.com" className="text-red-600 hover:underline">
+              mstellisano@cineflix.com
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
