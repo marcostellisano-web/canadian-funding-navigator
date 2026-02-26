@@ -819,7 +819,7 @@ export default function FundingEstimator() {
               <div>
                 <label className="block text-sm font-normal text-gray-900 mb-0.5">
                   Compare with
-                  <InfoIcon />
+                  <InfoIcon tooltip="Select another province to compare stacked incentives side-by-side" />
                 </label>
                 <select
                   value={scenario2Province}
