@@ -150,7 +150,7 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="border-t border-gray-200 mt-12 py-8">
+      <footer className="border-t border-gray-200 mt-12 py-8 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-base font-semibold text-gray-700">
             Built and maintained by Marco Stellisano
