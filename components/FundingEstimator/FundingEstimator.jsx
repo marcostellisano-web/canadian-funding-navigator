@@ -11,18 +11,25 @@ import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
 
-const InfoIcon = () => (
-  <svg
-    className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path
-      fillRule="evenodd"
-      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-      clipRule="evenodd"
-    />
-  </svg>
+const InfoIcon = ({ tooltip }) => (
+  <span className="relative inline-block group">
+    <svg
+      className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fillRule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+        clipRule="evenodd"
+      />
+    </svg>
+    {tooltip && (
+      <span className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute z-10 w-48 p-2 mt-1 text-xs text-white bg-gray-900 rounded-lg shadow-lg left-1/2 transform -translate-x-1/2 top-full whitespace-normal">
+        {tooltip}
+      </span>
+    )}
+  </span>
 );
 
 const ChevronIcon = ({ isOpen }) => (
@@ -544,7 +551,7 @@ export default function FundingEstimator() {
             {compareMode ? 'Single View' : 'Compare Provinces'}
           </button>
         </div>
-        <p className="text-xs text-gray-500">CMF funding, provincial, and federal tax incentives are stackable and can be used together to finance your budget.</p>
+        <p className="text-xs text-gray-500 mt-2">CMF funding, provincial, and federal tax incentives are stackable and can be used together to finance your budget.</p>
       </div>
 
       {/* Calculators */}
@@ -554,14 +561,9 @@ export default function FundingEstimator() {
           {/* Province and Total Budget */}
           <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
             <div>
-              <label className="flex items-center gap-1.5 text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-1.5">
                 Province
-                <span className="relative group">
-                  <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full border border-gray-400 text-gray-400 text-[9px] leading-none cursor-default select-none">i</span>
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-44 px-2 py-1.5 rounded bg-gray-800 text-white text-[10px] leading-snug opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-normal text-center">
-                    Begin by selecting your production province
-                  </span>
-                </span>
+                <InfoIcon tooltip="Begin by selecting your production province" />
               </label>
               <select
                 value={scenario1Province}
