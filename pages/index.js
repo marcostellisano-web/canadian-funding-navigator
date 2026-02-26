@@ -150,17 +150,21 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="border-t border-gray-200 mt-12 py-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-sm text-gray-500">
-            Built and maintained by <span className="font-medium text-gray-700">Marco Stellisano</span>
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            For questions or feedback, please contact:{' '}
-            <a href="mailto:mstellisano@cineflix.com" className="text-red-600 hover:underline">
-              mstellisano@cineflix.com
-            </a>
-          </p>
+      <footer className="mt-16 bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="inline-block w-2 h-2 rounded-full bg-red-600"></span>
+              <span className="text-sm font-semibold text-gray-800">Marco Stellisano</span>
+            </div>
+            <p className="text-xs text-gray-400 pl-4">Built and maintained for the Canadian screen industry</p>
+          </div>
+          <a
+            href="mailto:mstellisano@cineflix.com"
+            className="text-sm text-gray-500 hover:text-red-600 transition-colors border border-gray-200 hover:border-red-200 rounded-full px-4 py-2"
+          >
+            mstellisano@cineflix.com
+          </a>
         </div>
       </footer>
     </div>
