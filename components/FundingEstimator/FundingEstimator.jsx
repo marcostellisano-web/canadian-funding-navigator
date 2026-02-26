@@ -559,16 +559,16 @@ export default function FundingEstimator() {
         {/* Scenario 1 */}
         <div className="space-y-4">
           {/* Province and Total Budget */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Province
                 <InfoIcon tooltip="Begin by selecting your production province" />
               </label>
               <select
                 value={scenario1Province}
                 onChange={(e) => setScenario1Province(e.target.value)}
-                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                   backgroundRepeat: 'no-repeat',
@@ -589,7 +589,7 @@ export default function FundingEstimator() {
             </div>
 
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Total budget
               </label>
               <div className="relative">
@@ -599,7 +599,7 @@ export default function FundingEstimator() {
                   value={formatNumber(scenario1TotalBudget)}
                   onChange={(e) => handleNumberInput(e.target.value, setScenario1TotalBudget)}
                   placeholder="0"
-                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                  className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                 />
               </div>
             </div>
@@ -815,16 +815,16 @@ export default function FundingEstimator() {
         {compareMode && (
           <div className="space-y-4">
             {/* Province and Total Budget */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+            <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
               <div>
-                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                <label className="block text-sm font-normal text-gray-900 mb-0.5">
                   Compare with
                   <InfoIcon />
                 </label>
                 <select
                   value={scenario2Province}
                   onChange={(e) => setScenario2Province(e.target.value)}
-                  className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                     backgroundRepeat: 'no-repeat',
@@ -845,7 +845,7 @@ export default function FundingEstimator() {
               </div>
 
               <div>
-                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                <label className="block text-sm font-normal text-gray-900 mb-0.5">
                   Total budget
                 </label>
                 <div className="relative">
@@ -855,7 +855,7 @@ export default function FundingEstimator() {
                     value={formatNumber(scenario2TotalBudget)}
                     onChange={(e) => handleNumberInput(e.target.value, setScenario2TotalBudget)}
                     placeholder="0"
-                    className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                    className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                   />
                 </div>
               </div>
