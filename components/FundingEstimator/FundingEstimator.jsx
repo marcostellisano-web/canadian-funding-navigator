@@ -11,18 +11,25 @@ import FederalTaxCreditCalculator from './FederalTaxCreditCalculator';
 import CMFCalculator from './CMFCalculator';
 import FundingSummary from './FundingSummary';
 
-const InfoIcon = () => (
-  <svg
-    className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path
-      fillRule="evenodd"
-      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-      clipRule="evenodd"
-    />
-  </svg>
+const InfoIcon = ({ tooltip }) => (
+  <span className="relative inline-block group">
+    <svg
+      className="inline-block w-4 h-4 ml-1 text-gray-400 cursor-help"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fillRule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+        clipRule="evenodd"
+      />
+    </svg>
+    {tooltip && (
+      <span className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute z-10 w-48 p-2 mt-1 text-xs text-white bg-gray-900 rounded-lg shadow-lg left-1/2 transform -translate-x-1/2 top-full whitespace-normal">
+        {tooltip}
+      </span>
+    )}
+  </span>
 );
 
 const ChevronIcon = ({ isOpen }) => (
@@ -534,14 +541,17 @@ export default function FundingEstimator() {
   return (
     <div className={`space-y-6 ${compareMode ? '' : 'max-w-3xl'}`}>
       {/* Compare Toggle */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
-        <button
-          onClick={() => setCompareMode(!compareMode)}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-        >
-          {compareMode ? 'Single View' : 'Compare Provinces'}
-        </button>
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
+          <button
+            onClick={() => setCompareMode(!compareMode)}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+          >
+            {compareMode ? 'Single View' : 'Compare Provinces'}
+          </button>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">CMF funding, provincial, and federal tax incentives are stackable and can be used together to finance your budget.</p>
       </div>
 
       {/* Calculators */}
@@ -549,15 +559,16 @@ export default function FundingEstimator() {
         {/* Scenario 1 */}
         <div className="space-y-4">
           {/* Province and Total Budget */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Province
+                <InfoIcon tooltip="Begin by selecting your production province" />
               </label>
               <select
                 value={scenario1Province}
                 onChange={(e) => setScenario1Province(e.target.value)}
-                className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                   backgroundRepeat: 'no-repeat',
@@ -578,7 +589,7 @@ export default function FundingEstimator() {
             </div>
 
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-1.5">
+              <label className="block text-sm font-normal text-gray-900 mb-0.5">
                 Total budget
               </label>
               <div className="relative">
@@ -588,7 +599,7 @@ export default function FundingEstimator() {
                   value={formatNumber(scenario1TotalBudget)}
                   onChange={(e) => handleNumberInput(e.target.value, setScenario1TotalBudget)}
                   placeholder="0"
-                  className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                  className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                 />
               </div>
             </div>
@@ -598,7 +609,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1CmfOpen(!scenario1CmfOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3 mb-2 hover:bg-green-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
               <ChevronIcon isOpen={scenario1CmfOpen} />
@@ -621,7 +632,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1ProvincialOpen(!scenario1ProvincialOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-red-50 border border-red-200 rounded-lg p-3 mb-2 hover:bg-red-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
               <ChevronIcon isOpen={scenario1ProvincialOpen} />
@@ -771,7 +782,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1FederalOpen(!scenario1FederalOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2 hover:bg-blue-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
               <ChevronIcon isOpen={scenario1FederalOpen} />
@@ -804,16 +815,16 @@ export default function FundingEstimator() {
         {compareMode && (
           <div className="space-y-4">
             {/* Province and Total Budget */}
-            <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+            <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
               <div>
-                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                <label className="block text-sm font-normal text-gray-900 mb-0.5">
                   Compare with
                   <InfoIcon />
                 </label>
                 <select
                   value={scenario2Province}
                   onChange={(e) => setScenario2Province(e.target.value)}
-                  className="w-full px-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors appearance-none cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                     backgroundRepeat: 'no-repeat',
@@ -834,7 +845,7 @@ export default function FundingEstimator() {
               </div>
 
               <div>
-                <label className="block text-sm font-normal text-gray-900 mb-1.5">
+                <label className="block text-sm font-normal text-gray-900 mb-0.5">
                   Total budget
                 </label>
                 <div className="relative">
@@ -844,7 +855,7 @@ export default function FundingEstimator() {
                     value={formatNumber(scenario2TotalBudget)}
                     onChange={(e) => handleNumberInput(e.target.value, setScenario2TotalBudget)}
                     placeholder="0"
-                    className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
+                    className="w-full pl-8 pr-4 py-1.5 text-sm bg-white border border-gray-200 rounded-full focus:outline-none focus:border-gray-300 focus:ring-0 hover:border-gray-300 transition-colors"
                   />
                 </div>
               </div>
@@ -854,7 +865,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2CmfOpen(!scenario2CmfOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3 mb-2 hover:bg-green-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
                 <ChevronIcon isOpen={scenario2CmfOpen} />
@@ -877,7 +888,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2ProvincialOpen(!scenario2ProvincialOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-red-50 border border-red-200 rounded-lg p-3 mb-2 hover:bg-red-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
                 <ChevronIcon isOpen={scenario2ProvincialOpen} />
@@ -1027,7 +1038,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2FederalOpen(!scenario2FederalOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2 hover:bg-blue-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
                 <ChevronIcon isOpen={scenario2FederalOpen} />
