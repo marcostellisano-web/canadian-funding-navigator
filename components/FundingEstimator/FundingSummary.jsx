@@ -28,6 +28,16 @@ export default function FundingSummary({
       <h3 className="text-base font-semibold text-gray-900 mb-3">Funding Summary</h3>
 
       <div className="space-y-2">
+        {/* Total Budget */}
+        {budget > 0 && (
+          <div className="flex justify-between items-center text-sm pb-2 border-b border-gray-300">
+            <span className="text-gray-700">Total budget</span>
+            <span className="font-semibold text-gray-900">
+              ${budget.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+            </span>
+          </div>
+        )}
+
         {/* Provincial Credit */}
         {provincial > 0 && (
           <div className="flex justify-between items-center text-sm">
@@ -80,9 +90,11 @@ export default function FundingSummary({
             <span className="text-xl font-bold text-gray-900">
               ${totalFunding.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}
             </span>
-            <span className="text-sm text-gray-600 ml-2">
-              ({totalPercent.toFixed(1)}%)
-            </span>
+            {budget > 0 && (
+              <span className="text-sm text-gray-600 ml-2">
+                ({totalPercent.toFixed(1)}% of total budget)
+              </span>
+            )}
           </div>
         </div>
       </div>
