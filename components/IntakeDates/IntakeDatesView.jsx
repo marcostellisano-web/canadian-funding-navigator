@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Calendar } from 'lucide-react';
 
 export default function IntakeDatesView({ programs }) {
@@ -10,6 +11,7 @@ export default function IntakeDatesView({ programs }) {
       ...deadline,
       program: source.name,
       organization: source.organization,
+      category: source.category,
       id: source.id
     }))
   ).sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -47,7 +49,18 @@ export default function IntakeDatesView({ programs }) {
                   </div>
                 </div>
                 <div>
-                  <div className="font-medium mb-1">{deadline.program}</div>
+                  <div className="flex items-center gap-2 mb-1">
+                    {deadline.category === 'CMF' && (
+                      <Image
+                        src="/cmf-logo-icon.png"
+                        alt="CMF"
+                        width={20}
+                        height={20}
+                        className="object-contain"
+                      />
+                    )}
+                    <div className="font-medium">{deadline.program}</div>
+                  </div>
                   <div className="text-sm text-gray-500">{deadline.description}</div>
                 </div>
               </div>
