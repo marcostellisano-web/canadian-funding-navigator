@@ -534,14 +534,17 @@ export default function FundingEstimator() {
   return (
     <div className={`space-y-6 ${compareMode ? '' : 'max-w-3xl'}`}>
       {/* Compare Toggle */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
-        <button
-          onClick={() => setCompareMode(!compareMode)}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-        >
-          {compareMode ? 'Single View' : 'Compare Provinces'}
-        </button>
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
+          <button
+            onClick={() => setCompareMode(!compareMode)}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+          >
+            {compareMode ? 'Single View' : 'Compare Provinces'}
+          </button>
+        </div>
+        <p className="text-xs text-gray-500">Begin by choosing your production province. CMF funding, provincial tax credits, and federal incentives can be layered together to support and finance your production budget.</p>
       </div>
 
       {/* Calculators */}
