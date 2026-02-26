@@ -17,6 +17,7 @@ import GeorgiaIncentivesView from './GeorgiaIncentivesView';
 import IllinoisIncentivesView from './IllinoisIncentivesView';
 import KentuckyIncentivesView from './KentuckyIncentivesView';
 import NewYorkIncentivesView from './NewYorkIncentivesView';
+import TennesseeIncentivesView from './TennesseeIncentivesView';
 import VirginiaIncentivesView from './VirginiaIncentivesView';
 
 export default function InternationalIncentivesView() {
@@ -42,6 +43,7 @@ export default function InternationalIncentivesView() {
     { id: 'illinois', name: 'US – Illinois', available: true, flag: '/flag-usa.svg' },
     { id: 'kentucky', name: 'US – Kentucky', available: true, flag: '/flag-usa.svg' },
     { id: 'new-york', name: 'US – New York', available: true, flag: '/flag-usa.svg' },
+    { id: 'tennessee', name: 'US – Tennessee', available: true, flag: '/flag-usa.svg' },
     { id: 'virginia', name: 'US – Virginia', available: true, flag: '/flag-usa.svg' },
   ];
 
@@ -77,6 +79,7 @@ export default function InternationalIncentivesView() {
         {selectedCountry === 'illinois' && <IllinoisIncentivesView />}
         {selectedCountry === 'kentucky' && <KentuckyIncentivesView />}
         {selectedCountry === 'new-york' && <NewYorkIncentivesView />}
+        {selectedCountry === 'tennessee' && <TennesseeIncentivesView />}
         {selectedCountry === 'virginia' && <VirginiaIncentivesView />}
       </div>
     );
