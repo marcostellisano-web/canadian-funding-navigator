@@ -12,7 +12,7 @@ export default function TaxCreditInfoCard({
   flag
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 h-full">
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
       <div className="flex items-start gap-3 mb-4">
         {flag && (
           <img
@@ -48,7 +48,7 @@ export default function TaxCreditInfoCard({
 
         {/* Regional Bonus (single) */}
         {regionalBonus && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 w-fit max-w-full">
             <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">Regional Bonus</h4>
             <p className="text-sm text-gray-700 leading-relaxed mb-2">{regionalBonus.description}</p>
             <p className="text-lg font-bold text-blue-700">{regionalBonus.bonus}</p>
@@ -87,7 +87,7 @@ export default function TaxCreditInfoCard({
         {bonuses && bonuses.length > 0 && (
           <div className="space-y-3">
             {bonuses.map((bonus, idx) => (
-              <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div key={idx} className="bg-blue-50 border border-blue-200 rounded-lg p-4 w-fit max-w-full">
                 <h4 className="text-xs font-semibold text-blue-700 mb-2 uppercase tracking-wider">{bonus.title}</h4>
                 <p className="text-lg font-bold text-blue-700 mb-2">{bonus.bonus}</p>
                 {Array.isArray(bonus.description) ? (
