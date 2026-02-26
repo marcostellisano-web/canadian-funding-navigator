@@ -598,7 +598,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1CmfOpen(!scenario1CmfOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3 mb-2 hover:bg-green-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
               <ChevronIcon isOpen={scenario1CmfOpen} />
@@ -621,7 +621,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1ProvincialOpen(!scenario1ProvincialOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-red-50 border border-red-200 rounded-lg p-3 mb-2 hover:bg-red-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
               <ChevronIcon isOpen={scenario1ProvincialOpen} />
@@ -771,7 +771,7 @@ export default function FundingEstimator() {
           <div>
             <button
               onClick={() => setScenario1FederalOpen(!scenario1FederalOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2 hover:bg-blue-100 transition-colors"
             >
               <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
               <ChevronIcon isOpen={scenario1FederalOpen} />
@@ -854,7 +854,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2CmfOpen(!scenario2CmfOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3 mb-2 hover:bg-green-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">CMF Funding</span>
                 <ChevronIcon isOpen={scenario2CmfOpen} />
@@ -877,7 +877,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2ProvincialOpen(!scenario2ProvincialOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-red-50 border border-red-200 rounded-lg p-3 mb-2 hover:bg-red-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">Provincial Tax Credits</span>
                 <ChevronIcon isOpen={scenario2ProvincialOpen} />
@@ -1027,7 +1027,7 @@ export default function FundingEstimator() {
             <div>
               <button
                 onClick={() => setScenario2FederalOpen(!scenario2FederalOpen)}
-                className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3 mb-2 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2 hover:bg-blue-100 transition-colors"
               >
                 <span className="text-sm font-semibold text-gray-900">Federal Tax Credit</span>
                 <ChevronIcon isOpen={scenario2FederalOpen} />
