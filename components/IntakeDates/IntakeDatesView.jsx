@@ -15,7 +15,7 @@ export default function IntakeDatesView({ programs }) {
   ).sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <div className="space-y-3">
         {allDeadlines.map((deadline, idx) => {
           const deadlineDate = new Date(deadline.date);
