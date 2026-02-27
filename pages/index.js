@@ -39,12 +39,12 @@ export default function Home() {
     <div className="min-h-screen bg-[#FAFAFA]">
       {/* Wealthsimple-style Top Bar */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-between">
           <div className="flex items-center">
             <img
               src="/logo.svg"
               alt="Canadian Funding Guide"
-              className="h-60"
+              className="h-16 md:h-24 lg:h-60"
             />
           </div>
           <div className="hidden lg:block">
@@ -55,11 +55,11 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex gap-8 mb-8 border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-8">
+        <div className="flex gap-4 md:gap-8 mb-6 md:mb-8 border-b border-gray-100 overflow-x-auto scrollbar-hide pb-px">
           <button
             onClick={() => setActiveTab('tax-credits')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
+            className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
               activeTab === 'tax-credits'
                 ? 'text-gray-900'
                 : 'text-gray-400 hover:text-gray-600'
@@ -72,7 +72,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab('cmf')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
+            className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
               activeTab === 'cmf'
                 ? 'text-gray-900'
                 : 'text-gray-400 hover:text-gray-600'
@@ -85,7 +85,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
+            className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
               activeTab === 'calendar'
                 ? 'text-gray-900'
                 : 'text-gray-400 hover:text-gray-600'
@@ -98,7 +98,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab('estimator')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
+            className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
               activeTab === 'estimator'
                 ? 'text-gray-900'
                 : 'text-gray-400 hover:text-gray-600'
@@ -111,7 +111,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab('international')}
-            className={`pb-3 text-sm font-medium transition-all relative ${
+            className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
               activeTab === 'international'
                 ? 'text-gray-900'
                 : 'text-gray-400 hover:text-gray-600'
@@ -125,7 +125,7 @@ export default function Home() {
           {showAdmin && (
             <button
               onClick={() => setActiveTab('admin')}
-              className={`pb-3 text-sm font-medium transition-all relative ${
+              className={`pb-3 text-sm font-medium transition-all relative whitespace-nowrap flex-shrink-0 ${
                 activeTab === 'admin'
                   ? 'text-gray-900'
                   : 'text-gray-400 hover:text-gray-600'
