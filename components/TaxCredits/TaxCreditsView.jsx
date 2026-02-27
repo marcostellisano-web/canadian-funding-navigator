@@ -54,20 +54,20 @@ export default function TaxCreditsView() {
         <p className="text-sm text-gray-500">Canada-wide federal film and video production tax credits</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         <button
           onClick={() => setSelectedProvince('federal')}
-          className="p-6 border-2 rounded-lg text-left transition-all bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group"
+          className="p-3 md:p-6 border-2 rounded-lg text-left transition-all bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group"
         >
           <img
             src="/flag-canada.svg"
             alt=""
-            className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+            className="w-10 h-6 md:w-12 md:h-8 object-cover rounded shadow-sm border border-gray-200 mb-2 md:mb-3"
           />
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 group-hover:text-red-600">
+          <h3 className="text-sm md:text-lg font-semibold mb-1 md:mb-2 text-gray-900 group-hover:text-red-600">
             Canada (Federal)
           </h3>
-          <p className="text-sm text-gray-500">View tax credits →</p>
+          <p className="text-xs md:text-sm text-gray-500">View tax credits →</p>
         </button>
       </div>
 
@@ -77,13 +77,13 @@ export default function TaxCreditsView() {
         <p className="text-sm text-gray-500">Choose a province to view available tax credit programs</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {provinces.map((province) => (
           <button
             key={province.id}
             onClick={() => province.available && setSelectedProvince(province.id)}
             disabled={!province.available}
-            className={`p-6 border-2 rounded-lg text-left transition-all ${
+            className={`p-3 md:p-6 border-2 rounded-lg text-left transition-all ${
               province.available
                 ? 'bg-white border-gray-200 hover:border-red-400 hover:shadow-md cursor-pointer group'
                 : 'bg-white border-gray-100 opacity-50 cursor-not-allowed'
@@ -93,15 +93,15 @@ export default function TaxCreditsView() {
               <img
                 src={province.flag}
                 alt=""
-                className="w-12 h-8 object-cover rounded shadow-sm border border-gray-200 mb-3"
+                className="w-10 h-6 md:w-12 md:h-8 object-cover rounded shadow-sm border border-gray-200 mb-2 md:mb-3"
               />
             )}
-            <h3 className={`text-lg font-semibold mb-2 ${
+            <h3 className={`text-sm md:text-lg font-semibold mb-1 md:mb-2 ${
               province.available ? 'text-gray-900 group-hover:text-red-600' : 'text-gray-400'
             }`}>
               {province.name}
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs md:text-sm text-gray-500">
               {province.available ? 'View tax credits →' : 'Coming soon'}
             </p>
           </button>
