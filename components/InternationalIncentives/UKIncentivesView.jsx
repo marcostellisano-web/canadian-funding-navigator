@@ -6,7 +6,7 @@ export default function UKIncentivesView() {
 
   const taxCreditData = {
     title: 'UK Audio Visual Expenditure Credit',
-    rate: '25% on UK qualifying expenditure',
+    rate: '25.5% on UK qualifying expenditure',
     flag: ukFlag,
     requirements: [
       'UK expenditure defined as expenditure on goods/services \u201Cused or consumed\u201D in the UK',
