@@ -6,14 +6,16 @@ export default function UKIncentivesView() {
 
   const taxCreditData = {
     title: 'UK Audio Visual Expenditure Credit',
-    rate: '25% on UK qualifying expenditure',
+    rate: '25.5% on UK qualifying expenditure',
     flag: ukFlag,
     requirements: [
-      'UK expenditure defined as expenditure on goods/services \u201Cused or consumed\u201D in the UK',
-      'The TV minimum expenditure test remains at \u00A31 million of core expenditure per hour of slot length',
-      'Above-the-line, including actors and directors, is included, irrespective of nationality',
-      'Must pass a cultural test',
-      'There must be an intention for theatrical release'
+      'Applies to live action film & HETV (25.5%), animation & children\u2019s TV (29.25%), and VFX costs (29.25%)',
+      'Must pass a cultural test, scoring at least 18 out of 35 points across cultural content, contribution, hubs, and practitioners',
+      'UK qualifying expenditure is defined as costs \u201Cused or consumed\u201D in the UK; above-the-line talent (including actors and directors) qualifies regardless of nationality',
+      'Minimum 10% of total core expenditure must be UK spend; credit applies to up to 80% of total core expenditure (no cap on VFX costs)',
+      'Film: must demonstrate intention for theatrical release; TV: must be intended for broadcast, including via the internet',
+      'HETV: minimum \u00A31 million core expenditure per hour of slot length; each episode must have a slot length greater than 20 minutes',
+      'The producing company must be within the UK corporation tax net and responsible for all production phases from pre-production through delivery'
     ],
     website: 'https://britishfilmcommission.org.uk/plan-your-production/accessing-uk-tax-reliefs/'
   };
