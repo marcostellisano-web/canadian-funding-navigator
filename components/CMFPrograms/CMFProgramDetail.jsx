@@ -45,7 +45,7 @@ export default function CMFProgramDetail({ program, onBack }) {
           ${(program.upcomingDeadlines || []).length > 0 ? `
             <table style="width:100%; border-collapse:collapse; margin-top:8px;">
               ${program.upcomingDeadlines.map(d => {
-                const dt = new Date(d.date);
+                const dt = new Date(d.date + 'T12:00:00');
                 const today = new Date();
                 today.setHours(0,0,0,0);
                 const days = Math.ceil((dt - today) / (1000*60*60*24));
@@ -137,7 +137,7 @@ export default function CMFProgramDetail({ program, onBack }) {
             <div className="space-y-3">
               {program.upcomingDeadlines
                 .map(deadline => {
-                  const deadlineDate = new Date(deadline.date);
+                  const deadlineDate = new Date(deadline.date + 'T12:00:00');
                   const today = new Date();
                   today.setHours(0, 0, 0, 0);
                   const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));

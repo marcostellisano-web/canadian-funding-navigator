@@ -14,13 +14,13 @@ export default function IntakeDatesView({ programs }) {
       category: source.category,
       id: source.id
     }))
-  ).sort((a, b) => new Date(a.date) - new Date(b.date));
+  ).sort((a, b) => new Date(a.date + 'T12:00:00') - new Date(b.date + 'T12:00:00'));
 
   return (
     <div className="max-w-3xl">
       <div className="space-y-3">
         {allDeadlines.map((deadline, idx) => {
-          const deadlineDate = new Date(deadline.date);
+          const deadlineDate = new Date(deadline.date + 'T12:00:00');
           const today = new Date();
           const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
           const isPast = daysUntil < 0;
