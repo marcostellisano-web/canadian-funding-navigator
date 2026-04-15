@@ -46,20 +46,22 @@
     "category": "CMF",
     "name": "CMF Distributor Program",
     "organization": "CMF",
-    "description": "The Distributor Program is a pilot initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to trigger Eligible Projects without the requirement of a Canadian Broadcaster.",
+    "description": "The Distributor Envelope Program lets eligible Canadian distributors unlock CMF production financing without a Canadian broadcaster.",
     "eligibility": "",
-    "fundingRange": "CMF's Maximum Contribution in the Distributor Program is the lesser of 49% of the Eligible Project's Eligible Costs or $500,000",
-    "deadlines": "August intake period",
+    "fundingRange": "CMF contribution is a non-repayable grant or license fee top-up, covering up to 20% of eligible project costs.",
+    "deadlines": "December 8, 2026",
     "website": "https://cmf-fmc.ca/program/distributor-program/",
     "tileDescription": "Unlock CMF funds without a Canadian broadcaster",
     "tags": ["Distributor"],
     "keyPoints": [
-      "The CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up up to a maximum percentage of 20% of the Project's Eligible Costs.",
-      "CMF contribution amounts in excess of the above will be in the form of an Equity Investment up to the maximum amount of 49%.",
-      "Triggering Commitment Threshold: 15% of Eligible Costs"
+      "Initial CMF funding is a non-repayable contribution or licence fee top-up, up to 20% of eligible costs.",
+      "Funding above 20% is provided as an equity investment, up to a maximum of 49%.",
+      "Triggering commitment threshold: 15% of eligible costs.",
+      "Eligible Canadian distributors may allocate their envelope funds to projects at their discretion, up to their allocation and CMF limits.",
+      "No minimum distributor envelope contribution is required."
     ],
     "upcomingDeadlines": [
-      { "date": "2026-08-19", "description": "Annual Intake Period" }
+      { "date": "2026-12-08", "description": "Closing Date" }
     ]
   },
   {
