@@ -46,16 +46,19 @@ const fundingSources = [
     category: 'CMF',
     name: 'CMF Distributor Program',
     organization: 'CMF',
-    description: 'The Distributor Program is a pilot initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to trigger Eligible Projects without the requirement of a Canadian Broadcaster.',
+    description: 'The Distributor Envelope Program is an initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to unlock CMF production financing without the requirement of a Canadian Broadcaster.',
     eligibility: '',
-    fundingRange: 'The CMF contribution to the Eligible Project will be in the form of a Licence Fee Top-Up up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
+    fundingRange: 'The initial CMF contribution to an Eligible Project will be in the form of a Non-Repayable Contribution or License Fee Top-Up, up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
     deadlines: 'August intake period',
     website: 'https://cmf-fmc.ca/program/distributor-program/',
     tileDescription: 'Unlock CMF funds without a Canadian broadcaster',
     tags: ['Distributor'],
     keyPoints: [
-      'CMF contribution amounts in excess of the above will be in the form of an Equity Investment up to the maximum amount of 49%.',
-      'Triggering Commitment Threshold: 15% of Eligible Costs'
+      'The initial CMF contribution to an Eligible Project will be in the form of a Non-Repayable Contribution or License Fee Top-Up, up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
+      'CMF contribution amounts in excess of the Non-Repayable Contribution / Licence Fee Top-Up will be in the form of an Equity Investment up to the maximum amount of 49%.',
+      'Triggering Commitment Threshold: 15% of Eligible Costs',
+      'Eligible Canadian Distributors may decide what proportion of their Envelope Allocations to allot to an Eligible Project up to the limit of the funds allocated to them and up to the specified Maximum Contribution amounts.',
+      'There are no minimum Distributor Envelope Allocation contribution amounts to an Eligible Project.'
     ],
     upcomingDeadlines: [
       { date: '2026-08-19', description: 'Annual Intake Period' }
