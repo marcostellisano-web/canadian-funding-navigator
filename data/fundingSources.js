@@ -46,19 +46,19 @@ const fundingSources = [
     category: 'CMF',
     name: 'CMF Distributor Program',
     organization: 'CMF',
-    description: 'The Distributor Envelope Program is an initiative designed to offer more flexibility to Applicants by allowing financial contributions from Eligible Canadian Distributors to unlock CMF production financing without the requirement of a Canadian Broadcaster.',
+    description: 'The Distributor Envelope Program lets eligible Canadian distributors unlock CMF production financing without a Canadian broadcaster.',
     eligibility: '',
-    fundingRange: 'The initial CMF contribution to an Eligible Project will be in the form of a Non-Repayable Contribution or License Fee Top-Up, up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
+    fundingRange: 'CMF contribution is a non-repayable grant or license fee top-up, covering up to 20% of eligible project costs.',
     deadlines: 'August intake period',
     website: 'https://cmf-fmc.ca/program/distributor-program/',
     tileDescription: 'Unlock CMF funds without a Canadian broadcaster',
     tags: ['Distributor'],
     keyPoints: [
-      'The initial CMF contribution to an Eligible Project will be in the form of a Non-Repayable Contribution or License Fee Top-Up, up to a maximum percentage of 20% of the Project\'s Eligible Costs.',
-      'CMF contribution amounts in excess of the Non-Repayable Contribution / Licence Fee Top-Up will be in the form of an Equity Investment up to the maximum amount of 49%.',
-      'Triggering Commitment Threshold: 15% of Eligible Costs',
-      'Eligible Canadian Distributors may decide what proportion of their Envelope Allocations to allot to an Eligible Project up to the limit of the funds allocated to them and up to the specified Maximum Contribution amounts.',
-      'There are no minimum Distributor Envelope Allocation contribution amounts to an Eligible Project.'
+      'Initial CMF funding is a non-repayable contribution or licence fee top-up, up to 20% of eligible costs.',
+      'Funding above 20% is provided as an equity investment, up to a maximum of 49%.',
+      'Triggering commitment threshold: 15% of eligible costs.',
+      'Eligible Canadian distributors may allocate their envelope funds to projects at their discretion, up to their allocation and CMF limits.',
+      'No minimum distributor envelope contribution is required.'
     ],
     upcomingDeadlines: [
       { date: '2026-08-19', description: 'Annual Intake Period' }
