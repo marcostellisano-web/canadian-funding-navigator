@@ -16,6 +16,19 @@ export default function AustraliaIncentivesView() {
     website: 'https://www.ausfilm.com.au/incentives/the-producer-offset-and-co-production-treaties/'
   };
 
+  const pdvOffsetData = {
+    title: 'Post, Digital & VFX (PDV) Offset',
+    rate: '30% tax rebate on qualifying PDV expenditure, combinable with up to 15% from state and territory government incentives',
+    flag: australiaFlag,
+    requirements: [
+      'Minimum A$500,000 of Qualifying Australian Production Expenditure (QAPE) related to PDV activities',
+      'Production does not need to have been filmed in Australia',
+      'No cultural or content tests required',
+      'Payment is usually made within 4 weeks of lodgement with the Australian Taxation Office (ATO)'
+    ],
+    website: 'https://www.ausfilm.com.au/incentives/post-digital-and-visual-effects-production-pdv-offset/'
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
@@ -27,6 +40,7 @@ export default function AustraliaIncentivesView() {
 
       <div className="grid grid-cols-1 gap-6">
         <TaxCreditInfoCard {...taxCreditData} />
+        <TaxCreditInfoCard {...pdvOffsetData} />
       </div>
     </div>
   );
