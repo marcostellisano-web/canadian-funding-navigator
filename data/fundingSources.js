@@ -33,7 +33,7 @@ const fundingSources = [
     tileDescription: 'CMF funding allocated through Canadian broadcasters',
     tags: ['TV Series', 'Broadcaster'],
     keyPoints: [
-      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount.',
+      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount of 49% of the Eligible Project\'s Eligible Costs.',
       'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
     ],
     upcomingDeadlines: [
