@@ -61,6 +61,7 @@
       "No minimum distributor envelope contribution is required."
     ],
     "upcomingDeadlines": [
+      { "date": "2026-04-14", "description": "Opening Date" },
       { "date": "2026-12-08", "description": "Closing Date" }
     ]
   },
