@@ -16,8 +16,8 @@ const fundingSources = [
       'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
     ],
     upcomingDeadlines: [
-      { date: '2026-05-22', description: 'Spring Intake Period' },
-      { date: '2026-09-23', description: 'Fall Intake Period' }
+      { date: '2026-05-19', description: 'Spring Intake Period' },
+      { date: '2026-09-24', description: 'Fall Intake Period' }
     ]
   },
   {
