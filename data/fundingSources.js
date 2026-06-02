@@ -16,8 +16,8 @@ const fundingSources = [
       'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
     ],
     upcomingDeadlines: [
-      { date: '2026-05-22', description: 'Spring Intake Period' },
-      { date: '2026-09-23', description: 'Fall Intake Period' }
+      { date: '2026-05-19', description: 'Spring Intake Period' },
+      { date: '2026-09-24', description: 'Fall Intake Period' }
     ]
   },
   {
@@ -33,12 +33,12 @@ const fundingSources = [
     tileDescription: 'CMF funding allocated through Canadian broadcasters',
     tags: ['TV Series', 'Broadcaster'],
     keyPoints: [
-      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount.',
+      'CMF contribution amounts in excess of this 20% maximum will be in the form of an Equity Investment up to the maximum amount of 49% of the Eligible Project\'s Eligible Costs.',
       'Triggering Commitment Threshold: 40% of Eligible Costs or $100,000 per hour, whichever is less (English Documentary Programming).'
     ],
     upcomingDeadlines: [
-      { date: '2026-05-01', description: 'Spring Intake Period' },
-      { date: '2026-10-17', description: 'Fall Intake Period' }
+      { date: '2026-04-14', description: 'Opening Date' },
+      { date: '2026-12-08', description: 'Closing Date' }
     ]
   },
   {
@@ -48,7 +48,7 @@ const fundingSources = [
     organization: 'CMF',
     description: 'The Distributor Envelope Program lets eligible Canadian distributors unlock CMF production financing without a Canadian broadcaster.',
     eligibility: '',
-    fundingRange: 'CMF contribution is a non-repayable grant or license fee top-up, covering up to 20% of eligible project costs.',
+    fundingRange: 'CMF contribution is a non-repayable contribution or license fee top-up, covering up to 20% of eligible project costs.',
     deadlines: 'December 8, 2026',
     website: 'https://cmf-fmc.ca/program/distributor-program/',
     tileDescription: 'Unlock CMF funds without a Canadian broadcaster',
@@ -61,6 +61,7 @@ const fundingSources = [
       'No minimum distributor envelope contribution is required.'
     ],
     upcomingDeadlines: [
+      { date: '2026-04-14', description: 'Opening Date' },
       { date: '2026-12-08', description: 'Closing Date' }
     ]
   },
