@@ -48,7 +48,7 @@ const fundingSources = [
     organization: 'CMF',
     description: 'The Distributor Envelope Program lets eligible Canadian distributors unlock CMF production financing without a Canadian broadcaster.',
     eligibility: '',
-    fundingRange: 'CMF contribution is a non-repayable grant or license fee top-up, covering up to 20% of eligible project costs.',
+    fundingRange: 'CMF contribution is a non-repayable contribution or license fee top-up, covering up to 20% of eligible project costs.',
     deadlines: 'December 8, 2026',
     website: 'https://cmf-fmc.ca/program/distributor-program/',
     tileDescription: 'Unlock CMF funds without a Canadian broadcaster',
