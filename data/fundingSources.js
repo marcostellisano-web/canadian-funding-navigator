@@ -83,7 +83,8 @@ const fundingSources = [
       'Triggering Commitment Threshold: 15% of Eligible Costs'
     ],
     upcomingDeadlines: [
-      { date: '2026-05-01', description: 'Annual Intake Period' }
+      { date: '2026-04-28', description: 'Opening Date' },
+      { date: '2026-05-14', description: 'Closing Date' }
     ]
   },
   {
