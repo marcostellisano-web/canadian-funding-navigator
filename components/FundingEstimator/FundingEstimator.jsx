@@ -542,15 +542,7 @@ export default function FundingEstimator() {
     <div className={`space-y-6 ${compareMode ? '' : 'max-w-3xl'}`}>
       {/* Compare Toggle */}
       <div>
-        <div className="flex justify-between items-center mb-1">
-          <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
-          <button
-            onClick={() => setCompareMode(!compareMode)}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-          >
-            {compareMode ? 'Single View' : 'Compare Provinces'}
-          </button>
-        </div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Funding Estimator</h2>
         <p className="text-xs text-gray-500 mt-2">CMF funding, provincial, and federal tax incentives are stackable and can be used together to finance your budget.</p>
       </div>
 
@@ -561,10 +553,18 @@ export default function FundingEstimator() {
           {/* Province and Total Budget */}
           <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
             <div>
-              <label className="block text-sm font-normal text-gray-900 mb-0.5">
-                Province
-                <InfoIcon tooltip="Begin by selecting your production province" />
-              </label>
+              <div className="flex justify-between items-center mb-0.5">
+                <label className="text-sm font-normal text-gray-900">
+                  Province
+                  <InfoIcon tooltip="Begin by selecting your production province" />
+                </label>
+                <button
+                  onClick={() => setCompareMode(!compareMode)}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${compareMode ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-[#ff5757]/80 text-white hover:bg-[#ff5757]'}`}
+                >
+                  {compareMode ? 'Single View' : 'Compare Provinces'}
+                </button>
+              </div>
               <select
                 value={scenario1Province}
                 onChange={(e) => setScenario1Province(e.target.value)}
