@@ -546,7 +546,7 @@ export default function FundingEstimator() {
           <h2 className="text-xl font-semibold text-gray-900">Funding Estimator</h2>
           <button
             onClick={() => setCompareMode(!compareMode)}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+            className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold shadow-sm ${compareMode ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-orange-500 text-white hover:bg-orange-600 ring-2 ring-orange-300'}`}
           >
             {compareMode ? 'Single View' : 'Compare Provinces'}
           </button>
